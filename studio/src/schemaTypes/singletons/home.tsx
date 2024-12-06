@@ -89,5 +89,12 @@ export default defineType({
             type: 'url',
             group: 'expert',
         }),
+        defineField({
+            name: 'whatsappNumber',
+            title: 'WhatsApp Number',
+            description: 'Enter the full phone number with country code (e.g., +34612345678)',
+            type: 'string',
+            group: 'general',
+        }),
     ],
 }) 

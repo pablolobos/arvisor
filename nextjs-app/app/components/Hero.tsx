@@ -2,6 +2,7 @@ import ExpertCard from './ExpertCard'
 import { HomePayload } from '@/sanity/lib/queries'
 import Image from 'next/image'
 import { urlForImage } from "@/sanity/lib/utils";
+import WhatsAppButton from './WhatsAppButton'
 
 interface HeroProps {
     home: HomePayload
@@ -30,7 +31,10 @@ export default function Hero({ home }: HeroProps) {
                             <div className="mb-8">
                                 <h1 className="mb-4 font-bold font-heading text-4xl text-brand-purple">{home.title}</h1>
                                 {home.subtitle && (
-                                    <p className="text-black text-xl">{home.subtitle}</p>
+                                    <p className="mb-6 text-black text-xl">{home.subtitle}</p>
+                                )}
+                                {home.whatsappNumber && (
+                                    <WhatsAppButton phoneNumber={home.whatsappNumber} />
                                 )}
                             </div>
                             {home?.expertName && (
@@ -42,6 +46,7 @@ export default function Hero({ home }: HeroProps) {
                                 />
                             )}
                         </div>
+                        <WhatsAppButton phoneNumber={home.whatsappNumber} />
                     </div>
                 </div>
             </div>

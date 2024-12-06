@@ -23,7 +23,7 @@ export const ProjectCard = ({ project }: ProjectProps) => {
         console.log('Project discount:', project.discountPercentage)
 
         if (tag === 'discount' && project.discountPercentage) {
-            return `${tagLabels[tag]} ${project.discountPercentage}%`
+            return `${project.discountPercentage}% ${tagLabels[tag]}`
         }
         return tagLabels[tag] || tag
     }
@@ -42,7 +42,7 @@ export const ProjectCard = ({ project }: ProjectProps) => {
                     {project.tags.map((tag: string) => (
                         <span
                             key={tag}
-                            className="inline-flex items-center bg-brand-purpleHighlight px-2.5 py-0.5 rounded-full font-condensed font-medium text-brand-purpleLightest text-sm uppercase"
+                            className="inline-flex items-center bg-brand-purpleHighlight px-2.5 py-0.5 rounded-full font-condensed font-medium text-base text-brand-purpleLightest uppercase"
                         >
                             {renderTag(tag)}
                         </span>

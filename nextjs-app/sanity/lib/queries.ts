@@ -132,7 +132,7 @@ export const homeQuery = /* groq */ `*[_type == "home"][0]{
   heroImage
 }`
 
-export type HomePayload = {
+export interface HomePayload {
   title: string
   subtitle?: string
   expertName?: string
@@ -147,4 +147,5 @@ export type HomePayload = {
     alt?: string
     asset: any
   }
+  whatsappNumber?: string;
 }
