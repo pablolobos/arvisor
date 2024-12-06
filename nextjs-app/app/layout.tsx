@@ -1,5 +1,4 @@
 import "./globals.css";
-import Script from "next/script";
 
 import { SpeedInsights } from "@vercel/speed-insights/next";
 import type { Metadata } from "next";
@@ -16,6 +15,7 @@ import { sanityFetch, SanityLive } from "@/sanity/lib/live";
 import { settingsQuery, homeQuery } from "@/sanity/lib/queries";
 import { resolveOpenGraphImage } from "@/sanity/lib/utils";
 import { handleError } from "./client-utils";
+import WhatsAppButton from "./components/WhatsAppButton";
 
 /**
  * Generate metadata for the page.
@@ -89,27 +89,13 @@ export default async function RootLayout({
           )}
           <SanityLive onError={handleError} />
           <Header home={home} />
+          <div className="right-4 bottom-4 z-50 fixed">
+            <WhatsAppButton phoneNumber={home.whatsappNumber} />
+          </div>
           <main className="">{children}</main>
           <Footer />
         </section>
         <SpeedInsights />
-
-        <Script id="chat-widget-config" strategy="afterInteractive">
-          {`
-            window.embeddedWebchatConfig = {
-              clientId: "5f8dd5f1-a55e-4ba2-86ba-a480b4f6b63d",
-              channelId: "40ae7660-4ed0-4f13-af52-4d9d44e3a2e4",
-              agentName: "Tomás Barlow",
-              askForPhoneNumber: false,
-              chatWithUsText: "¿Tienes alguna pregunta?",
-              suggestedQuestions: ["Requisitos para comprar", "¿Tienen mas proyectos?"],
-            };
-          `}
-        </Script>
-        <Script
-          src="https://vambeai.com/webchat.js"
-          strategy="afterInteractive"
-        />
       </body>
     </html>
   );
