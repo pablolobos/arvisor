@@ -13,7 +13,7 @@ import ProjectDetails from '@/app/components/ProjectDetails'
 import PortableText from '@/app/components/PortableText'
 import ProjectMapWrapper from '@/app/components/ProjectMapWrapper'
 
-type Params = {
+type Props = {
     params: { slug: string }
 }
 
@@ -24,7 +24,7 @@ export async function generateStaticParams() {
     }))
 }
 
-export async function generateMetadata({ params }: Params): Promise<Metadata> {
+export async function generateMetadata({ params }: Props): Promise<Metadata> {
     const { isEnabled: isDraftMode } = await draftMode()
 
     const { data: project } = await sanityFetch({
@@ -41,7 +41,7 @@ export async function generateMetadata({ params }: Params): Promise<Metadata> {
     }
 }
 
-export default async function ProjectPage({ params }: Params) {
+export default async function ProjectPage({ params }: Props) {
     const { isEnabled: isDraftMode } = await draftMode()
 
     const { data: project } = await sanityFetch({
