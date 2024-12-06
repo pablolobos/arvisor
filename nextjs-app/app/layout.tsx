@@ -92,7 +92,7 @@ export default async function RootLayout({
             window.embeddedWebchatConfig = {
               clientId: "5f8dd5f1-a55e-4ba2-86ba-a480b4f6b63d",
               channelId: "40ae7660-4ed0-4f13-af52-4d9d44e3a2e4",
-              agentName: "Tomy Barlow",
+              agentName: "Tomás Barlow",
               askForPhoneNumber: false,
               chatWithUsText: "¿Tienes alguna pregunta?",
               suggestedQuestions: ["Requisitos para comprar", "¿Tienen mas proyectos?"],

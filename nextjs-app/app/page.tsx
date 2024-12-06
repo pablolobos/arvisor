@@ -18,24 +18,23 @@ export default async function Page() {
       {/* Projects Section */}
       <div className="border-gray-10 border-t">
         <div className="container">
-          <aside className="py-12 sm:py-20">
+          <aside className="py-0">
             <Suspense>
               <AllProjects projects={projects} />
             </Suspense>
           </aside>
         </div>
       </div>
-
-      {/* Posts Section */}
-      <div className="border-gray-10 border-t">
+      {/* Blog Posts Section */}
+      {/* <div className="border-gray-10 border-t">
         <div className="container">
-          <aside className="py-12 sm:py-20">
+          <aside className="py-0">
             <Suspense>
               <AllPosts />
             </Suspense>
           </aside>
         </div>
-      </div>
+      </div> */}
     </>
   );
 }
