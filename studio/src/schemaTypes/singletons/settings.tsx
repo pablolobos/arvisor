@@ -18,10 +18,6 @@ export default defineType({
       name: 'general',
       title: 'General',
     },
-    {
-      name: 'expert',
-      title: 'Expert Profile',
-    },
   ],
   fields: [
     defineField({
