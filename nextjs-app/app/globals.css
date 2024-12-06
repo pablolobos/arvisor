@@ -5,9 +5,10 @@
 @layer base {
   :root {
     --brand-purple: 248 52% 40%;
+    --brand-gray-lightest: 210 38% 98%;
 
 
-    
+
     --background: 0 0% 100%;
     --foreground: 224 71.4% 4.1%;
     --card: 0 0% 100%;

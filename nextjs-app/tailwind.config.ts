@@ -16,6 +16,10 @@ export default {
       colors: {
         black: '#0d0e12',
         white: '#fff',
+        brand: {
+          purple: 'hsl(var(--brand-purple))',
+          grayLightest: 'hsl(var(--brand-gray-lightest))'
+        },
         cyan: {
           '50': '#e7fefe',
           '100': '#c5fcfc',
