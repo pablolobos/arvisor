@@ -18,9 +18,15 @@ type Project = {
     name: string
     subtitle: string
     description: any
-    images: Array<{ url: string; alt: string }>
-    amenities: string[]
-    details: {
+    images?: Array<{ url: string; alt: string }>
+    amenities?: {
+        pool: boolean
+        laundry: boolean
+        playground: boolean
+        parking: boolean
+        terrace: boolean
+    }
+    details?: {
         bedrooms: number
         bathrooms: number
         squareMeters: number
@@ -31,6 +37,10 @@ type Project = {
         address: string
         mapUrl: string
     }
+}
+
+type SanityResponse = {
+    data: Project
 }
 
 interface PageProps {
@@ -48,11 +58,11 @@ export async function generateStaticParams() {
 export async function generateMetadata({ params }: PageProps): Promise<Metadata> {
     const { isEnabled: isDraftMode } = await draftMode()
 
-    const { data: project } = await sanityFetch<{ data: Project }>({
+    const project = await sanityFetch<string>({
         query: projectQuery,
         params,
         perspective: isDraftMode ? 'previewDrafts' : 'published'
-    })
+    }) as unknown as Project
 
     if (!project) return {}
 
@@ -65,11 +75,13 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
 export default async function ProjectPage({ params }: PageProps) {
     const { isEnabled: isDraftMode } = await draftMode()
 
-    const { data: project } = await sanityFetch<{ data: Project }>({
+    const response = await sanityFetch<string>({
         query: projectQuery,
         params,
         perspective: isDraftMode ? 'previewDrafts' : 'published'
     })
+
+    const project = response.data as Project
 
     if (!project) notFound()
 
@@ -80,38 +92,50 @@ export default async function ProjectPage({ params }: PageProps) {
                 <p className="text-gray-600 text-xl">{project.subtitle}</p>
             </div>
 
-            <ProjectGallery images={project.images} />
+            {project.images && project.images.length > 0 && (
+                <ProjectGallery images={project.images} />
+            )}
 
             <div className="gap-8 grid grid-cols-1 lg:grid-cols-3 mt-8">
                 <div className="lg:col-span-2">
-                    <div className="max-w-none prose">
-                        <PortableText value={project.description} />
-                    </div>
+                    {project.description && (
+                        <div className="max-w-none prose">
+                            <PortableText value={project.description} />
+                        </div>
+                    )}
 
-                    <ProjectAmenities amenities={project.amenities} />
-                    <ProjectDetails details={project.details} />
+                    {project.amenities && <ProjectAmenities amenities={project.amenities} />}
+                    {project.details && <ProjectDetails details={project.details} />}
                 </div>
 
                 <div className="lg:col-span-1">
                     <div className="top-8 sticky space-y-6 p-6 border rounded-lg">
                         <div>
                             <h3 className="font-medium text-lg">Precio</h3>
-                            <p className="font-bold text-3xl">{formatUF(project.price)}</p>
-                            <p className="text-gray-600">
-                                {formatCurrency(project.monthlyFee)}/mes
-                            </p>
+                            {project.price && (
+                                <p className="font-bold text-3xl">{formatUF(project.price)}</p>
+                            )}
+                            {project.monthlyFee && (
+                                <p className="text-gray-600">
+                                    {formatCurrency(project.monthlyFee)}/mes
+                                </p>
+                            )}
                         </div>
 
-                        <div className="w-full h-64">
-                            <Suspense fallback={<div>Loading map...</div>}>
-                                <ProjectMapWrapper mapUrl={project.location.mapUrl} />
-                            </Suspense>
-                        </div>
+                        {project.location && (
+                            <>
+                                <div className="w-full h-64">
+                                    <Suspense fallback={<div>Loading map...</div>}>
+                                        <ProjectMapWrapper mapUrl={project.location.mapUrl} />
+                                    </Suspense>
+                                </div>
 
-                        <div>
-                            <h3 className="font-medium text-lg">Ubicación</h3>
-                            <p className="text-gray-600">{project.location.address}</p>
-                        </div>
+                                <div>
+                                    <h3 className="font-medium text-lg">Ubicación</h3>
+                                    <p className="text-gray-600">{project.location.address}</p>
+                                </div>
+                            </>
+                        )}
                     </div>
                 </div>
             </div>
