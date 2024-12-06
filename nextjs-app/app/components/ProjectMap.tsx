@@ -5,27 +5,28 @@ type Props = {
 }
 
 export default function ProjectMap({ mapUrl }: Props) {
-    // Extract coordinates and place ID from the URL
     const getEmbedUrl = (url: string) => {
         // If it's already an embed URL, return as is
         if (url.includes('/maps/embed/')) return url
 
-        // Handle shortened URLs (maps.app.goo.gl)
-        if (url.includes('maps.app.goo.gl')) {
-            // For shortened URLs, we'll use the URL as the search query instead
-            return `https://www.google.com/maps/embed/v1/place?key=${process.env.NEXT_PUBLIC_GOOGLE_MAPS_API_KEY}&q=${encodeURIComponent(url)}`
+        // Try to extract coordinates from the URL
+        const coordsMatch = url.match(/@(-?\d+\.\d+),(-?\d+\.\d+)/)
+        if (coordsMatch) {
+            const [, lat, lng] = coordsMatch
+            // Use place endpoint with coordinates as both center and query
+            return `https://www.google.com/maps/embed/v1/place?key=${process.env.NEXT_PUBLIC_GOOGLE_MAPS_API_KEY}&q=${lat},${lng}&center=${lat},${lng}&zoom=16`
         }
 
-        // Try to extract coordinates or place ID
-        const placeMatch = url.match(/place\/([^\/]+)\/@([-\d.]+),([-\d.]+)/)
+        // Try to extract place name
+        const placeMatch = url.match(/place\/([^/]+)\//)
         if (placeMatch) {
-            const [, place, lat, lng] = placeMatch
-            return `https://www.google.com/maps/embed/v1/place?key=${process.env.NEXT_PUBLIC_GOOGLE_MAPS_API_KEY}&q=${encodeURIComponent(place)}&center=${lat},${lng}`
+            const [, place] = placeMatch
+            const decodedPlace = decodeURIComponent(place.replace(/\+/g, ' '))
+            return `https://www.google.com/maps/embed/v1/place?key=${process.env.NEXT_PUBLIC_GOOGLE_MAPS_API_KEY}&q=${encodeURIComponent(decodedPlace)}&zoom=16`
         }
 
-        // If no matches, create a simple search embed
-        const searchQuery = url.split('/place/')[1]?.split('/@')[0] || url
-        return `https://www.google.com/maps/embed/v1/place?key=${process.env.NEXT_PUBLIC_GOOGLE_MAPS_API_KEY}&q=${encodeURIComponent(searchQuery)}`
+        // Fallback
+        return `https://www.google.com/maps/embed/v1/place?key=${process.env.NEXT_PUBLIC_GOOGLE_MAPS_API_KEY}&q=${encodeURIComponent(url)}&zoom=16`
     }
 
     const embedUrl = getEmbedUrl(mapUrl)

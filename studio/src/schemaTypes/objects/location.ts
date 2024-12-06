@@ -15,13 +15,13 @@ export default defineType({
             name: 'mapUrl',
             type: 'url',
             title: 'Google Maps URL',
-            description: 'Paste the Google Maps share URL',
+            description: 'Open Google Maps, find your location, click Share > Copy Link, and paste the full URL here (not the shortened maps.app.goo.gl URL)',
             validation: (Rule) => Rule.required().custom((url) => {
                 if (!url) return true
-                if (url.includes('google.com/maps') || url.includes('maps.app.goo.gl')) {
+                if (url.includes('google.com/maps')) {
                     return true
                 }
-                return 'Please enter a valid Google Maps URL'
+                return 'Please use the full Google Maps URL (not the shortened maps.app.goo.gl URL). Click Share > Copy Link in Google Maps.'
             }),
         }),
     ],
