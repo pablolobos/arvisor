@@ -54,6 +54,9 @@ export default defineConfig({
 
   plugins: [
     // Presentation tool configuration for Visual Editing
+    structureTool({
+      structure, // Custom studio structure configuration, imported from ./src/structure.ts
+    }),
     presentationTool({
       previewUrl: {
         origin: SANITY_STUDIO_PREVIEW_URL,
@@ -114,9 +117,6 @@ export default defineConfig({
           }),
         },
       },
-    }),
-    structureTool({
-      structure, // Custom studio structure configuration, imported from ./src/structure.ts
     }),
     // Additional plugins for enhanced functionality
     unsplashImageAsset(),
