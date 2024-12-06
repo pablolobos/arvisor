@@ -15,7 +15,7 @@ export default function WhatsAppButton({ phoneNumber }: WhatsAppButtonProps) {
             href={whatsappUrl}
             target="_blank"
             rel="noopener noreferrer"
-            className="inline-flex relative items-center gap-6 bg-brand-purpleHighlight hover:bg-green-600 mt-10 py-3 rounded-full font-semibold text-2xl text-white transition-colors duration-200"
+            className="inline-flex relative items-center gap-6 bg-brand-purpleHighlight hover:bg-green-600 py-3 rounded-full font-semibold text-2xl text-white transition-colors duration-200"
         >
 
             <span className='pl-6'>Escríbenos</span>

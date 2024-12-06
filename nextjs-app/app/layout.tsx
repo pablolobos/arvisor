@@ -13,7 +13,7 @@ import Footer from "@/app/components/Footer";
 import Header from "@/app/components/Header";
 import * as demo from "@/sanity/lib/demo";
 import { sanityFetch, SanityLive } from "@/sanity/lib/live";
-import { settingsQuery } from "@/sanity/lib/queries";
+import { settingsQuery, homeQuery } from "@/sanity/lib/queries";
 import { resolveOpenGraphImage } from "@/sanity/lib/utils";
 import { handleError } from "./client-utils";
 
@@ -71,22 +71,24 @@ export default async function RootLayout({
 }) {
   const { isEnabled: isDraftMode } = await draftMode();
 
+  const { data: home } = await sanityFetch({
+    query: homeQuery,
+    stega: false,
+  });
+
   return (
     <html lang="es" className={` ${sofiaSans.variable} ${sofiaSansCondensed.variable} bg-white text-brand-purple`}>
       <body className="bg-brand-purpleLightest">
         <section className="pt-24 min-h-screen">
-          {/* The <Toaster> component is responsible for rendering toast notifications used in /app/client-utils.ts and /app/components/DraftModeToast.tsx */}
           <Toaster />
           {isDraftMode && (
             <>
               <DraftModeToast />
-              {/*  Enable Visual Editing, only to be rendered when Draft Mode is enabled */}
               <VisualEditing />
             </>
           )}
-          {/* The <SanityLive> component is responsible for making all sanityFetch calls in your application live, so should always be rendered. */}
           <SanityLive onError={handleError} />
-          <Header />
+          <Header home={home} />
           <main className="">{children}</main>
           <Footer />
         </section>
