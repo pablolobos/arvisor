@@ -13,9 +13,29 @@ import ProjectDetails from '@/app/components/ProjectDetails'
 import PortableText from '@/app/components/PortableText'
 import ProjectMapWrapper from '@/app/components/ProjectMapWrapper'
 
+type Project = {
+    _id: string
+    name: string
+    subtitle: string
+    description: any
+    images: Array<{ url: string; alt: string }>
+    amenities: string[]
+    details: {
+        bedrooms: number
+        bathrooms: number
+        squareMeters: number
+    }
+    price: number
+    monthlyFee: number
+    location: {
+        address: string
+        mapUrl: string
+    }
+}
+
 interface PageProps {
-    params: Promise<{ slug: string }>
-    searchParams: { [key: string]: string | string[] | undefined }
+    params: { slug: string }
+    searchParams?: { [key: string]: string | string[] | undefined }
 }
 
 export async function generateStaticParams() {
@@ -27,11 +47,10 @@ export async function generateStaticParams() {
 
 export async function generateMetadata({ params }: PageProps): Promise<Metadata> {
     const { isEnabled: isDraftMode } = await draftMode()
-    const resolvedParams = await params
 
-    const { data: project } = await sanityFetch({
+    const { data: project } = await sanityFetch<{ data: Project }>({
         query: projectQuery,
-        params: resolvedParams,
+        params,
         perspective: isDraftMode ? 'previewDrafts' : 'published'
     })
 
@@ -45,11 +64,10 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
 
 export default async function ProjectPage({ params }: PageProps) {
     const { isEnabled: isDraftMode } = await draftMode()
-    const resolvedParams = await params
 
-    const { data: project } = await sanityFetch({
+    const { data: project } = await sanityFetch<{ data: Project }>({
         query: projectQuery,
-        params: resolvedParams,
+        params,
         perspective: isDraftMode ? 'previewDrafts' : 'published'
     })
 

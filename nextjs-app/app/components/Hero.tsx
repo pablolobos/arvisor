@@ -18,7 +18,7 @@ export default function Hero({ home }: HeroProps) {
                     className="z-0 absolute inset-0 bg-brand-grayLightest"
                     style={{
                         backgroundImage: `url(${urlForImage(home.backgroundImage)?.url()})`,
-                        backgroundSize: 'cover',
+                        backgroundSize: 'contain',
                         backgroundPosition: 'center',
                         opacity: 0.5
                     }}
@@ -29,7 +29,7 @@ export default function Hero({ home }: HeroProps) {
                     <div className="items-center grid md:grid-cols-2">
                         <div className="flex flex-col justify-start items-start gap-0 md:gap-8 max-w-3xl">
                             <div className="mb-8">
-                                <h1 className="mb-4 font-heading font-regular text-3xl text-brand-purple md:text-4xl lg:text-5xl">{home.title}</h1>
+                                <h1 className="mb-4 font-heading font-regular text-3xl text-black/90 md:text-4xl lg:text-5xl">{home.title}</h1>
                                 {home.subtitle && (
                                     <p className="mb-6 text-black text-xl">{home.subtitle}</p>
                                 )}
@@ -47,7 +47,7 @@ export default function Hero({ home }: HeroProps) {
                 </div>
             </div>
             {home.heroImage?.asset && (
-                <div className="md:block right-[-70px] bottom-0 absolute hidden w-4/6 max-w-[800px] h-[90%]">
+                <div className="md:block -right-[150px] -bottom-[100px] absolute hidden w-4/6 max-w-[1000px] h-[120%]">
                     <Image
                         src={urlForImage(home.heroImage)?.url() as string}
                         alt={home.heroImage.alt || ''}
