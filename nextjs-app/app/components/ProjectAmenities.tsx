@@ -1,56 +1,43 @@
-type AmenitiesProps = {
-    amenities: {
-        pool: boolean
-        laundry: boolean
-        playground: boolean
-        parking: boolean
-        terrace: boolean
-    }
+interface Amenities {
+    pool?: boolean
+    laundry?: boolean
+    playground?: boolean
+    parking?: boolean
+    terrace?: boolean
+    urbanizado?: boolean
+    cerco?: boolean
+    electricidad?: boolean
+    aguaPotable?: boolean
 }
 
-export default function ProjectAmenities({ amenities }: AmenitiesProps) {
-    const amenityList = [
-        { key: 'pool', label: 'Piscina' },
-        { key: 'laundry', label: 'Lavandería' },
-        { key: 'playground', label: 'Área de Juegos' },
-        { key: 'parking', label: 'Estacionamiento' },
-        { key: 'terrace', label: 'Terraza' },
-    ] as const
+const amenityLabels = {
+    pool: 'Piscina',
+    laundry: 'Lavandería',
+    playground: 'Área de juegos',
+    parking: 'Estacionamiento',
+    terrace: 'Terraza',
+    urbanizado: 'Urbanizado',
+    cerco: 'Cerco',
+    electricidad: 'Electricidad',
+    aguaPotable: 'Agua potable'
+}
+
+export default function ProjectAmenities({ amenities }: { amenities: Amenities }) {
+    // Filter only the true amenities
+    const activeAmenities = Object.entries(amenities || {})
+        .filter(([_, value]) => value === true)
+        .map(([key]) => key as keyof Amenities)
+
+    if (activeAmenities.length === 0) return null
 
     return (
-        <div className="mt-8">
-            <h2 className="mb-4 font-bold text-2xl">Comodidades</h2>
-            <div className="gap-4 grid grid-cols-2">
-                {amenityList.map(({ key, label }) => (
-                    <div
-                        key={key}
-                        className={`flex items-center gap-2 ${amenities[key] ? 'text-gray-900' : 'text-gray-400'
-                            }`}
-                    >
-                        <svg
-                            className={`w-5 h-5 ${amenities[key] ? 'text-green-500' : 'text-gray-400'
-                                }`}
-                            fill="none"
-                            viewBox="0 0 24 24"
-                            stroke="currentColor"
-                        >
-                            {amenities[key] ? (
-                                <path
-                                    strokeLinecap="round"
-                                    strokeLinejoin="round"
-                                    strokeWidth={2}
-                                    d="M5 13l4 4L19 7"
-                                />
-                            ) : (
-                                <path
-                                    strokeLinecap="round"
-                                    strokeLinejoin="round"
-                                    strokeWidth={2}
-                                    d="M6 18L18 6M6 6l12 12"
-                                />
-                            )}
-                        </svg>
-                        <span>{label}</span>
+        <div className="mt-6">
+            <h3 className="mb-3 font-semibold text-lg">Amenities</h3>
+            <div className="gap-3 grid grid-cols-2 md:grid-cols-3">
+                {activeAmenities.map((amenity) => (
+                    <div key={amenity} className="flex items-center gap-2">
+                        <span>✓</span>
+                        <span>{amenityLabels[amenity]}</span>
                     </div>
                 ))}
             </div>

@@ -120,6 +120,10 @@ export default defineType({
                 { name: 'playground', title: 'Playground', type: 'boolean' },
                 { name: 'parking', title: 'Parking', type: 'boolean' },
                 { name: 'terrace', title: 'Terrace', type: 'boolean' },
+                { name: 'urbanizado', title: 'Urbanizado', type: 'boolean' },
+                { name: 'cerco', title: 'Cerco', type: 'boolean' },
+                { name: 'electricidad', title: 'Electricidad', type: 'boolean' },
+                { name: 'aguaPotable', title: 'Agua potable', type: 'boolean' },
             ],
         }),
         defineField({
