@@ -30,6 +30,40 @@ export default defineType({
             type: 'text',
             group: 'general',
         }),
+        defineField({
+            name: 'backgroundImage',
+            title: 'Background Image',
+            type: 'image',
+            group: 'general',
+            options: {
+                hotspot: true,
+            },
+            fields: [
+                defineField({
+                    name: 'alt',
+                    type: 'string',
+                    title: 'Alternative text',
+                    description: 'Important for SEO and accessibility.',
+                }),
+            ],
+        }),
+        defineField({
+            name: 'heroImage',
+            title: 'Hero Image',
+            type: 'image',
+            group: 'general',
+            options: {
+                hotspot: true,
+            },
+            fields: [
+                defineField({
+                    name: 'alt',
+                    type: 'string',
+                    title: 'Alternative text',
+                    description: 'Important for SEO and accessibility.',
+                }),
+            ],
+        }),
         // Moving expert fields from settings
         defineField({
             name: 'expertName',

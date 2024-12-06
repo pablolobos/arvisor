@@ -126,7 +126,9 @@ export const homeQuery = /* groq */ `*[_type == "home"][0]{
   expertName,
   expertRole,
   expertImage,
-  expertInstagram
+  expertInstagram,
+  backgroundImage,
+  heroImage
 }`
 
 export type HomePayload = {
@@ -136,4 +138,12 @@ export type HomePayload = {
   expertRole?: string
   expertImage?: any
   expertInstagram?: string
+  backgroundImage?: {
+    alt?: string
+    asset: any
+  }
+  heroImage?: {
+    alt?: string
+    asset: any
+  }
 }
