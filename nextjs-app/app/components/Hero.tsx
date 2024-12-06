@@ -23,10 +23,16 @@ export default function Hero({ home }: HeroProps) {
             heroImage: document.querySelector('.hero-image') as HTMLElement
         }
 
-        if (elements.bg) animate(elements.bg, { opacity: '0.5' }, { duration: 1 })
-        if (elements.title) animate(elements.title, { opacity: '1', transform: 'translateY(0px)' }, { duration: 0.6, delay: 0.2 })
-        if (elements.expert) animate(elements.expert, { opacity: '1', transform: 'translateY(0px)' }, { duration: 0.6, delay: 0.4 })
-        if (elements.heroImage) animate(elements.heroImage, { opacity: '1', transform: 'translateX(0px)' }, { duration: 0.8, delay: 0.6 })
+        if (elements.bg) animate(elements.bg, { opacity: '0.5' }, { duration: 1.5, easing: 'ease-out' })
+        if (elements.title) animate(elements.title, { opacity: '1', transform: 'translateY(0px)' }, { duration: 1, delay: 0.3, easing: 'ease-out' })
+        if (elements.expert) animate(elements.expert, { opacity: '1', transform: 'translateY(0px)' }, { duration: 1, delay: 0.6, easing: 'ease-out' })
+        if (elements.heroImage) {
+            animate(elements.heroImage, { opacity: '1', transform: 'translateX(0px)' }, { duration: 1.2, delay: 0.9, easing: 'ease-out' })
+            const heroImageElement = elements.heroImage.querySelector('img')
+            if (heroImageElement) {
+                animate(heroImageElement, { opacity: '1' }, { duration: 1.2, delay: 0.9, easing: 'ease-out' })
+            }
+        }
     }, [])
 
     return (
@@ -49,9 +55,7 @@ export default function Hero({ home }: HeroProps) {
                                 className="opacity-0 mb-8 hero-title"
                                 style={{ transform: 'translateY(20px)' }}
                             >
-                                <h1 className="mb-4 font-heading font-regular text-3xl text-black/90 md:text-4xl lg:text-5xl">
-                                    {home.title}
-                                </h1>
+                                <h1 className="mb-4 font-heading font-regular text-3xl text-black/90 md:text-4xl lg:text-5xl">{home.title}</h1>
                                 {home.subtitle && (
                                     <p className="mb-6 text-black text-xl">{home.subtitle}</p>
                                 )}
@@ -75,14 +79,17 @@ export default function Hero({ home }: HeroProps) {
             </div>
             {home.heroImage?.asset && (
                 <div
-                    className="md:block -right-[150px] -bottom-[100px] absolute hidden opacity-0 w-4/6 max-w-[1000px] h-[120%] hero-image"
-                    style={{ transform: 'translateX(100px)' }}
+                    className="md:block -right-[150px] -bottom-[100px] absolute hidden w-4/6 max-w-[1000px] h-[120%] hero-image"
+                    style={{
+                        transform: 'translateX(100px)',
+                        opacity: 0
+                    }}
                 >
                     <Image
                         src={urlForImage(home.heroImage)?.url() as string}
                         alt={home.heroImage.alt || ''}
                         fill
-                        className="object-contain"
+                        className="opacity-0 object-contain"
                         priority
                     />
                 </div>
