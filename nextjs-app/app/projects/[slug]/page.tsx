@@ -44,7 +44,7 @@ type SanityResponse = {
 }
 
 interface PageProps {
-    params: { slug: string }
+    params: Promise<{ slug: string }>
     searchParams?: { [key: string]: string | string[] | undefined }
 }
 
@@ -57,12 +57,15 @@ export async function generateStaticParams() {
 
 export async function generateMetadata({ params }: PageProps): Promise<Metadata> {
     const { isEnabled: isDraftMode } = await draftMode()
+    const resolvedParams = await params
 
-    const project = await sanityFetch<string>({
+    const response = await sanityFetch<string>({
         query: projectQuery,
-        params,
+        params: resolvedParams,
         perspective: isDraftMode ? 'previewDrafts' : 'published'
-    }) as unknown as Project
+    })
+
+    const project = response.data as Project
 
     if (!project) return {}
 
@@ -74,10 +77,11 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
 
 export default async function ProjectPage({ params }: PageProps) {
     const { isEnabled: isDraftMode } = await draftMode()
+    const resolvedParams = await params
 
     const response = await sanityFetch<string>({
         query: projectQuery,
-        params,
+        params: resolvedParams,
         perspective: isDraftMode ? 'previewDrafts' : 'published'
     })
 
