@@ -40,7 +40,7 @@ export default function Hero({ home }: HeroProps) {
                                 transition={{ duration: 1, delay: 0.3 }}
                                 className="mb-8 hero-title"
                             >
-                                <h1 className="mb-4 font-heading font-regular text-3xl text-black/90 md:text-4xl lg:text-5xl">{home.title}</h1>
+                                <h1 className="mb-4 font-heading font-regular text-3xl text-brand-purple md:text-4xl lg:text-5xl">{home.title}</h1>
                                 {home.subtitle && (
                                     <p className="mb-6 text-black text-xl">{home.subtitle}</p>
                                 )}
@@ -67,7 +67,7 @@ export default function Hero({ home }: HeroProps) {
             {home.heroImage?.asset && (
                 <motion.div
                     initial={{ opacity: 0, x: 100 }}
-                    animate={{ opacity: 1, x: 0 }}
+                    animate={{ opacity: 0.8, x: 0 }}
                     transition={{ duration: 1.2, delay: 0.9 }}
                     className="md:block -right-[150px] -bottom-[100px] absolute hidden w-4/6 max-w-[1000px] h-[120%] hero-image"
                 >
