@@ -13,8 +13,9 @@ import ProjectDetails from '@/app/components/ProjectDetails'
 import PortableText from '@/app/components/PortableText'
 import ProjectMapWrapper from '@/app/components/ProjectMapWrapper'
 
-type Props = {
-    params: { slug: string }
+interface PageProps {
+    params: Promise<{ slug: string }>
+    searchParams: { [key: string]: string | string[] | undefined }
 }
 
 export async function generateStaticParams() {
@@ -24,12 +25,13 @@ export async function generateStaticParams() {
     }))
 }
 
-export async function generateMetadata({ params }: Props): Promise<Metadata> {
+export async function generateMetadata({ params }: PageProps): Promise<Metadata> {
     const { isEnabled: isDraftMode } = await draftMode()
+    const resolvedParams = await params
 
     const { data: project } = await sanityFetch({
         query: projectQuery,
-        params,
+        params: resolvedParams,
         perspective: isDraftMode ? 'previewDrafts' : 'published'
     })
 
@@ -41,12 +43,13 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
     }
 }
 
-export default async function ProjectPage({ params }: Props) {
+export default async function ProjectPage({ params }: PageProps) {
     const { isEnabled: isDraftMode } = await draftMode()
+    const resolvedParams = await params
 
     const { data: project } = await sanityFetch({
         query: projectQuery,
-        params,
+        params: resolvedParams,
         perspective: isDraftMode ? 'previewDrafts' : 'published'
     })
 
