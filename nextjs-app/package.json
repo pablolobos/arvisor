@@ -10,6 +10,7 @@
     "typegen": "sanity typegen generate"
   },
   "dependencies": {
+    "@radix-ui/react-avatar": "^1.1.1",
     "@radix-ui/react-slot": "^1.1.0",
     "@react-google-maps/api": "^2.20.3",
     "@sanity/client": "^6.22.5",
