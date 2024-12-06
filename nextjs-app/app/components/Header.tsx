@@ -3,7 +3,7 @@ import { Button } from "@/components/ui/button";
 
 export default function Header() {
   return (
-    <header className="z-50 fixed inset-0 flex items-center bg-brand-grayLightest backdrop-blur-lg h-24">
+    <header className="z-50 fixed inset-0 flex items-center bg-br bg-brand-grayLightest backdrop-blur-lg h-24">
       <div className="sm:px-6 py-6 container">
         <div className="flex justify-between items-center gap-5">
           <Link className="flex items-center gap-2 w-[200px]" href="/">
