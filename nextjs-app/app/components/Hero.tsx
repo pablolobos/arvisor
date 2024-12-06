@@ -11,7 +11,7 @@ export default function Hero({ home }: HeroProps) {
     if (!home) return null;
 
     return (
-        <div className="relative border-gray-10 border-t">
+        <div className="relative border-gray-10 border-t max-h-[70vh] overflow-hidden">
             {home.backgroundImage?.asset && (
                 <div
                     className="z-0 absolute inset-0 bg-brand-grayLightest"
