@@ -1,3 +1,5 @@
+import { CircleCheckBig } from "lucide-react"
+
 interface Amenities {
     pool?: boolean
     laundry?: boolean
@@ -22,9 +24,11 @@ const amenityLabels = {
     aguaPotable: 'Agua potable'
 }
 
-export default function ProjectAmenities({ amenities }: { amenities: Amenities }) {
+export default function ProjectAmenities({ amenities }: { amenities?: Amenities }) {
+    if (!amenities) return null
+
     // Filter only the true amenities
-    const activeAmenities = Object.entries(amenities || {})
+    const activeAmenities = Object.entries(amenities)
         .filter(([_, value]) => value === true)
         .map(([key]) => key as keyof Amenities)
 
@@ -32,11 +36,11 @@ export default function ProjectAmenities({ amenities }: { amenities: Amenities }
 
     return (
         <div className="mt-6">
-            <h3 className="mb-3 font-semibold text-lg">Amenities</h3>
+            <h3 className="mb-3 font-semibold text-lg">Comodidades</h3>
             <div className="gap-3 grid grid-cols-2 md:grid-cols-3">
                 {activeAmenities.map((amenity) => (
                     <div key={amenity} className="flex items-center gap-2">
-                        <span>✓</span>
+                        <CircleCheckBig className="w-5 h-5 text-green-600" />
                         <span>{amenityLabels[amenity]}</span>
                     </div>
                 ))}

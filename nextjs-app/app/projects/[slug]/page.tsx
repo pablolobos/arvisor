@@ -12,6 +12,7 @@ import ProjectAmenities from '@/app/components/ProjectAmenities'
 import ProjectDetails from '@/app/components/ProjectDetails'
 import PortableText from '@/app/components/PortableText'
 import ProjectMapWrapper from '@/app/components/ProjectMapWrapper'
+import { MapPin } from 'lucide-react'
 
 type Project = {
     _id: string
@@ -90,10 +91,12 @@ export default async function ProjectPage({ params }: PageProps) {
 
     return (
         <div className="mx-auto px-4 py-8 container">
-            <div className="gap-8 grid grid-cols-1 lg:grid-cols-2">
-                <div className="mb-8">
-                    <p className="mb-2 text-black/90 text-xl leading-tight">{project.subtitle}</p>
-                    <h1 className="mb-4 font-heading font-regular text-3xl text-brand-purple md:text-4xl lg:text-5xl">{project.name}</h1>
+            <div className="gap-12 grid grid-cols-1 md:grid-cols-12">
+                <div className="flex flex-col gap-8 col-span-1 md:col-span-7 lg:col-span-5">
+                    <div>
+                        <p className="mb-2 text-black/90 text-xl leading-tight">{project.subtitle}</p>
+                        <h1 className="font-heading font-regular text-3xl text-brand-purple md:text-4xl lg:text-5xl">{project.name}</h1>
+                    </div>
                     <div>
                         {project.price && (
                             <p className="font-light text-2xl">
@@ -107,35 +110,36 @@ export default async function ProjectPage({ params }: PageProps) {
 
                         )}
                     </div>
-                    <div className="flex flex-col gap-8">
-                        {project.description && (
-                            <div className="max-w-none prose prose-xl">
-                                <PortableText value={project.description} />
-                            </div>
-                        )}
-
-                        {project.details && <ProjectDetails details={project.details} />}
-                        {project.amenities && <ProjectAmenities amenities={project.amenities} />}
-                    </div>
+                    {project.details && <ProjectDetails details={project.details} />}
+                    {project.amenities && <ProjectAmenities amenities={project.amenities} />}
+                    {project.description && (
+                        <div className="max-w-none prose prose-xl">
+                            <PortableText value={project.description} />
+                        </div>
+                    )}
 
                 </div>
-                <div className="cols-span-1">
-                    {project.images && project.images.length > 0 && (
-                        <ProjectGallery images={project.images} />
-                    )}
-                    {project.location && (
-                        <>
-                            <div className="w-full h-64">
-                                <Suspense fallback={<div>Loading map...</div>}>
-                                    <ProjectMapWrapper mapUrl={project.location.mapUrl} />
-                                </Suspense>
-                            </div>
-                            <div>
-                                <h3 className="font-medium text-lg">Ubicación</h3>
-                                <p className="text-gray-600">{project.location.address}</p>
-                            </div>
-                        </>
-                    )}
+                <div className="col-span-1 md:col-span-5 lg:col-span-7">
+                    <div className="flex flex-col gap-8">
+                        {project.images && project.images.length > 0 && (
+                            <ProjectGallery images={project.images} />
+                        )}
+                        {project.location && (
+                            <>
+                                <div>
+                                    <h2 className="mb-4 font-bold text-2xl">Ubicación</h2>
+                                    <div className="flex items-center gap-1 pt-2 text-lg">
+                                        <MapPin /> {project.location.address}
+                                    </div>
+                                </div>
+                                <div className="w-full aspect-[3/2]">
+                                    <Suspense fallback={<div>Loading map...</div>}>
+                                        <ProjectMapWrapper mapUrl={project.location.mapUrl} />
+                                    </Suspense>
+                                </div>
+                            </>
+                        )}
+                    </div>
                 </div>
 
             </div>
