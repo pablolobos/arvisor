@@ -129,7 +129,8 @@ export const homeQuery = /* groq */ `*[_type == "home"][0]{
   expertImage,
   expertInstagram,
   backgroundImage,
-  heroImage
+  heroImage,
+  whatsappNumber
 }`
 
 export interface HomePayload {

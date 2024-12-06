@@ -24,7 +24,7 @@ export default function ExpertCard({ name, role, image, instagramUrl }: ExpertCa
                 )}
             </div>
 
-            <div className="flex-grow">
+            <div className="">
                 <h3 className="font-bold font-heading text-2xl">{name}</h3>
                 <p className="mt-1 text-black">{role}</p>
 

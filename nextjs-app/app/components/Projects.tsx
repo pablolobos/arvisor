@@ -9,7 +9,7 @@ export const AllProjects = ({ projects }: { projects: any[] }) => {
 
     return (
         <div className="">
-            <div className="mx-auto px-4 sm:px-6 lg:px-8 py-16 sm:py-24 max-w-2xl lg:max-w-7xl">
+            <div className="mx-auto py-16 sm:py-24 max-w-2xl lg:max-w-7xl">
                 <h2 className="font-extrabold text-4xl text-brand-purple uppercase tracking-tight">
                     Oportunidades especiales
                 </h2>

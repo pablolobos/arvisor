@@ -11,6 +11,8 @@ interface HeroProps {
 export default function Hero({ home }: HeroProps) {
     if (!home) return null;
 
+    console.log('WhatsApp number:', home.whatsappNumber);
+
     return (
         <div className="relative border-gray-10 border-t h-auto md:h-[70vh] lg:h-[70vh] overflow-hidden">
             {home.backgroundImage?.asset && (
@@ -27,14 +29,11 @@ export default function Hero({ home }: HeroProps) {
             <div className="relative z-10 container">
                 <div className="py-12 sm:py-20">
                     <div className="items-center gap-8 grid md:grid-cols-2">
-                        <div className="items-center max-w-3xl">
+                        <div className="justify-start items-center max-w-3xl">
                             <div className="mb-8">
-                                <h1 className="mb-4 font-bold font-heading text-4xl text-brand-purple">{home.title}</h1>
+                                <h1 className="mb-4 font-heading font-regular text-3xl text-brand-purple md:text-4xl lg:text-5xl">{home.title}</h1>
                                 {home.subtitle && (
                                     <p className="mb-6 text-black text-xl">{home.subtitle}</p>
-                                )}
-                                {home.whatsappNumber && (
-                                    <WhatsAppButton phoneNumber={home.whatsappNumber} />
                                 )}
                             </div>
                             {home?.expertName && (
@@ -45,8 +44,8 @@ export default function Hero({ home }: HeroProps) {
                                     instagramUrl={home.expertInstagram || ''}
                                 />
                             )}
+                            <WhatsAppButton phoneNumber={home.whatsappNumber} />
                         </div>
-                        <WhatsAppButton phoneNumber={home.whatsappNumber} />
                     </div>
                 </div>
             </div>
