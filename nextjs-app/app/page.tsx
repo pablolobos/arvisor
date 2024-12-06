@@ -1,31 +1,19 @@
 import { Suspense } from "react";
 import { AllPosts } from "@/app/components/Posts";
 import { AllProjects } from "@/app/components/Projects";
-import ExpertCard from "@/app/components/ExpertCard";
-import { allProjectsQuery, settingsQuery } from "@/sanity/lib/queries";
+import Hero from "@/app/components/Hero";
+import { allProjectsQuery, settingsQuery, homeQuery } from "@/sanity/lib/queries";
 import { sanityFetch } from "@/sanity/lib/live";
 
 export default async function Page() {
   const { data: projects } = await sanityFetch({ query: allProjectsQuery });
   const { data: settings } = await sanityFetch({ query: settingsQuery });
+  const { data: home } = await sanityFetch({ query: homeQuery });
 
   return (
     <>
-      {/* Expert Card Section */}
-      <div className="border-gray-10 border-t">
-        <div className="container">
-          <div className="py-12 sm:py-20">
-            {settings?.expertName && (
-              <ExpertCard
-                name={settings.expertName}
-                role={settings.expertRole}
-                image={settings.expertImage}
-                instagramUrl={settings.expertInstagram}
-              />
-            )}
-          </div>
-        </div>
-      </div>
+      {/* Hero Section */}
+      <Hero home={home} />
 
       {/* Projects Section */}
       <div className="border-gray-10 border-t">

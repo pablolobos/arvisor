@@ -106,43 +106,6 @@ export default defineType({
         }),
       ],
     }),
-    defineField({
-      name: 'expertName',
-      title: 'Expert Name',
-      type: 'string',
-      group: 'expert',
-      validation: (rule) => rule.required(),
-    }),
-    defineField({
-      name: 'expertRole',
-      title: 'Expert Role',
-      type: 'string',
-      group: 'expert',
-      validation: (rule) => rule.required(),
-    }),
-    defineField({
-      name: 'expertImage',
-      title: 'Expert Image',
-      type: 'image',
-      group: 'expert',
-      options: {
-        hotspot: true,
-      },
-      fields: [
-        defineField({
-          name: 'alt',
-          type: 'string',
-          title: 'Alternative text',
-          description: 'Important for SEO and accessibility.',
-        }),
-      ],
-    }),
-    defineField({
-      name: 'expertInstagram',
-      title: 'Expert Instagram URL',
-      type: 'url',
-      group: 'expert',
-    }),
   ],
   preview: {
     prepare() {

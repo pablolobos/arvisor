@@ -1,14 +1,10 @@
-import { defineQuery } from "next-sanity";
+import { defineQuery, groq } from "next-sanity";
 
 export const settingsQuery = /* groq */ `
   *[_type == "settings"][0]{
     title,
     description,
     ogImage,
-    expertName,
-    expertRole,
-    expertImage,
-    expertInstagram
   }
 `;
 
@@ -123,3 +119,21 @@ export const projectQuery = defineQuery(`
 export const projectSlugsQuery = defineQuery(`
   *[_type == "project" && defined(slug.current)][].slug.current
 `)
+
+export const homeQuery = /* groq */ `*[_type == "home"][0]{
+  title,
+  subtitle,
+  expertName,
+  expertRole,
+  expertImage,
+  expertInstagram
+}`
+
+export type HomePayload = {
+  title: string
+  subtitle?: string
+  expertName?: string
+  expertRole?: string
+  expertImage?: any
+  expertInstagram?: string
+}
