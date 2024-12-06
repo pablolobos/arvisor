@@ -4,8 +4,11 @@ import Image from 'next/image'
 import Link from 'next/link'
 import { formatCurrency, formatUF } from '@/lib/utils'
 import { MapPin } from 'lucide-react'
+import { animate } from "motion"
+import { useEffect } from 'react'
+
 export type ProjectProps = {
-    project: any // We'll define a proper type later
+    project: any
 }
 
 const tagLabels: Record<string, string> = {
@@ -18,10 +21,14 @@ const tagLabels: Record<string, string> = {
 export const ProjectCard = ({ project }: ProjectProps) => {
     const mainImage = project.images[0]
 
-    const renderTag = (tag: string) => {
-        console.log('Tag:', tag)
-        console.log('Project discount:', project.discountPercentage)
+    useEffect(() => {
+        const tags = document.querySelectorAll('.project-tag') as NodeListOf<HTMLElement>
+        tags.forEach(tag => {
+            animate(tag, { opacity: '1', transform: 'translateX(0px)' }, { duration: 0.3 })
+        })
+    }, [])
 
+    const renderTag = (tag: string) => {
         if (tag === 'discount' && project.discountPercentage) {
             return `${project.discountPercentage}% ${tagLabels[tag]}`
         }
@@ -29,7 +36,15 @@ export const ProjectCard = ({ project }: ProjectProps) => {
     }
 
     return (
-        <div className="relative flex flex-col bg-white border rounded-xl overflow-hidden group">
+        <div
+            className="relative flex flex-col bg-white opacity-0 border rounded-xl overflow-hidden group project-card"
+            onMouseEnter={(e) => {
+                animate(e.currentTarget, { y: -5 }, { duration: 0.2 })
+            }}
+            onMouseLeave={(e) => {
+                animate(e.currentTarget, { y: 0 }, { duration: 0.2 })
+            }}
+        >
             <div className="bg-gray-100 overflow-hidden aspect-[4/3]">
                 <Image
                     src={mainImage.url}
@@ -42,7 +57,7 @@ export const ProjectCard = ({ project }: ProjectProps) => {
                     {project.tags.map((tag: string) => (
                         <span
                             key={tag}
-                            className="inline-flex items-center bg-brand-purpleHighlight px-2.5 py-0.5 rounded-full font-condensed font-medium text-base text-brand-purpleLightest uppercase"
+                            className="inline-flex items-center bg-brand-purpleHighlight opacity-0 px-2.5 py-0.5 rounded-full font-condensed font-medium text-base text-brand-purpleLightest uppercase project-tag"
                         >
                             {renderTag(tag)}
                         </span>

@@ -26,6 +26,7 @@
     "date-fns": "^3.6.0",
     "embla-carousel-react": "^8.5.1",
     "lucide-react": "^0.468.0",
+    "motion": "^11.13.1",
     "next": "^15.0.3",
     "next-sanity": "^9.8.18",
     "postcss": "^8.4.49",
