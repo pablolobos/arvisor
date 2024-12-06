@@ -3,7 +3,7 @@ import Script from "next/script";
 
 import { SpeedInsights } from "@vercel/speed-insights/next";
 import type { Metadata } from "next";
-import { Inter, Sofia_Sans } from "next/font/google";
+import { Sofia_Sans, Sofia_Sans_Condensed } from "next/font/google";
 import { draftMode } from "next/headers";
 import { VisualEditing, toPlainText } from "next-sanity";
 import { Toaster } from "sonner";
@@ -58,6 +58,11 @@ const sofiaSans = Sofia_Sans({
   display: "swap",
 });
 
+const sofiaSansCondensed = Sofia_Sans_Condensed({
+  variable: "--font-sofia-sans-condensed",
+  subsets: ["latin"],
+  display: "swap",
+});
 
 export default async function RootLayout({
   children,
@@ -67,8 +72,8 @@ export default async function RootLayout({
   const { isEnabled: isDraftMode } = await draftMode();
 
   return (
-    <html lang="es" className={` ${sofiaSans.variable} bg-white text-brand-purple`}>
-      <body className="bg-brand-grayLightest">
+    <html lang="es" className={` ${sofiaSans.variable} ${sofiaSansCondensed.variable} bg-white text-brand-purple`}>
+      <body className="bg-brand-purpleLightest">
         <section className="pt-24 min-h-screen">
           {/* The <Toaster> component is responsible for rendering toast notifications used in /app/client-utils.ts and /app/components/DraftModeToast.tsx */}
           <Toaster />

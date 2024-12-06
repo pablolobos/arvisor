@@ -18,6 +18,8 @@ export default {
         white: '#fff',
         brand: {
           purple: 'hsl(var(--brand-purple))',
+          purpleLightest: 'hsl(var(--brand-purple-lightest))',
+          purpleHighlight: 'hsl(var(--brand-purple-highlight))',
           grayLightest: 'hsl(var(--brand-gray-lightest))'
         },
         cyan: {
@@ -141,6 +143,7 @@ export default {
       },
       fontFamily: {
         sans: ["var(--font-sofia-sans)"],
+        condensed: ["var(--font-sofia-sans-condensed)"],
         heading: ["var(--font-sofia-sans)"],
       },
       borderRadius: {
