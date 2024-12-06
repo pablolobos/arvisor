@@ -26,8 +26,8 @@ export default function Hero({ home }: HeroProps) {
             )}
             <div className="relative z-10 container">
                 <div className="py-12 sm:py-20">
-                    <div className="items-center gap-8 grid md:grid-cols-2">
-                        <div className="flex flex-col justify-start items-start gap-8 max-w-3xl">
+                    <div className="items-center grid md:grid-cols-2">
+                        <div className="flex flex-col justify-start items-start gap-0 md:gap-8 max-w-3xl">
                             <div className="mb-8">
                                 <h1 className="mb-4 font-heading font-regular text-3xl text-brand-purple md:text-4xl lg:text-5xl">{home.title}</h1>
                                 {home.subtitle && (

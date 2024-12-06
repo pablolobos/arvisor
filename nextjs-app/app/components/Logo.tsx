@@ -6,7 +6,7 @@ interface LogoProps {
 
 export default function Logo({ className = "" }: LogoProps) {
     return (
-        <Link className={`flex items-center gap-2 w-[200px] ${className}`} href="/">
+        <Link className={`flex items-center gap-2 w-[140px] md:w-[200px] ${className}`} href="/">
             <svg width="275" height="103" viewBox="0 0 275 103" fill="none" xmlns="http://www.w3.org/2000/svg" className="object-cover">
                 <path d="M247.124 83.7216V67.2114H257.082V68.4414H248.543V74.7333H256.774V75.9633H248.543V82.4917H257.082V83.7216H247.124Z" fill="#40319D" />
                 <path d="M238.452 68.4414V83.7216H237.033V68.4414H231.379V67.2114H244.105V68.4414H238.452Z" fill="#40319D" />
