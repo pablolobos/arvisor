@@ -19,6 +19,9 @@ export const ProjectCard = ({ project }: ProjectProps) => {
     const mainImage = project.images[0]
 
     const renderTag = (tag: string) => {
+        console.log('Tag:', tag)
+        console.log('Project discount:', project.discountPercentage)
+
         if (tag === 'discount' && project.discountPercentage) {
             return `${tagLabels[tag]} ${project.discountPercentage}%`
         }

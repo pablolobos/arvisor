@@ -95,6 +95,7 @@ const projectFields = `
   price,
   monthlyFee,
   tags,
+  discountPercentage,
   images[] {
     "url": asset->url,
     alt
