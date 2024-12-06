@@ -90,57 +90,54 @@ export default async function ProjectPage({ params }: PageProps) {
 
     return (
         <div className="mx-auto px-4 py-8 container">
-            <div className="mb-8">
-                <h1 className="font-bold text-4xl">{project.name}</h1>
-                <p className="text-gray-600 text-xl">{project.subtitle}</p>
-            </div>
+            <div className="gap-8 grid grid-cols-1 lg:grid-cols-2">
+                <div className="mb-8">
+                    <p className="mb-2 text-black/90 text-xl leading-tight">{project.subtitle}</p>
+                    <h1 className="mb-4 font-heading font-regular text-3xl text-brand-purple md:text-4xl lg:text-5xl">{project.name}</h1>
+                    <div>
+                        {project.price && (
+                            <p className="font-light text-2xl">
+                                Desde {formatUF(project.price)}
+                            </p>
+                        )}
+                        {project.monthlyFee && (
+                            <p className="font-regular text-2xl">
+                                Cuota mensual {formatCurrency(project.monthlyFee)}
+                            </p>
 
-            {project.images && project.images.length > 0 && (
-                <ProjectGallery images={project.images} />
-            )}
-
-            <div className="gap-8 grid grid-cols-1 lg:grid-cols-3 mt-8">
-                <div className="lg:col-span-2">
-                    {project.description && (
-                        <div className="max-w-none prose">
-                            <PortableText value={project.description} />
-                        </div>
-                    )}
-
-                    {project.amenities && <ProjectAmenities amenities={project.amenities} />}
-                    {project.details && <ProjectDetails details={project.details} />}
-                </div>
-
-                <div className="lg:col-span-1">
-                    <div className="top-8 sticky space-y-6 p-6 border rounded-lg">
-                        <div>
-                            <h3 className="font-medium text-lg">Precio</h3>
-                            {project.price && (
-                                <p className="font-bold text-3xl">{formatUF(project.price)}</p>
-                            )}
-                            {project.monthlyFee && (
-                                <p className="text-gray-600">
-                                    {formatCurrency(project.monthlyFee)}/mes
-                                </p>
-                            )}
-                        </div>
-
-                        {project.location && (
-                            <>
-                                <div className="w-full h-64">
-                                    <Suspense fallback={<div>Loading map...</div>}>
-                                        <ProjectMapWrapper mapUrl={project.location.mapUrl} />
-                                    </Suspense>
-                                </div>
-
-                                <div>
-                                    <h3 className="font-medium text-lg">Ubicación</h3>
-                                    <p className="text-gray-600">{project.location.address}</p>
-                                </div>
-                            </>
                         )}
                     </div>
+                    <div className="flex flex-col gap-8">
+                        {project.description && (
+                            <div className="max-w-none prose prose-xl">
+                                <PortableText value={project.description} />
+                            </div>
+                        )}
+
+                        {project.details && <ProjectDetails details={project.details} />}
+                        {project.amenities && <ProjectAmenities amenities={project.amenities} />}
+                    </div>
+
                 </div>
+                <div className="cols-span-1">
+                    {project.images && project.images.length > 0 && (
+                        <ProjectGallery images={project.images} />
+                    )}
+                    {project.location && (
+                        <>
+                            <div className="w-full h-64">
+                                <Suspense fallback={<div>Loading map...</div>}>
+                                    <ProjectMapWrapper mapUrl={project.location.mapUrl} />
+                                </Suspense>
+                            </div>
+                            <div>
+                                <h3 className="font-medium text-lg">Ubicación</h3>
+                                <p className="text-gray-600">{project.location.address}</p>
+                            </div>
+                        </>
+                    )}
+                </div>
+
             </div>
         </div>
     )
