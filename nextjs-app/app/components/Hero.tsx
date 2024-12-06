@@ -5,7 +5,7 @@ import { HomePayload } from '@/sanity/lib/queries'
 import Image from 'next/image'
 import { urlForImage } from "@/sanity/lib/utils";
 import WhatsAppButton from './WhatsAppButton'
-import { animate, inView } from "motion"
+import { motion } from "framer-motion"
 import { useEffect } from 'react'
 
 interface HeroProps {
@@ -15,31 +15,14 @@ interface HeroProps {
 export default function Hero({ home }: HeroProps) {
     if (!home) return null;
 
-    useEffect(() => {
-        const elements = {
-            bg: document.querySelector('.hero-bg') as HTMLElement,
-            title: document.querySelector('.hero-title') as HTMLElement,
-            expert: document.querySelector('.hero-expert') as HTMLElement,
-            heroImage: document.querySelector('.hero-image') as HTMLElement
-        }
-
-        if (elements.bg) animate(elements.bg, { opacity: '0.5' }, { duration: 1.5, easing: 'ease-out' })
-        if (elements.title) animate(elements.title, { opacity: '1', transform: 'translateY(0px)' }, { duration: 1, delay: 0.3, easing: 'ease-out' })
-        if (elements.expert) animate(elements.expert, { opacity: '1', transform: 'translateY(0px)' }, { duration: 1, delay: 0.6, easing: 'ease-out' })
-        if (elements.heroImage) {
-            animate(elements.heroImage, { opacity: '1', transform: 'translateX(0px)' }, { duration: 1.2, delay: 0.9, easing: 'ease-out' })
-            const heroImageElement = elements.heroImage.querySelector('img')
-            if (heroImageElement) {
-                animate(heroImageElement, { opacity: '1' }, { duration: 1.2, delay: 0.9, easing: 'ease-out' })
-            }
-        }
-    }, [])
-
     return (
         <div className="relative border-gray-10 border-t h-auto md:h-[70vh] lg:h-[70vh] overflow-hidden">
             {home.backgroundImage?.asset && (
-                <div
-                    className="z-0 absolute inset-0 bg-brand-grayLightest opacity-0 hero-bg"
+                <motion.div
+                    initial={{ opacity: 0 }}
+                    animate={{ opacity: 0.5 }}
+                    transition={{ duration: 1.5 }}
+                    className="z-0 absolute inset-0 bg-brand-grayLightest hero-bg"
                     style={{
                         backgroundImage: `url(${urlForImage(home.backgroundImage)?.url()})`,
                         backgroundSize: 'contain',
@@ -51,19 +34,23 @@ export default function Hero({ home }: HeroProps) {
                 <div className="py-12 sm:py-20">
                     <div className="items-center grid md:grid-cols-2">
                         <div className="flex flex-col justify-start items-start gap-0 md:gap-8 max-w-3xl">
-                            <div
-                                className="opacity-0 mb-8 hero-title"
-                                style={{ transform: 'translateY(20px)' }}
+                            <motion.div
+                                initial={{ opacity: 0, y: 20 }}
+                                animate={{ opacity: 1, y: 0 }}
+                                transition={{ duration: 1, delay: 0.3 }}
+                                className="mb-8 hero-title"
                             >
                                 <h1 className="mb-4 font-heading font-regular text-3xl text-black/90 md:text-4xl lg:text-5xl">{home.title}</h1>
                                 {home.subtitle && (
                                     <p className="mb-6 text-black text-xl">{home.subtitle}</p>
                                 )}
-                            </div>
+                            </motion.div>
                             {home?.expertName && (
-                                <div
-                                    className="opacity-0 hero-expert"
-                                    style={{ transform: 'translateY(20px)' }}
+                                <motion.div
+                                    initial={{ opacity: 0, y: 20 }}
+                                    animate={{ opacity: 1, y: 0 }}
+                                    transition={{ duration: 1, delay: 0.6 }}
+                                    className="hero-expert"
                                 >
                                     <ExpertCard
                                         name={home.expertName || ''}
@@ -71,28 +58,27 @@ export default function Hero({ home }: HeroProps) {
                                         image={home.expertImage}
                                         instagramUrl={home.expertInstagram || ''}
                                     />
-                                </div>
+                                </motion.div>
                             )}
                         </div>
                     </div>
                 </div>
             </div>
             {home.heroImage?.asset && (
-                <div
+                <motion.div
+                    initial={{ opacity: 0, x: 100 }}
+                    animate={{ opacity: 1, x: 0 }}
+                    transition={{ duration: 1.2, delay: 0.9 }}
                     className="md:block -right-[150px] -bottom-[100px] absolute hidden w-4/6 max-w-[1000px] h-[120%] hero-image"
-                    style={{
-                        transform: 'translateX(100px)',
-                        opacity: 0
-                    }}
                 >
                     <Image
                         src={urlForImage(home.heroImage)?.url() as string}
                         alt={home.heroImage.alt || ''}
                         fill
-                        className="opacity-0 object-contain"
+                        className="object-contain"
                         priority
                     />
-                </div>
+                </motion.div>
             )}
         </div>
     )

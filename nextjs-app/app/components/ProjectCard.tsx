@@ -4,8 +4,7 @@ import Image from 'next/image'
 import Link from 'next/link'
 import { formatCurrency, formatUF } from '@/lib/utils'
 import { MapPin } from 'lucide-react'
-import { animate } from "motion"
-import { useEffect } from 'react'
+import { motion } from "framer-motion"
 
 export type ProjectProps = {
     project: any
@@ -18,15 +17,8 @@ const tagLabels: Record<string, string> = {
     'bonus': 'Bono pie',
 }
 
-export const ProjectCard = ({ project }: ProjectProps) => {
+export function ProjectCard({ project }: ProjectProps) {
     const mainImage = project.images[0]
-
-    useEffect(() => {
-        const tags = document.querySelectorAll('.project-tag') as NodeListOf<HTMLElement>
-        tags.forEach(tag => {
-            animate(tag, { opacity: '1', transform: 'translateX(0px)' }, { duration: 0.3 })
-        })
-    }, [])
 
     const renderTag = (tag: string) => {
         if (tag === 'discount' && project.discountPercentage) {
@@ -36,14 +28,10 @@ export const ProjectCard = ({ project }: ProjectProps) => {
     }
 
     return (
-        <div
-            className="relative flex flex-col bg-white opacity-0 border rounded-xl overflow-hidden group project-card"
-            onMouseEnter={(e) => {
-                animate(e.currentTarget, { y: -5 }, { duration: 0.2 })
-            }}
-            onMouseLeave={(e) => {
-                animate(e.currentTarget, { y: 0 }, { duration: 0.2 })
-            }}
+        <motion.div
+            whileHover={{ scale: 1.02 }}
+            transition={{ duration: 0.2 }}
+            className="relative flex flex-col border-gray-200 bg-white border rounded-lg overflow-hidden project-card"
         >
             <div className="bg-gray-100 overflow-hidden aspect-[4/3]">
                 <Image
@@ -55,12 +43,15 @@ export const ProjectCard = ({ project }: ProjectProps) => {
                 />
                 <div className="top-2 left-2 absolute flex flex-col flex-wrap items-start gap-1">
                     {project.tags.map((tag: string) => (
-                        <span
+                        <motion.span
                             key={tag}
-                            className="inline-flex items-center bg-brand-purpleHighlight opacity-0 px-2.5 py-0.5 rounded-full font-condensed font-medium text-base text-brand-purpleLightest uppercase project-tag"
+                            initial={{ opacity: 0, x: -20 }}
+                            animate={{ opacity: 1, x: 0 }}
+                            transition={{ duration: 0.3 }}
+                            className="inline-flex items-center bg-brand-purpleHighlight px-2.5 py-0.5 rounded-full font-condensed font-medium text-base text-brand-purpleLightest uppercase project-tag"
                         >
                             {renderTag(tag)}
-                        </span>
+                        </motion.span>
                     ))}
                 </div>
             </div>
@@ -82,8 +73,10 @@ export const ProjectCard = ({ project }: ProjectProps) => {
                         Cuota mensual {formatCurrency(project.monthlyFee)}
                     </p>
                 </div>
-                <div className="flex items-center gap-1 pt-2 text-gray-500 text-sm"><MapPin /> {project.location.address}</div>
+                <div className="flex items-center gap-1 pt-2 text-gray-500 text-sm">
+                    <MapPin /> {project.location.address}
+                </div>
             </div>
-        </div>
+        </motion.div>
     )
 } 
