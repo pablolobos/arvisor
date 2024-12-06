@@ -75,3 +75,41 @@ export const pagesSlugs = defineQuery(`
   *[_type == "page" && defined(slug.current)]
   {"slug": slug.current}
 `);
+
+const projectFields = `
+  _id,
+  name,
+  "slug": slug.current,
+  subtitle,
+  location {
+    address,
+    mapUrl
+  },
+  projectType,
+  price,
+  monthlyFee,
+  tags,
+  images[] {
+    "url": asset->url,
+    alt
+  },
+  description,
+  amenities,
+  details
+`
+
+export const allProjectsQuery = defineQuery(`
+  *[_type == "project" && defined(slug.current)] | order(_createdAt desc) {
+    ${projectFields}
+  }
+`)
+
+export const projectQuery = defineQuery(`
+  *[_type == "project" && slug.current == $slug][0] {
+    ${projectFields}
+  }
+`)
+
+export const projectSlugsQuery = defineQuery(`
+  *[_type == "project" && defined(slug.current)][].slug.current
+`)

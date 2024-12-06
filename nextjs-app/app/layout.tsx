@@ -1,4 +1,5 @@
 import "./globals.css";
+import Script from "next/script";
 
 import { SpeedInsights } from "@vercel/speed-insights/next";
 import type { Metadata } from "next";
@@ -85,6 +86,22 @@ export default async function RootLayout({
           <Footer />
         </section>
         <SpeedInsights />
+
+        <Script id="chat-widget-config" strategy="afterInteractive">
+          {`
+            window.embeddedWebchatConfig = {
+              clientId: "5f8dd5f1-a55e-4ba2-86ba-a480b4f6b63d",
+              channelId: "40ae7660-4ed0-4f13-af52-4d9d44e3a2e4",
+              agentName: "{Your agent name in the chat}",
+              agentIconUrl: "{Your agent icon URL}",
+              askForPhoneNumber: true,
+            };
+          `}
+        </Script>
+        <Script
+          src="https://vambeai.com/webchat.js"
+          strategy="afterInteractive"
+        />
       </body>
     </html>
   );

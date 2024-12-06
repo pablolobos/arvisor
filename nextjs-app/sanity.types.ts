@@ -723,6 +723,15 @@ export type PostPagesSlugsResult = Array<{
 export type PagesSlugsResult = Array<{
   slug: string;
 }>;
+// Variable: allProjectsQuery
+// Query: *[_type == "project" && defined(slug.current)] | order(_createdAt desc) {      _id,  name,  "slug": slug.current,  subtitle,  location {    address,    mapUrl  },  projectType,  price,  monthlyFee,  tags,  images[] {    "url": asset->url,    alt  },  description,  amenities,  details  }
+export type AllProjectsQueryResult = Array<never>;
+// Variable: projectQuery
+// Query: *[_type == "project" && slug.current == $slug][0] {      _id,  name,  "slug": slug.current,  subtitle,  location {    address,    mapUrl  },  projectType,  price,  monthlyFee,  tags,  images[] {    "url": asset->url,    alt  },  description,  amenities,  details  }
+export type ProjectQueryResult = null;
+// Variable: projectSlugsQuery
+// Query: *[_type == "project" && defined(slug.current)][].slug.current
+export type ProjectSlugsQueryResult = Array<never>;
 
 // Query TypeMap
 import "@sanity/client";
@@ -735,5 +744,8 @@ declare module "@sanity/client" {
     "\n  *[_type == \"post\" && slug.current == $slug] [0] {\n    content[]{\n    ...,\n    markDefs[]{\n      ...,\n      \n  link {\n      ...,\n      _type == \"link\" => {\n        \"page\": page->slug.current,\n        \"post\": post->slug.current\n        }\n      }\n\n    }\n  },\n    \n  _id,\n  \"status\": select(_originalId in path(\"drafts.**\") => \"draft\", \"published\"),\n  \"title\": coalesce(title, \"Untitled\"),\n  \"slug\": slug.current,\n  excerpt,\n  coverImage,\n  \"date\": coalesce(date, _updatedAt),\n  \"author\": author->{firstName, lastName, picture},\n\n  }\n": PostQueryResult;
     "\n  *[_type == \"post\" && defined(slug.current)]\n  {\"slug\": slug.current}\n": PostPagesSlugsResult;
     "\n  *[_type == \"page\" && defined(slug.current)]\n  {\"slug\": slug.current}\n": PagesSlugsResult;
+    "\n  *[_type == \"project\" && defined(slug.current)] | order(_createdAt desc) {\n    \n  _id,\n  name,\n  \"slug\": slug.current,\n  subtitle,\n  location {\n    address,\n    mapUrl\n  },\n  projectType,\n  price,\n  monthlyFee,\n  tags,\n  images[] {\n    \"url\": asset->url,\n    alt\n  },\n  description,\n  amenities,\n  details\n\n  }\n": AllProjectsQueryResult;
+    "\n  *[_type == \"project\" && slug.current == $slug][0] {\n    \n  _id,\n  name,\n  \"slug\": slug.current,\n  subtitle,\n  location {\n    address,\n    mapUrl\n  },\n  projectType,\n  price,\n  monthlyFee,\n  tags,\n  images[] {\n    \"url\": asset->url,\n    alt\n  },\n  description,\n  amenities,\n  details\n\n  }\n": ProjectQueryResult;
+    "\n  *[_type == \"project\" && defined(slug.current)][].slug.current\n": ProjectSlugsQueryResult;
   }
 }
