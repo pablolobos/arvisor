@@ -13,15 +13,15 @@ export default function Hero({ home }: HeroProps) {
     return (
         <div className="relative border-gray-10 border-t">
             {home.backgroundImage?.asset && (
-                <div className="z-0 absolute inset-0">
-                    <Image
-                        src={urlForImage(home.backgroundImage)?.url() as string}
-                        alt={home.backgroundImage.alt || ''}
-                        fill
-                        className="object-cover"
-                        priority
-                    />
-                </div>
+                <div
+                    className="z-0 absolute inset-0 bg-brand-grayLightest"
+                    style={{
+                        backgroundImage: `url(${urlForImage(home.backgroundImage)?.url()})`,
+                        backgroundSize: 'cover',
+                        backgroundPosition: 'center',
+                        opacity: 0.5
+                    }}
+                />
             )}
             <div className="relative z-10 container">
                 <div className="py-12 sm:py-20">
@@ -41,7 +41,7 @@ export default function Hero({ home }: HeroProps) {
                             )}
                         </div>
                         {home.heroImage?.asset && (
-                            <div className="relative aspect-square">
+                            <div className="relative -right-[100px] bottom-0 absolute aspect-square">
                                 <Image
                                     src={urlForImage(home.heroImage)?.url() as string}
                                     alt={home.heroImage.alt || ''}
