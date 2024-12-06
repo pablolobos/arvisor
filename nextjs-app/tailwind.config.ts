@@ -140,7 +140,8 @@ export default {
         }
       },
       fontFamily: {
-        sans: ["var(--font-sofia-sans)"]
+        sans: ["var(--font-sofia-sans)"],
+        heading: ["var(--font-sofia-sans)"],
       },
       borderRadius: {
         lg: 'var(--radius)',
