@@ -11,7 +11,6 @@ export default defineType({
             name: 'name',
             title: 'Project Name',
             type: 'string',
-            validation: (rule) => rule.required(),
         }),
         defineField({
             name: 'slug',
@@ -21,7 +20,6 @@ export default defineType({
                 source: 'name',
                 maxLength: 96,
             },
-            validation: (rule) => rule.required(),
         }),
         defineField({
             name: 'subtitle',
@@ -32,7 +30,6 @@ export default defineType({
             name: 'location',
             title: 'Location',
             type: 'location',
-            validation: (rule) => rule.required(),
         }),
         defineField({
             name: 'projectType',
@@ -45,19 +42,16 @@ export default defineType({
                     { title: 'Casa', value: 'casa' },
                 ],
             },
-            validation: (rule) => rule.required(),
         }),
         defineField({
             name: 'price',
             title: 'Precio (UF)',
             type: 'number',
-            validation: (rule) => rule.required(),
         }),
         defineField({
             name: 'monthlyFee',
             title: 'Cuota Mensual (CLP)',
             type: 'number',
-            validation: (rule) => rule.required(),
         }),
         defineField({
             name: 'tags',
@@ -99,6 +93,7 @@ export default defineType({
                             type: 'string',
                             title: 'Alternative text',
                             validation: (Rule) => Rule.required(),
+                            initialValue: 'Image',
                         },
                     ],
                 },
