@@ -16,6 +16,7 @@ import { settingsQuery, homeQuery } from "@/sanity/lib/queries";
 import { resolveOpenGraphImage } from "@/sanity/lib/utils";
 import { handleError } from "./client-utils";
 import WhatsAppButton from "./components/WhatsAppButton";
+import { GoogleTagManager } from '@next/third-parties/google'
 
 /**
  * Generate metadata for the page.
@@ -78,6 +79,7 @@ export default async function RootLayout({
 
   return (
     <html lang="es" className={` ${sofiaSans.variable} ${sofiaSansCondensed.variable} bg-white text-brand-purple`}>
+      <GoogleTagManager gtmId="G-E1ZB3Q609R" />
       <body className="bg-brand-purpleLightest">
         <section className="pt-24 min-h-screen">
           <Toaster />
