@@ -16,7 +16,7 @@ export const AllProjects = ({ projects }: { projects: any[] }) => {
                     initial={{ opacity: 0, y: 20 }}
                     animate={{ opacity: 1, y: 0 }}
                     transition={{ duration: 0.6 }}
-                    className="font-bold font-sans text-2xl text-brand-purple md:text-3xl lg:text-4xl uppercase tracking-tight projects-title"
+                    className="font-sans font-bold text-2xl md:text-3xl lg:text-4xl uppercase tracking-tight projects-title"
                 >
                     Oportunidades especiales
                 </motion.h2>

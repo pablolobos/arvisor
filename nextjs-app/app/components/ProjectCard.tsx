@@ -7,7 +7,19 @@ import { MapPin } from 'lucide-react'
 import { motion } from "framer-motion"
 
 export type ProjectProps = {
-    project: any
+    project: {
+        images: Array<{ url: string; alt: string }>
+        name: string
+        subtitle: string
+        slug: string
+        price: number
+        monthlyFee: number
+        location: {
+            address: string
+        }
+        tags?: string[]
+        discountPercentage?: number
+    }
 }
 
 const tagLabels: Record<string, string> = {
@@ -31,29 +43,31 @@ export function ProjectCard({ project }: ProjectProps) {
         <motion.div
             whileHover={{ scale: 1.02 }}
             transition={{ duration: 0.2 }}
-            className="relative flex flex-col border-gray-200 bg-white border rounded-lg overflow-hidden project-card"
+            className="relative flex flex-col bg-white border border-gray-200 rounded-lg overflow-hidden project-card"
         >
-            <div className="bg-gray-100 overflow-hidden aspect-[4/3]">
+            <div className="bg-gray-100 aspect-[4/3] overflow-hidden">
                 <Image
                     src={mainImage.url}
                     alt={mainImage.alt}
                     width={300}
                     height={300}
-                    className="group-hover:scale-105 w-full h-full transition-transform duration-300 object-center object-cover"
+                    className="w-full h-full object-center object-cover group-hover:scale-105 transition-transform duration-300"
                 />
-                <div className="top-2 left-2 absolute flex flex-col flex-wrap items-start gap-1">
-                    {project.tags.map((tag: string) => (
-                        <motion.span
-                            key={tag}
-                            initial={{ opacity: 0, x: -20 }}
-                            animate={{ opacity: 1, x: 0 }}
-                            transition={{ duration: 0.3 }}
-                            className="inline-flex items-center bg-brand-purpleHighlight px-2.5 py-0.5 rounded-full font-condensed font-medium text-base text-brand-purpleLightest uppercase project-tag"
-                        >
-                            {renderTag(tag)}
-                        </motion.span>
-                    ))}
-                </div>
+                {project.tags && project.tags.length > 0 && (
+                    <div className="top-2 left-2 absolute flex flex-col flex-wrap items-start gap-1">
+                        {project.tags.map((tag: string) => (
+                            <motion.span
+                                key={tag}
+                                initial={{ opacity: 0, x: -20 }}
+                                animate={{ opacity: 1, x: 0 }}
+                                transition={{ duration: 0.3 }}
+                                className="inline-flex items-center bg-brand-purpleHighlight px-2.5 py-0.5 rounded-full font-condensed font-medium text-brand-purpleLightest text-base uppercase project-tag"
+                            >
+                                {renderTag(tag)}
+                            </motion.span>
+                        ))}
+                    </div>
+                )}
             </div>
             <div className="flex flex-col flex-1 space-y-2 p-4">
                 <div className="flex flex-col">

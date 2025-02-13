@@ -30,7 +30,7 @@ export default function Hero({ home }: HeroProps) {
                     }}
                 />
             )}
-            <div className="relative z-10 container">
+            <div className="z-10 relative container">
                 <div className="py-12 sm:py-20">
                     <div className="items-center grid md:grid-cols-2">
                         <div className="flex flex-col justify-start items-start gap-0 md:gap-8 max-w-3xl">
@@ -40,7 +40,7 @@ export default function Hero({ home }: HeroProps) {
                                 transition={{ duration: 1, delay: 0.3 }}
                                 className="mb-8 hero-title"
                             >
-                                <h1 className="mb-4 font-heading font-regular text-3xl text-brand-purple md:text-4xl lg:text-5xl">{home.title}</h1>
+                                <h1 className="mb-4 font-heading font-regular text-3xl md:text-4xl lg:text-5xl">{home.title}</h1>
                                 {home.subtitle && (
                                     <p className="mb-6 text-black text-xl">{home.subtitle}</p>
                                 )}
@@ -69,7 +69,7 @@ export default function Hero({ home }: HeroProps) {
                     initial={{ opacity: 0, x: 100 }}
                     animate={{ opacity: 0.8, x: 0 }}
                     transition={{ duration: 1.2, delay: 0.9 }}
-                    className="md:block -right-[150px] -bottom-[100px] absolute hidden w-4/6 max-w-[1000px] h-[120%] hero-image"
+                    className="hidden md:block -right-[150px] -bottom-[100px] absolute w-4/6 max-w-[1000px] h-[120%] hero-image"
                 >
                     <Image
                         src={urlForImage(home.heroImage)?.url() as string}
