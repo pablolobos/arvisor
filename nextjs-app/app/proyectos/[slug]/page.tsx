@@ -15,7 +15,9 @@ import ProjectMapWrapper from '@/app/components/ProjectMapWrapper'
 import { MapPin } from 'lucide-react'
 import type { BlockContent } from '@/sanity.types'
 import imageUrlBuilder from '@sanity/image-url'
-
+import PriceCard from '@/app/components/PriceCard'
+import { Rotate3d } from 'lucide-react'
+import { Button } from '@/components/ui/button'
 const builder = imageUrlBuilder(client)
 
 function urlFor(source: any) {
@@ -71,6 +73,8 @@ export default async function ProjectPage({ params }: PageProps) {
 
     if (!project) notFound()
 
+    console.log('3D URL:', project.viewer3dUrl)
+
     return (
         <div className="mx-auto px-4 py-8 container">
             <div className="gap-12 grid grid-cols-1 md:grid-cols-12">
@@ -86,50 +90,18 @@ export default async function ProjectPage({ params }: PageProps) {
                             />
                         </div>
                     )}
-                    <div className="flex flex-col gap-4 px-4 py-6 border border-gray-200 rounded-lg">
-                        <div className="flex flex-col">
-                            <p className="font-light text-2xl md:text-3xl">
-                                <span className="font-semibold">{project.price}</span>
-                                {project.priceDetail && (
-                                    <span className="ml-2 text-base">{project.priceDetail}</span>
-                                )}
-                            </p>
-                        </div>
-
-                        {project.downPayment && (
-                            <div className="flex flex-col">
-                                <p className="font-medium text-xl">
-                                    Pie: {project.downPayment}
-                                </p>
-                                {project.downPaymentDetail && (
-                                    <p className="text-gray-600 text-sm">
-                                        {project.downPaymentDetail}
-                                    </p>
-                                )}
-                            </div>
-                        )}
-
-                        {project.balance && (
-                            <div className="flex flex-col">
-                                <p className="font-medium text-xl">
-                                    Saldo: {project.balance}
-                                </p>
-                                {project.balanceDetail && (
-                                    <p className="text-gray-600 text-sm">
-                                        {project.balanceDetail}
-                                    </p>
-                                )}
-                            </div>
-                        )}
-
-                        {project.monthlyFee && project.monthlyFee > 0 && (
-                            <p className="font-regular text-xl">
-                                Cuota mensual {formatCurrency(project.monthlyFee)}
-                            </p>
-                        )}
-                    </div>
+                    <PriceCard
+                        price={project.price}
+                        priceDetail={project.priceDetail}
+                        downPayment={project.downPayment}
+                        downPaymentDetail={project.downPaymentDetail}
+                        balance={project.balance}
+                        balanceDetail={project.balanceDetail}
+                        monthlyFee={project.monthlyFee}
+                    />
                     {project.details && <ProjectDetails details={project.details} />}
                     {project.amenities && <ProjectAmenities amenities={project.amenities} />}
+
                 </div>
                 <div className="col-span-1 md:col-span-5 lg:col-span-7">
                     <div className="flex flex-col gap-8">
@@ -140,6 +112,25 @@ export default async function ProjectPage({ params }: PageProps) {
                                     alt: img.alt || ''
                                 }))}
                             />
+                        )}
+                        {project.viewer3dUrl && (
+                            <div className="mb-8">
+                                <Button
+                                    asChild
+                                    variant="secondary"
+                                    size="lg"
+                                    className="gap-2"
+                                >
+                                    <a
+                                        href={project.viewer3dUrl}
+                                        target="_blank"
+                                        rel="noopener noreferrer"
+                                    >
+                                        Ver proyecto en 3D
+                                        <Rotate3d className="w-4 h-4" />
+                                    </a>
+                                </Button>
+                            </div>
                         )}
                         {project.location && (
                             <>

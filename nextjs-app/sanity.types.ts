@@ -273,6 +273,7 @@ export type Project = {
     bathrooms?: number
     squareMeters?: number
   }
+  viewer3dUrl?: string
 }
 
 export type Page = {

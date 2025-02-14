@@ -163,6 +163,12 @@ export default defineType({
                 { name: 'squareMeters', title: 'Square Meters', type: 'number' },
             ],
         }),
+        defineField({
+            name: 'viewer3dUrl',
+            title: 'URL del Visor 3D',
+            type: 'string',
+            description: 'URL para el visor 3D interactivo'
+        }),
     ],
     preview: {
         select: {

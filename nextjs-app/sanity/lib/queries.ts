@@ -111,7 +111,8 @@ const projectFields = `
   },
   description,
   amenities,
-  details
+  details,
+  viewer3dUrl
 `
 
 export const allProjectsQuery = defineQuery(`

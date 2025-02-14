@@ -273,6 +273,7 @@ export type Project = {
     bathrooms?: number
     squareMeters?: number
   }
+  viewer3dUrl?: string
 }
 
 export type Page = {
@@ -287,11 +288,11 @@ export type Page = {
   subheading?: string
   pageBuilder?: Array<
     | ({
-        _key: string
-      } & CallToAction)
+      _key: string
+    } & CallToAction)
     | ({
-        _key: string
-      } & InfoSection)
+      _key: string
+    } & InfoSection)
   >
 }
 
@@ -537,20 +538,20 @@ export type SanityAssistInstructionUserInput = {
 export type SanityAssistInstructionPrompt = Array<{
   children?: Array<
     | {
-        marks?: Array<string>
-        text?: string
-        _type: 'span'
-        _key: string
-      }
+      marks?: Array<string>
+      text?: string
+      _type: 'span'
+      _key: string
+    }
     | ({
-        _key: string
-      } & SanityAssistInstructionFieldRef)
+      _key: string
+    } & SanityAssistInstructionFieldRef)
     | ({
-        _key: string
-      } & SanityAssistInstructionContext)
+      _key: string
+    } & SanityAssistInstructionContext)
     | ({
-        _key: string
-      } & SanityAssistInstructionUserInput)
+      _key: string
+    } & SanityAssistInstructionUserInput)
   >
   style?: 'normal'
   listItem?: never
@@ -574,11 +575,11 @@ export type SanityAssistInstruction = {
   createdById?: string
   output?: Array<
     | ({
-        _key: string
-      } & SanityAssistOutputField)
+      _key: string
+    } & SanityAssistOutputField)
     | ({
-        _key: string
-      } & SanityAssistOutputType)
+      _key: string
+    } & SanityAssistOutputType)
   >
 }
 

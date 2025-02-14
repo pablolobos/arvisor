@@ -1712,6 +1712,13 @@
           }
         },
         "optional": true
+      },
+      "viewer3dUrl": {
+        "type": "objectAttribute",
+        "value": {
+          "type": "string"
+        },
+        "optional": true
       }
     }
   },
