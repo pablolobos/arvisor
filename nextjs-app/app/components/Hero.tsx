@@ -16,7 +16,7 @@ export default function Hero({ home }: HeroProps) {
     if (!home) return null;
 
     return (
-        <div className="relative border-gray-10 border-t h-auto md:h-[70vh] lg:h-[70vh] overflow-hidden">
+        <div className="relative border-gray-10 border-t overflow-hidden">
             {home.backgroundImage?.asset && (
                 <motion.div
                     initial={{ opacity: 0 }}
@@ -32,35 +32,33 @@ export default function Hero({ home }: HeroProps) {
             )}
             <div className="z-10 relative container">
                 <div className="py-12 sm:py-20">
-                    <div className="items-center grid md:grid-cols-2">
-                        <div className="flex flex-col justify-start items-start gap-0 md:gap-8 max-w-3xl">
+                    <div className="content-center gap-8 grid grid-cols-1 md:grid-cols-2">
+                        <motion.div
+                            initial={{ opacity: 0, y: 20 }}
+                            animate={{ opacity: 1, y: 0 }}
+                            transition={{ duration: 1, delay: 0.3 }}
+                            className="flex items-center"
+                        >
+                            <h1 className="mb-4 font-heading font-regular text-3xl md:text-3xl lg:text-3xl">{home.title}</h1>
+                            {home.subtitle && (
+                                <p className="mb-6 text-black text-xl">{home.subtitle}</p>
+                            )}
+                        </motion.div>
+                        {home?.expertName && (
                             <motion.div
                                 initial={{ opacity: 0, y: 20 }}
                                 animate={{ opacity: 1, y: 0 }}
-                                transition={{ duration: 1, delay: 0.3 }}
-                                className="mb-8 hero-title"
+                                transition={{ duration: 1, delay: 0.6 }}
+                                className="hero-expert"
                             >
-                                <h1 className="mb-4 font-heading font-regular text-3xl md:text-4xl lg:text-5xl">{home.title}</h1>
-                                {home.subtitle && (
-                                    <p className="mb-6 text-black text-xl">{home.subtitle}</p>
-                                )}
+                                <ExpertCard
+                                    name={home.expertName || ''}
+                                    role={home.expertRole || ''}
+                                    image={home.expertImage}
+                                    instagramUrl={home.expertInstagram || ''}
+                                />
                             </motion.div>
-                            {home?.expertName && (
-                                <motion.div
-                                    initial={{ opacity: 0, y: 20 }}
-                                    animate={{ opacity: 1, y: 0 }}
-                                    transition={{ duration: 1, delay: 0.6 }}
-                                    className="hero-expert"
-                                >
-                                    <ExpertCard
-                                        name={home.expertName || ''}
-                                        role={home.expertRole || ''}
-                                        image={home.expertImage}
-                                        instagramUrl={home.expertInstagram || ''}
-                                    />
-                                </motion.div>
-                            )}
-                        </div>
+                        )}
                     </div>
                 </div>
             </div>

@@ -78,9 +78,9 @@ export default async function RootLayout({
   });
 
   return (
-    <html lang="es" className={` ${sofiaSans.variable} ${sofiaSansCondensed.variable} bg-white text-brand-purple`}>
+    <html lang="es" className={` ${sofiaSans.variable} ${sofiaSansCondensed.variable} bg-white text-gray-900`}>
       <GoogleTagManager gtmId="GTM-P9TKRZ7D" />
-      <body className="bg-gray-100">
+      <body className="bg-white">
         <section className="pt-24 min-h-screen">
           <Toaster />
           {isDraftMode && (
