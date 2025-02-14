@@ -6,30 +6,25 @@ import {
     DialogContent,
     DialogHeader,
     DialogTitle,
-    DialogTrigger,
 } from "@/components/ui/dialog"
 import ProjectContactForm from "./ProjectContactForm"
-import { useState } from "react"
 
 interface ProjectContactModalProps {
     projectName: string
+    open: boolean
+    onOpenChange: (open: boolean) => void
 }
 
-export default function ProjectContactModal({ projectName }: ProjectContactModalProps) {
-    const [open, setOpen] = useState(false)
-
+export default function ProjectContactModal({ projectName, open, onOpenChange }: ProjectContactModalProps) {
     return (
-        <Dialog open={open} onOpenChange={setOpen}>
-            <DialogTrigger asChild>
-                <Button size="lg">Consultar proyecto</Button>
-            </DialogTrigger>
+        <Dialog open={open} onOpenChange={onOpenChange}>
             <DialogContent className="sm:max-w-[425px]">
                 <DialogHeader>
                     <DialogTitle>Consultar sobre {projectName}</DialogTitle>
                 </DialogHeader>
                 <ProjectContactForm
                     projectName={projectName}
-                    onSuccess={() => setOpen(false)}
+                    onSuccess={() => onOpenChange(false)}
                 />
             </DialogContent>
         </Dialog>
