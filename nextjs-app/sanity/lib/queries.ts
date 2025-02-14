@@ -117,7 +117,19 @@ const projectFields = `
 
 export const allProjectsQuery = defineQuery(`
   *[_type == "project" && defined(slug.current)] | order(_createdAt desc) {
-    ${projectFields}
+    _id,
+    name,
+    "slug": slug.current,
+    subtitle,
+    location,
+    price,
+    monthlyFee,
+    tags,
+    discountPercentage,
+    images[] {
+      asset->,
+      alt
+    }
   }
 `)
 

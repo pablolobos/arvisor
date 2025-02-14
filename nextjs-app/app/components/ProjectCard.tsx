@@ -1,24 +1,35 @@
 "use client"
 
-import Image from 'next/image'
 import Link from 'next/link'
+import Image from 'next/image'
 import { formatCurrency, formatUF } from '@/lib/utils'
 import { MapPin } from 'lucide-react'
 import { motion } from "framer-motion"
+import imageUrlBuilder from '@sanity/image-url'
+import { client } from '@/sanity/lib/client'
 
-export type ProjectProps = {
+const builder = imageUrlBuilder(client)
+
+function urlFor(source: any) {
+    return builder.image(source)
+}
+
+interface ProjectCardProps {
     project: {
-        images: Array<{ url: string; alt: string }>
         name: string
-        subtitle: string
         slug: string
-        price: number
-        monthlyFee: number
-        location: {
+        subtitle?: string
+        images?: Array<{
+            asset?: any
+            alt?: string
+        }>
+        price: number | string
+        monthlyFee: number | null
+        location?: {
             address: string
         }
         tags?: string[]
-        discountPercentage?: number
+        discountPercentage?: number | null
     }
 }
 
@@ -29,8 +40,11 @@ const tagLabels: Record<string, string> = {
     'bonus': 'Bono pie',
 }
 
-export function ProjectCard({ project }: ProjectProps) {
-    const mainImage = project.images[0]
+export { ProjectCard }
+
+export function ProjectCard({ project }: ProjectCardProps) {
+    console.log('Project data:', project)
+    const imageUrl = project.images?.[0]?.asset ? urlFor(project.images[0]).url() : ''
 
     const renderTag = (tag: string) => {
         if (tag === 'discount' && project.discountPercentage) {
@@ -46,13 +60,15 @@ export function ProjectCard({ project }: ProjectProps) {
             className="relative flex flex-col bg-white border border-gray-200 rounded-lg overflow-hidden project-card"
         >
             <div className="bg-gray-100 aspect-[4/3] overflow-hidden">
-                <Image
-                    src={mainImage.url}
-                    alt={mainImage.alt}
-                    width={300}
-                    height={300}
-                    className="w-full h-full object-center object-cover group-hover:scale-105 transition-transform duration-300"
-                />
+                {imageUrl && (
+                    <Image
+                        src={imageUrl}
+                        alt={project.images?.[0]?.alt || project.name}
+                        width={300}
+                        height={300}
+                        className="w-full h-full object-center object-cover group-hover:scale-105 transition-transform duration-300"
+                    />
+                )}
                 {project.tags && project.tags.length > 0 && (
                     <div className="top-2 left-2 absolute flex flex-col flex-wrap items-start gap-1">
                         {project.tags.map((tag: string) => (
