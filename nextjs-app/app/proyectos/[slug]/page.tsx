@@ -14,6 +14,13 @@ import { PortableText, PortableTextBlock } from '@portabletext/react'
 import ProjectMapWrapper from '@/app/components/ProjectMapWrapper'
 import { MapPin } from 'lucide-react'
 import type { BlockContent } from '@/sanity.types'
+import imageUrlBuilder from '@sanity/image-url'
+
+const builder = imageUrlBuilder(client)
+
+function urlFor(source: any) {
+    return builder.image(source)
+}
 
 type SanityResponse = {
     data: Project
@@ -129,7 +136,7 @@ export default async function ProjectPage({ params }: PageProps) {
                         {project.images && project.images.length > 0 && (
                             <ProjectGallery
                                 images={project.images.map(img => ({
-                                    url: img.asset?.url || '',
+                                    url: img.asset ? urlFor(img).url() : '',
                                     alt: img.alt || ''
                                 }))}
                             />
