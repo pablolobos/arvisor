@@ -5,13 +5,15 @@ import Link from 'next/link'
 import { formatCurrency, formatUF } from '@/lib/utils'
 import { MapPin, ArrowRight } from 'lucide-react'
 import { motion } from "framer-motion"
-import type { ProjectProps } from './ProjectCard'
-import { urlForImage } from "@/sanity/lib/utils"
+import type { ProjectCardProps } from './ProjectCard'
 
-export function FeaturedProject({ project }: ProjectProps) {
+export function FeaturedProject({ project }: ProjectCardProps) {
     if (!project || !project.images?.[0]) return null;
 
-    const mainImage = project.images[0]
+    const imageUrl = project.images[0].url;
+
+    // Let's log the image data to see what we're getting
+    console.log('Featured Project Image:', project.images[0]);
 
     const renderTag = (tag: string) => {
         const tagLabels: Record<string, string> = {
@@ -36,14 +38,16 @@ export function FeaturedProject({ project }: ProjectProps) {
         >
             <h2 className="top-0 left-0 z-10 absolute bg-brand-purple px-4 py-2 rounded-br-xl font-bold text-white text-2xl">Proyecto Destacado</h2>
             <div className="relative bg-gray-100 aspect-[4/3] md:aspect-auto overflow-hidden">
-                <Image
-                    src={mainImage.url}
-                    alt={mainImage.alt || project.name}
-                    width={800}
-                    height={600}
-                    className="w-full h-full object-center object-cover"
-                    priority
-                />
+                {imageUrl && (
+                    <Image
+                        src={imageUrl}
+                        alt={project.images?.[0]?.alt || project.name}
+                        width={800}
+                        height={600}
+                        className="w-full h-full object-center object-cover"
+                        priority
+                    />
+                )}
                 {project.tags && project.tags.length > 0 && (
                     <div className="top-4 left-4 absolute flex flex-col flex-wrap items-start gap-2">
                         {project.tags.map((tag: string) => (

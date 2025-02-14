@@ -2,7 +2,6 @@
 
 import { ProjectCard } from './ProjectCard'
 import { motion } from "framer-motion"
-import { useEffect } from 'react'
 
 export const AllProjects = ({ projects }: { projects: any[] }) => {
     if (!projects?.length) {
@@ -20,13 +19,14 @@ export const AllProjects = ({ projects }: { projects: any[] }) => {
                 >
                     Proyectos seguros y rentables
                 </motion.h2>
-                <div className="gap-x-6 gap-y-10 xl:gap-x-8 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 mt-6 md:mt-12 projects-container">
+                <div className="content-stretch gap-x-6 gap-y-10 xl:gap-x-8 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 mt-6 md:mt-12 projects-container">
                     {projects.map((project, i) => (
                         <motion.div
                             key={project._id}
                             initial={{ opacity: 0, y: 20 }}
                             animate={{ opacity: 1, y: 0 }}
                             transition={{ duration: 0.6, delay: i * 0.2 }}
+                            className="content-stretch grid"
                         >
                             <ProjectCard project={project} />
                         </motion.div>

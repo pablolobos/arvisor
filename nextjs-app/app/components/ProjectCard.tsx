@@ -5,16 +5,10 @@ import Image from 'next/image'
 import { formatCurrency, formatUF } from '@/lib/utils'
 import { MapPin } from 'lucide-react'
 import { motion } from "framer-motion"
-import imageUrlBuilder from '@sanity/image-url'
-import { client } from '@/sanity/lib/client'
+import { getSanityImageUrl } from '@/lib/image'
+import { ArrowRight } from 'lucide-react'
 
-const builder = imageUrlBuilder(client)
-
-function urlFor(source: any) {
-    return builder.image(source)
-}
-
-interface ProjectCardProps {
+export interface ProjectCardProps {
     project: {
         name: string
         slug: string
@@ -43,11 +37,9 @@ const tagLabels: Record<string, string> = {
     'bonus': 'Bono pie',
 }
 
-export { ProjectCard }
-
 export function ProjectCard({ project }: ProjectCardProps) {
     console.log('Project data:', project)
-    const imageUrl = project.images?.[0]?.asset ? urlFor(project.images[0]).url() : ''
+    const imageUrl = project.images?.[0]?.asset ? getSanityImageUrl(project.images[0]) : ''
 
     const renderTag = (tag: string) => {
         if (tag === 'discount' && project.discountPercentage) {
@@ -63,7 +55,7 @@ export function ProjectCard({ project }: ProjectCardProps) {
             className="group relative flex flex-col bg-white border border-gray-200 rounded-lg overflow-hidden project-card"
         >
             <div className="bg-gray-100 aspect-[5/3] overflow-hidden">
-                {imageUrl && (
+                {imageUrl !== '' && (
                     <Image
                         src={imageUrl}
                         alt={project.images?.[0]?.alt || project.name}
@@ -120,6 +112,16 @@ export function ProjectCard({ project }: ProjectCardProps) {
                         <MapPin /> {project.location.address}
                     </div>
                 )}
+                <div className="pt-4">
+                    <Link
+                        href={`/proyectos/${project.slug}`}
+                        className="inline-flex items-center gap-2 text-brand-purple hover:text-brand-purpleDark transition-colors"
+                    >
+                        Detalles del proyecto
+                        <ArrowRight className="w-5 h-5 transition-transform group-hover:translate-x-1 duration-300" />
+                    </Link>
+                </div>
+
             </div>
         </motion.div>
     )

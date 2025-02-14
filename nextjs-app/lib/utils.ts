@@ -17,7 +17,8 @@ export function formatUF(value: string | number | undefined): string {
   return `${numValue.toLocaleString('es-CL')} UF`
 }
 
-export const formatCurrency = (amount: number) => {
+export const formatCurrency = (amount: number | null) => {
+  if (!amount) return '$0'
   return new Intl.NumberFormat('es-CL', {
     style: 'currency',
     currency: 'CLP',
