@@ -2,7 +2,7 @@
 
 import { useState } from 'react'
 import { Button } from "@/components/ui/button"
-import { Rotate3d, MapPin } from 'lucide-react'
+import { Rotate3d, MapPin, MessageCircle } from 'lucide-react'
 import { Project } from '@/sanity.types'
 import ProjectGallery from './ProjectGallery'
 import ProjectAmenities from './ProjectAmenities'
@@ -12,7 +12,9 @@ import ProjectMapWrapper from './ProjectMapWrapper'
 import PriceCard from './PriceCard'
 import ProjectContactModal from './ProjectContactModal'
 import type { BlockContent } from '@/sanity.types'
-import { ProjectContactPopover } from './ProjectContactPopover'
+import { Mail } from 'lucide-react'
+import { FaWhatsapp } from "react-icons/fa";
+
 
 type ProcessedProject = Omit<Project, 'images'> & {
     images?: Array<{
@@ -43,12 +45,23 @@ export default function ProjectContent({ project, whatsappNumber }: ProjectConte
                         />
                     </div>
                 )}
-                <div className="flex justify-start">
+                <div className="flex justify-start gap-2">
                     <Button
                         className="w-auto"
+                        variant="default"
+                        onClick={() => {
+                            const message = `Hola, me interesa el proyecto ${project.name}`
+                            window.open(`https://wa.me/${whatsappNumber}?text=${encodeURIComponent(message)}`, '_blank')
+                        }}
+                    >
+                        <FaWhatsapp /> Hablemos
+                    </Button>
+                    <Button
+                        className="w-auto"
+                        variant="secondary"
                         onClick={() => setContactModalOpen(true)}
                     >
-                        Consultar proyecto
+                        <Mail /> Consultar proyecto
                     </Button>
                 </div>
                 <PriceCard
@@ -60,11 +73,7 @@ export default function ProjectContent({ project, whatsappNumber }: ProjectConte
                     balanceDetail={project.balanceDetail}
                     monthlyFee={project.monthlyFee}
                 />
-                <ProjectContactPopover
-                    projectName={project.name || ''}
-                    phoneNumber={whatsappNumber}
-                    onOpenDialog={() => setContactModalOpen(true)}
-                />
+
                 <ProjectContactModal
                     projectName={project.name || ''}
                     open={contactModalOpen}
@@ -74,29 +83,28 @@ export default function ProjectContent({ project, whatsappNumber }: ProjectConte
                 {project.amenities && <ProjectAmenities amenities={project.amenities} />}
             </div>
             <div className="col-span-1 md:col-span-5 lg:col-span-7">
-                <div className="flex flex-col gap-8">
+                <div className="relative flex flex-col gap-8">
                     {project.images && project.images.length > 0 && (
                         <ProjectGallery
                             images={project.images}
                         />
                     )}
                     {project.viewer3dUrl && (
-                        <div className="mb-8">
-                            <Button
-                                asChild
-                                variant="secondary"
-                                className="gap-2"
+                        <Button
+                            asChild
+                            variant="secondary"
+                            className="top-4 right-4 z-10 absolute gap-2"
+                        >
+                            <a
+                                href={project.viewer3dUrl}
+                                target="_blank"
+                                rel="noopener noreferrer"
                             >
-                                <a
-                                    href={project.viewer3dUrl}
-                                    target="_blank"
-                                    rel="noopener noreferrer"
-                                >
-                                    Ver proyecto en 3D
-                                    <Rotate3d className="w-4 h-4" />
-                                </a>
-                            </Button>
-                        </div>
+                                Ver proyecto en 3D
+                                <Rotate3d className="w-4 h-4" />
+                            </a>
+                        </Button>
+
                     )}
                     {project.location && (
                         <>
