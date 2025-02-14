@@ -72,16 +72,16 @@ export default async function ProjectPage({ params }: PageProps) {
                         <h1 className="font-heading font-regular text-3xl md:text-4xl lg:text-5xl">{project.name}</h1>
                         <p className="mb-2 text-black/90 text-xl leading-tight">{project.subtitle}</p>
                     </div>
-                    <div className="space-y-6">
+                    <div className="flex flex-col gap-4 px-4 py-6 border border-gray-200 rounded-lg">
                         <div className="flex flex-col">
-                            <p className="font-light text-2xl">
-                                {project.price} UF
+                            <p className="font-light text-2xl md:text-3xl">
+                                <span className="font-semibold">{project.price}</span>
+                                {project.priceDetail && (
+                                    <span className="ml-2 text-base">{project.priceDetail}</span>
+
+                                )}
                             </p>
-                            {project.priceDetail && (
-                                <p className="text-gray-600 text-sm">
-                                    {project.priceDetail}
-                                </p>
-                            )}
+
                         </div>
 
                         {project.downPayment && (
