@@ -123,6 +123,8 @@ export const allProjectsQuery = defineQuery(`
     subtitle,
     location,
     price,
+    priceDetail,
+    downPaymentDetail,
     monthlyFee,
     tags,
     discountPercentage,

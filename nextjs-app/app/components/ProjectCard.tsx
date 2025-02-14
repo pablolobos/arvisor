@@ -24,6 +24,9 @@ interface ProjectCardProps {
             alt?: string
         }>
         price: number | string
+        priceDetail?: string
+        downPayment?: number | string
+        downPaymentDetail?: string
         monthlyFee: number | null
         location?: {
             address: string
@@ -55,11 +58,11 @@ export function ProjectCard({ project }: ProjectCardProps) {
 
     return (
         <motion.div
-            whileHover={{ scale: 1.02 }}
+            whileHover={{ scale: 1.01 }}
             transition={{ duration: 0.2 }}
-            className="relative flex flex-col bg-white border border-gray-200 rounded-lg overflow-hidden project-card"
+            className="group relative flex flex-col bg-white border border-gray-200 rounded-lg overflow-hidden project-card"
         >
-            <div className="bg-gray-100 aspect-[4/3] overflow-hidden">
+            <div className="bg-gray-100 aspect-[5/3] overflow-hidden">
                 {imageUrl && (
                     <Image
                         src={imageUrl}
@@ -94,13 +97,23 @@ export function ProjectCard({ project }: ProjectCardProps) {
                         </Link>
                     </h3>
                 </div>
-                <div className="flex flex-col justify-start items-start">
-                    <p className="font-light text-xl">
-                        Desde {formatUF(project.price)}
-                    </p>
-                    <p className="font-regular text-xl">
-                        Cuota mensual {formatCurrency(project.monthlyFee)}
-                    </p>
+                <div className="flex flex-col justify-start items-start gap-1">
+                    <div className="flex flex-col">
+                        <p className="font-light text-2xl">
+                            {project.price}
+                            {project.priceDetail && (
+                                <span className="ml-1 text-gray-600 text-base">{project.priceDetail}</span>
+                            )}
+                        </p>
+                    </div>
+                    {project.downPaymentDetail && (
+                        <p className="text-gray-600 text-sm">{project.downPaymentDetail}</p>
+                    )}
+                    {project.monthlyFee && (
+                        <p className="font-regular text-xl">
+                            Cuota mensual {formatCurrency(project.monthlyFee)}
+                        </p>
+                    )}
                 </div>
                 {project.location?.address && (
                     <div className="flex items-center gap-1 pt-2 text-gray-500 text-sm">

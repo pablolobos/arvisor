@@ -5,11 +5,16 @@ export function cn(...inputs: ClassValue[]) {
   return twMerge(clsx(inputs))
 }
 
-export const formatUF = (amount: number) => {
-  return new Intl.NumberFormat('es-CL', {
-    minimumFractionDigits: 0,
-    maximumFractionDigits: 2,
-  }).format(amount) + ' UF'
+export function formatUF(value: string | number | undefined): string {
+  if (!value) return '0 UF'
+
+  // If value is a string, try to convert it to a number
+  const numValue = typeof value === 'string' ? parseFloat(value) : value
+
+  // Check if conversion was successful
+  if (isNaN(numValue)) return '0 UF'
+
+  return `${numValue.toLocaleString('es-CL')} UF`
 }
 
 export const formatCurrency = (amount: number) => {
