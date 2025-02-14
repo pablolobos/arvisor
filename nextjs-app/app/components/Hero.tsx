@@ -40,11 +40,11 @@ export default function Hero({ home }: HeroProps) {
                             initial={{ opacity: 0, y: 20 }}
                             animate={{ opacity: 1, y: 0 }}
                             transition={{ duration: 1, delay: 0.3 }}
-                            className="flex items-center"
+                            className="flex flex-col items-center"
                         >
                             <h1 className="mb-4 font-heading font-regular text-3xl md:text-3xl lg:text-3xl">{home.title}</h1>
                             {home.subtitle && (
-                                <p className="mb-6 text-black text-xl">{home.subtitle}</p>
+                                <p className="mb-6 text-secondary-foreground text-xl">{home.subtitle}</p>
                             )}
                         </motion.div>
                         {home?.expertName && (
