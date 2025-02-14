@@ -38,7 +38,7 @@ export default function ProjectAmenities({ amenities }: { amenities?: Amenities 
     if (activeAmenities.length === 0) return null
 
     return (
-        <div className="mt-6">
+        <div className="px-4 py-6 border border-gray-200 rounded-lg">
             <h3 className="mb-3 font-semibold text-lg">Comodidades</h3>
             <div className="gap-3 grid grid-cols-2 md:grid-cols-3">
                 {activeAmenities.map((amenity) => (

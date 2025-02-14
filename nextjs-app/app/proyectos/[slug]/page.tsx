@@ -77,10 +77,10 @@ export default async function ProjectPage({ params }: PageProps) {
                 <div className="flex flex-col gap-6 col-span-1 md:col-span-7 lg:col-span-5">
                     <div className="flex flex-col gap-2">
                         <h1 className="font-heading font-regular text-3xl md:text-4xl lg:text-5xl">{project.name}</h1>
-                        <p className="mb-2 text-black/90 text-xl leading-tight">{project.subtitle}</p>
+                        <p className="mb-2 text-black/80 text-2xl leading-tight">{project.subtitle}</p>
                     </div>
                     {project.description && (
-                        <div className="max-w-none prose prose-xl">
+                        <div className="max-w-none prose-lg">
                             <PortableText
                                 value={project.description as unknown as BlockContent}
                             />
