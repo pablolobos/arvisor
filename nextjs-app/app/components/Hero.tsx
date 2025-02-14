@@ -2,7 +2,6 @@
 
 import ExpertCard from './ExpertCard'
 import { HomePayload } from '@/sanity/lib/queries'
-import { urlForImage } from "@/sanity/lib/utils"
 import { motion } from "framer-motion"
 
 interface HeroProps {
@@ -12,24 +11,9 @@ interface HeroProps {
 export default function Hero({ home }: HeroProps) {
     if (!home) return null;
 
-    const backgroundImageUrl = home.backgroundImage?.asset ? urlForImage(home.backgroundImage)?.url() : null;
-    const heroImageUrl = home.heroImage?.asset ? urlForImage(home.heroImage)?.url() : null;
 
     return (
         <div className="relative border-gray-10 border-t overflow-hidden">
-            {backgroundImageUrl && (
-                <motion.div
-                    initial={{ opacity: 0 }}
-                    animate={{ opacity: 0.5 }}
-                    transition={{ duration: 1.5 }}
-                    className="z-0 absolute inset-0 bg-brand-grayLightest hero-bg"
-                    style={{
-                        backgroundImage: `url(${backgroundImageUrl})`,
-                        backgroundSize: 'contain',
-                        backgroundPosition: 'center',
-                    }}
-                />
-            )}
             <div className="z-10 relative container">
                 <div className="py-12 sm:py-20">
                     <div className="content-center gap-8 grid grid-cols-1 md:grid-cols-2">
