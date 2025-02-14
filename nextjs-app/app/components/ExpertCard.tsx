@@ -11,7 +11,7 @@ type ExpertCardProps = {
 
 export default function ExpertCard({ name, role, image, instagramUrl }: ExpertCardProps) {
     return (
-        <div className="flex flex-row items-start md:items-center gap-6 bg-white shadow-md p-3 md:p-6 rounded-xl w-full md:w-auto max-w-2xl">
+        <div className="flex flex-row items-start md:items-center gap-6 bg-brand-grayLightest p-3 md:p-6 border border-brand-grayDarkest rounded-xl w-full md:w-auto max-w-2xl">
             <div className="relative flex-shrink-0 w-24 h-24">
                 {image && (
                     <Image
@@ -26,7 +26,7 @@ export default function ExpertCard({ name, role, image, instagramUrl }: ExpertCa
 
             <div className="">
                 <div className="flex flex-col gap-0">
-                    <h3 className="font-bold font-heading text-2xl leading-tight">{name}</h3>
+                    <h3 className="font-heading font-bold text-2xl leading-tight">{name}</h3>
                     <span className="inline-block mt-1 text-black leading-tight">{role}</span>
                 </div>
 

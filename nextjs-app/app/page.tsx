@@ -14,6 +14,9 @@ async function getHomeData() {
       subtitle,
       "slug": slug.current,
       price,
+      priceDetail,
+      downPayment,
+      downPaymentDetail,
       monthlyFee,
       "images": images[]{
         "url": asset->url,

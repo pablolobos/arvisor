@@ -41,7 +41,7 @@ export function FeaturedProject({ project }: ProjectCardProps) {
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.5 }}
-            className="relative gap-6 grid grid-cols-1 md:grid-cols-2 bg-white shadow-lg border border-gray-200 rounded-xl overflow-hidden"
+            className="relative gap-6 grid grid-cols-1 md:grid-cols-2 bg-white shadow-sm border border-gray-200 rounded-lg overflow-hidden"
         >
             <h2 className="top-0 left-0 z-10 absolute bg-brand-purple px-4 py-2 rounded-br-xl font-bold text-white text-2xl">Proyecto Destacado</h2>
             <div className="relative bg-gray-100 aspect-[4/3] md:aspect-auto overflow-hidden">
@@ -74,18 +74,28 @@ export function FeaturedProject({ project }: ProjectCardProps) {
             <div className="flex flex-col justify-center p-6 md:p-8">
                 <div className="space-y-4">
                     <div>
-                        <p className="mb-2 text-black/90 text-lg leading-tight">{project.subtitle}</p>
                         <h2 className="font-bold text-black text-3xl lg:text-4xl leading-tight">
                             {project.name}
                         </h2>
+                        <p className="mt-2 mb-2 text-black/90 text-lg leading-tight">{project.subtitle}</p>
                     </div>
-                    <div className="flex flex-col justify-start items-start space-y-2">
-                        <p className="font-light text-2xl">
-                            Desde {formatUF(project.price)}
-                        </p>
-                        <p className="font-regular text-2xl">
-                            Cuota mensual {formatCurrency(project.monthlyFee)}
-                        </p>
+                    <div className="flex flex-col justify-start items-start gap-1">
+                        <div className="flex flex-col">
+                            <p className="font-light text-2xl">
+                                {project.price}
+                                {project.priceDetail && (
+                                    <span className="ml-1 text-gray-600 text-base">{project.priceDetail}</span>
+                                )}
+                            </p>
+                        </div>
+                        {project.downPaymentDetail && (
+                            <p className="text-gray-600 text-sm">{project.downPaymentDetail}</p>
+                        )}
+                        {project.monthlyFee && (
+                            <p className="font-regular text-xl">
+                                Cuota mensual {formatCurrency(project.monthlyFee)}
+                            </p>
+                        )}
                     </div>
                     {project.location?.address && (
                         <div className="flex items-center gap-2 text-gray-500 text-base">
