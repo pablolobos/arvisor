@@ -12,9 +12,11 @@ import {
     SelectValue,
 } from "@/components/ui/select"
 import { RefreshCcw } from "lucide-react"
+import { toast } from "sonner"
 
 interface ProjectContactFormProps {
     projectName: string
+    onSuccess?: () => void
 }
 
 const PURCHASE_TIMEFRAMES = [
@@ -24,20 +26,18 @@ const PURCHASE_TIMEFRAMES = [
     { value: 'future', label: 'En el futuro' },
 ]
 
-export default function ProjectContactForm({ projectName }: ProjectContactFormProps) {
+export default function ProjectContactForm({ projectName, onSuccess }: ProjectContactFormProps) {
     const [formData, setFormData] = useState({
         name: '',
         email: '',
         phone: '',
         timeframe: '',
     })
-    const [status, setStatus] = useState<'idle' | 'loading' | 'success' | 'error'>('idle')
-    const [errorMessage, setErrorMessage] = useState<string>('')
+    const [status, setStatus] = useState<'idle' | 'loading'>('idle')
 
     const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
         e.preventDefault()
         setStatus('loading')
-        setErrorMessage('')
 
         try {
             const response = await fetch('/api/mail', {
@@ -57,16 +57,18 @@ export default function ProjectContactForm({ projectName }: ProjectContactFormPr
                 throw new Error(data.error || 'Error al enviar el mensaje')
             }
 
-            setStatus('success')
+            toast.success('Mensaje enviado exitosamente')
             setFormData({ name: '', email: '', phone: '', timeframe: '' })
+            onSuccess?.()
         } catch (error) {
             console.error('Error sending email:', error)
-            setStatus('error')
-            setErrorMessage(
+            toast.error(
                 error instanceof Error
                     ? error.message
                     : 'No se pudo enviar el mensaje. Por favor, intenta nuevamente.'
             )
+        } finally {
+            setStatus('idle')
         }
     }
 
@@ -139,17 +141,6 @@ export default function ProjectContactForm({ projectName }: ProjectContactFormPr
                     ) : 'Enviar'}
                 </Button>
             </div>
-
-            {status === 'success' && (
-                <p className="text-green-600 text-center">
-                    Mensaje enviado exitosamente.
-                </p>
-            )}
-            {status === 'error' && (
-                <p className="text-red-600 text-center">
-                    {errorMessage}
-                </p>
-            )}
         </form>
     )
 } 

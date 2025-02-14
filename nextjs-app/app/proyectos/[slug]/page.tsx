@@ -18,7 +18,7 @@ import imageUrlBuilder from '@sanity/image-url'
 import PriceCard from '@/app/components/PriceCard'
 import { Rotate3d } from 'lucide-react'
 import { Button } from '@/components/ui/button'
-import ProjectContactForm from '@/app/components/ProjectContactForm'
+import ProjectContactModal from '@/app/components/ProjectContactModal'
 const builder = imageUrlBuilder(client)
 
 function urlFor(source: any) {
@@ -102,7 +102,7 @@ export default async function ProjectPage({ params }: PageProps) {
                     />
                     {project.details && <ProjectDetails details={project.details} />}
                     {project.amenities && <ProjectAmenities amenities={project.amenities} />}
-
+                    <ProjectContactModal projectName={project.name || ''} />
                 </div>
                 <div className="col-span-1 md:col-span-5 lg:col-span-7">
                     <div className="flex flex-col gap-8">
@@ -150,10 +150,6 @@ export default async function ProjectPage({ params }: PageProps) {
                                 )}
                             </>
                         )}
-                        <div className="mb-8">
-                            <h2 className="mb-4 font-bold text-2xl">Contacto</h2>
-                            <ProjectContactForm projectName={project.name || ''} />
-                        </div>
                     </div>
                 </div>
             </div>
