@@ -96,5 +96,12 @@ export default defineType({
             type: 'string',
             group: 'general',
         }),
+        {
+            name: 'featuredProject',
+            title: 'Featured Project',
+            type: 'reference',
+            to: [{ type: 'project' }],
+            description: 'Select a project to feature on the homepage',
+        },
     ],
 }) 

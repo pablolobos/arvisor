@@ -4,27 +4,61 @@ import { AllProjects } from "@/app/components/Projects";
 import Hero from "@/app/components/Hero";
 import { allProjectsQuery, settingsQuery, homeQuery } from "@/sanity/lib/queries";
 import { sanityFetch } from "@/sanity/lib/live";
+import { FeaturedProject } from '@/app/components/FeaturedProject'
+
+async function getHomeData() {
+  const query = `*[_type == "home"][0]{
+    ...,
+    featuredProject->{
+      name,
+      subtitle,
+      "slug": slug.current,
+      price,
+      monthlyFee,
+      "images": images[]{
+        "url": asset->url,
+        "alt": asset->altText
+      },
+      "location": location->{
+        address,
+      },
+      tags,
+      discountPercentage
+    }
+  }`
+
+  return sanityFetch({ query })
+}
 
 export default async function Page() {
   const { data: projects } = await sanityFetch({ query: allProjectsQuery });
   const { data: settings } = await sanityFetch({ query: settingsQuery });
-  const { data: home } = await sanityFetch({ query: homeQuery });
+  const { data: home } = await getHomeData();
 
   return (
     <>
       {/* Hero Section */}
       <Hero home={home} />
 
+      {home.featuredProject && (
+        <section className="mx-auto px-4 py-12 md:py-16 container">
+          <FeaturedProject project={home.featuredProject} />
+        </section>
+      )}
+
       {/* Projects Section */}
-      <div className="border-gray-10 border-t">
+      <section>
         <div className="container">
-          <aside className="py-0">
+          <div className="py-0">
             <Suspense>
               <AllProjects projects={projects} />
             </Suspense>
-          </aside>
+          </div>
         </div>
-      </div>
+      </section>
+
+
+
       {/* Blog Posts Section */}
       {/* <div className="border-gray-10 border-t">
         <div className="container">

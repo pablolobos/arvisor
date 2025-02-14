@@ -3,7 +3,7 @@
 import ExpertCard from './ExpertCard'
 import { HomePayload } from '@/sanity/lib/queries'
 import Image from 'next/image'
-import { urlForImage } from "@/sanity/lib/utils";
+import { urlForImage } from "@/sanity/lib/utils"
 import WhatsAppButton from './WhatsAppButton'
 import { motion } from "framer-motion"
 import { useEffect } from 'react'
@@ -15,16 +15,19 @@ interface HeroProps {
 export default function Hero({ home }: HeroProps) {
     if (!home) return null;
 
+    const backgroundImageUrl = home.backgroundImage?.asset ? urlForImage(home.backgroundImage)?.url() : null;
+    const heroImageUrl = home.heroImage?.asset ? urlForImage(home.heroImage)?.url() : null;
+
     return (
         <div className="relative border-gray-10 border-t overflow-hidden">
-            {home.backgroundImage?.asset && (
+            {backgroundImageUrl && (
                 <motion.div
                     initial={{ opacity: 0 }}
                     animate={{ opacity: 0.5 }}
                     transition={{ duration: 1.5 }}
                     className="z-0 absolute inset-0 bg-brand-grayLightest hero-bg"
                     style={{
-                        backgroundImage: `url(${urlForImage(home.backgroundImage)?.url()})`,
+                        backgroundImage: `url(${backgroundImageUrl})`,
                         backgroundSize: 'contain',
                         backgroundPosition: 'center',
                     }}
@@ -62,7 +65,7 @@ export default function Hero({ home }: HeroProps) {
                     </div>
                 </div>
             </div>
-            {home.heroImage?.asset && (
+            {heroImageUrl && (
                 <motion.div
                     initial={{ opacity: 0, x: 100 }}
                     animate={{ opacity: 0.8, x: 0 }}
@@ -70,8 +73,8 @@ export default function Hero({ home }: HeroProps) {
                     className="hidden md:block -right-[150px] -bottom-[100px] absolute w-4/6 max-w-[1000px] h-[120%] hero-image"
                 >
                     <Image
-                        src={urlForImage(home.heroImage)?.url() as string}
-                        alt={home.heroImage.alt || ''}
+                        src={heroImageUrl}
+                        alt={home.heroImage?.alt || ""}
                         fill
                         className="object-contain"
                         priority
