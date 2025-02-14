@@ -41,7 +41,7 @@ export function FeaturedProject({ project }: ProjectProps) {
                     alt={mainImage.alt || project.name}
                     width={800}
                     height={600}
-                    className="w-full h-full object-center object-cover group-hover:scale-105 transition-transform duration-300"
+                    className="w-full h-full object-center object-cover"
                     priority
                 />
                 {project.tags && project.tags.length > 0 && (

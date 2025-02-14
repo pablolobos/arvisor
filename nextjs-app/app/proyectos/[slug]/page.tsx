@@ -127,7 +127,12 @@ export default async function ProjectPage({ params }: PageProps) {
                 <div className="col-span-1 md:col-span-5 lg:col-span-7">
                     <div className="flex flex-col gap-8">
                         {project.images && project.images.length > 0 && (
-                            <ProjectGallery images={project.images} />
+                            <ProjectGallery
+                                images={project.images.map(img => ({
+                                    url: img.asset?.url || '',
+                                    alt: img.alt || ''
+                                }))}
+                            />
                         )}
                         {project.location && (
                             <>
