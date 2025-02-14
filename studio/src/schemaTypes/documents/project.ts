@@ -38,10 +38,9 @@ export default defineType({
                     validation: Rule => Rule.required()
                 },
                 {
-                    name: 'googleUrl',
+                    name: 'mapUrl',
                     title: 'Google Maps URL',
                     type: 'url',
-                    // No validation rule means this field is optional
                 }
             ]
         }),

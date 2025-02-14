@@ -349,7 +349,7 @@ export type Person = {
 export type Location = {
   _type: "location";
   address: string;
-  googleUrl?: string;
+  mapUrl?: string;
 };
 
 export type Slug = {

@@ -1,6 +1,6 @@
 'use client'
 
-import { useState } from 'react'
+import { useState, useMemo } from 'react'
 import { Button } from "@/components/ui/button"
 import { Rotate3d, MapPin, MessageCircle } from 'lucide-react'
 import { Project } from '@/sanity.types'
@@ -28,8 +28,75 @@ interface ProjectContentProps {
     whatsappNumber?: string
 }
 
+function extractGoogleMapsParams(url: string) {
+    console.log('extractGoogleMapsParams called with URL:', url)
+    try {
+        const mapsUrl = new URL(url)
+        console.log('Successfully created URL object:', mapsUrl)
+
+        // Try to find coordinates in the URL using the !3d and !4d format first
+        const coordMatches = url.match(/!3d(-?\d+\.\d+)!4d(-?\d+\.\d+)/)
+        if (coordMatches) {
+            console.log('Found coordinates in !3d format:', coordMatches[1], coordMatches[2])
+            return {
+                lat: parseFloat(coordMatches[1]),
+                lng: parseFloat(coordMatches[2]),
+                zoom: 15
+            }
+        }
+
+        // If that fails, try the @ format
+        if (mapsUrl.pathname.includes('@')) {
+            const atIndex = mapsUrl.pathname.indexOf('@')
+            const coordsString = mapsUrl.pathname.slice(atIndex + 1)
+            const coords = coordsString.split(',')
+            if (coords.length >= 2) {
+                console.log('Found coordinates in @ format:', coords[0], coords[1])
+                return {
+                    lat: parseFloat(coords[0]),
+                    lng: parseFloat(coords[1]),
+                    zoom: coords[2] ? parseInt(coords[2].replace(/[^\d.]/g, '')) : 15
+                }
+            }
+        }
+
+        // If still no coordinates found, try to extract from the pathname
+        const placeCoords = mapsUrl.pathname.match(/@(-?\d+\.\d+),(-?\d+\.\d+)/)
+        if (placeCoords) {
+            console.log('Found coordinates in pathname:', placeCoords[1], placeCoords[2])
+            return {
+                lat: parseFloat(placeCoords[1]),
+                lng: parseFloat(placeCoords[2]),
+                zoom: 15
+            }
+        }
+
+        console.log('No coordinates found in URL')
+        return null
+    } catch (error) {
+        console.error('Error parsing Google Maps URL:', error)
+        return null
+    }
+}
+
 export default function ProjectContent({ project, whatsappNumber }: ProjectContentProps) {
     const [contactModalOpen, setContactModalOpen] = useState(false)
+
+    console.log('ProjectContent rendering with location:', project.location)
+
+    const mapParams = useMemo(() => {
+        console.log('mapParams useMemo running')
+        if (project.location?.mapUrl) {
+            console.log('Found mapUrl:', project.location.mapUrl)
+            const params = extractGoogleMapsParams(project.location.mapUrl)
+            console.log('Extracted map params:', params)
+            return params
+        }
+        console.log('No mapUrl found in location')
+        return null
+    }, [project.location?.mapUrl])
+
+    console.log('Final mapParams:', mapParams)
 
     return (
         <div className="gap-6 lg:gap-16 grid grid-cols-1 md:grid-cols-12">
@@ -111,16 +178,38 @@ export default function ProjectContent({ project, whatsappNumber }: ProjectConte
                     </div>
 
                     {project.location && (
-                        <div className="location-section">
-                            <p>{project.location.address}</p>
-                            {project.location.googleUrl && (
-                                <a
-                                    href={project.location.googleUrl}
-                                    target="_blank"
-                                    rel="noopener noreferrer"
-                                >
-                                    Ver en Google Maps
-                                </a>
+                        <div className="flex flex-col gap-4 location-section">
+                            <div className="flex items-start gap-2">
+                                <MapPin className="flex-shrink-0 mt-1 w-5 h-5" />
+                                <div>
+                                    <p className="text-lg">{project.location.address}</p>
+                                    {project.location.mapUrl && (
+                                        <a
+                                            href={project.location.mapUrl}
+                                            target="_blank"
+                                            rel="noopener noreferrer"
+                                            className="inline-flex items-center gap-1 text-primary hover:underline"
+                                        >
+                                            Ver en Google Maps
+                                            <MapPin className="w-4 h-4" />
+                                        </a>
+                                    )}
+                                </div>
+                            </div>
+
+                            {mapParams && (
+                                <div className="rounded-lg w-full h-[300px] overflow-hidden">
+                                    {console.log('Rendering map iframe with params:', mapParams)}
+                                    <iframe
+                                        width="100%"
+                                        height="100%"
+                                        style={{ border: 0 }}
+                                        loading="lazy"
+                                        allowFullScreen
+                                        referrerPolicy="no-referrer-when-downgrade"
+                                        src={`https://www.google.com/maps/embed/v1/view?key=${process.env.NEXT_PUBLIC_GOOGLE_MAPS_API_KEY}&center=${mapParams.lat},${mapParams.lng}&zoom=${mapParams.zoom}`}
+                                    />
+                                </div>
                             )}
                         </div>
                     )}
