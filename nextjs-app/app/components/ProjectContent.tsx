@@ -183,23 +183,12 @@ export default function ProjectContent({ project, whatsappNumber }: ProjectConte
                                 <MapPin className="flex-shrink-0 mt-1 w-5 h-5" />
                                 <div>
                                     <p className="text-lg">{project.location.address}</p>
-                                    {project.location.mapUrl && (
-                                        <a
-                                            href={project.location.mapUrl}
-                                            target="_blank"
-                                            rel="noopener noreferrer"
-                                            className="inline-flex items-center gap-1 text-primary hover:underline"
-                                        >
-                                            Ver en Google Maps
-                                            <MapPin className="w-4 h-4" />
-                                        </a>
-                                    )}
+
                                 </div>
                             </div>
 
                             {mapParams && (
                                 <div className="rounded-lg w-full h-[300px] overflow-hidden">
-                                    {console.log('Rendering map iframe with params:', mapParams)}
                                     <iframe
                                         width="100%"
                                         height="100%"

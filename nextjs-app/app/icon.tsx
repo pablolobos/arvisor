@@ -49,7 +49,6 @@ export default function Icon({ id }: { id: string }) {
             <div
                 style={{
                     fontSize: 24,
-                    background: '#ffffff',
                     width: '100%',
                     height: '100%',
                     display: 'flex',
