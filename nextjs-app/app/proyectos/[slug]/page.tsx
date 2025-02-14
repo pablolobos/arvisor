@@ -74,11 +74,18 @@ export default async function ProjectPage({ params }: PageProps) {
     return (
         <div className="mx-auto px-4 py-8 container">
             <div className="gap-12 grid grid-cols-1 md:grid-cols-12">
-                <div className="flex flex-col gap-8 col-span-1 md:col-span-7 lg:col-span-5">
+                <div className="flex flex-col gap-6 col-span-1 md:col-span-7 lg:col-span-5">
                     <div className="flex flex-col gap-2">
                         <h1 className="font-heading font-regular text-3xl md:text-4xl lg:text-5xl">{project.name}</h1>
                         <p className="mb-2 text-black/90 text-xl leading-tight">{project.subtitle}</p>
                     </div>
+                    {project.description && (
+                        <div className="max-w-none prose prose-xl">
+                            <PortableText
+                                value={project.description as unknown as BlockContent}
+                            />
+                        </div>
+                    )}
                     <div className="flex flex-col gap-4 px-4 py-6 border border-gray-200 rounded-lg">
                         <div className="flex flex-col">
                             <p className="font-light text-2xl md:text-3xl">
@@ -122,13 +129,6 @@ export default async function ProjectPage({ params }: PageProps) {
                         )}
                     </div>
                     {project.details && <ProjectDetails details={project.details} />}
-                    {project.description && (
-                        <div className="max-w-none prose prose-xl">
-                            <PortableText
-                                value={project.description as unknown as BlockContent}
-                            />
-                        </div>
-                    )}
                     {project.amenities && <ProjectAmenities amenities={project.amenities} />}
                 </div>
                 <div className="col-span-1 md:col-span-5 lg:col-span-7">
