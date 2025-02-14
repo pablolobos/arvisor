@@ -34,6 +34,7 @@ export function FeaturedProject({ project }: ProjectProps) {
             transition={{ duration: 0.5 }}
             className="relative gap-6 grid grid-cols-1 md:grid-cols-2 bg-white shadow-lg border border-gray-200 rounded-xl overflow-hidden"
         >
+            <h2 className="top-0 left-0 z-10 absolute bg-brand-purple px-4 py-2 rounded-br-xl font-bold text-white text-2xl">Proyecto Destacado</h2>
             <div className="relative bg-gray-100 aspect-[4/3] md:aspect-auto overflow-hidden">
                 <Image
                     src={mainImage.url}
