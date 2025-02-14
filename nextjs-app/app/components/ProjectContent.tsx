@@ -32,8 +32,8 @@ export default function ProjectContent({ project, whatsappNumber }: ProjectConte
     const [contactModalOpen, setContactModalOpen] = useState(false)
 
     return (
-        <div className="gap-12 grid grid-cols-1 md:grid-cols-12">
-            <div className="flex flex-col gap-6 col-span-1 md:col-span-7 lg:col-span-5">
+        <div className="gap-6 lg:gap-16 grid grid-cols-1 md:grid-cols-12">
+            <div className="flex flex-col gap-8 col-span-1 md:col-span-7 lg:col-span-7">
                 <div className="flex flex-col gap-2">
                     <h1 className="font-heading font-regular text-3xl md:text-4xl lg:text-5xl">{project.name}</h1>
                     <p className="mb-2 text-black/80 text-2xl leading-tight">{project.subtitle}</p>
@@ -45,45 +45,7 @@ export default function ProjectContent({ project, whatsappNumber }: ProjectConte
                         />
                     </div>
                 )}
-                <div className="flex justify-start gap-2">
-                    <Button
-                        className="w-auto"
-                        variant="default"
-                        onClick={() => {
-                            const message = `Hola, me interesa el proyecto ${project.name}`
-                            window.open(`https://wa.me/${whatsappNumber}?text=${encodeURIComponent(message)}`, '_blank')
-                        }}
-                    >
-                        <FaWhatsapp /> Hablemos
-                    </Button>
-                    <Button
-                        className="w-auto"
-                        variant="secondary"
-                        onClick={() => setContactModalOpen(true)}
-                    >
-                        <Mail /> Consultar proyecto
-                    </Button>
-                </div>
-                <PriceCard
-                    price={project.price}
-                    priceDetail={project.priceDetail}
-                    downPayment={project.downPayment}
-                    downPaymentDetail={project.downPaymentDetail}
-                    balance={project.balance}
-                    balanceDetail={project.balanceDetail}
-                    monthlyFee={project.monthlyFee}
-                />
-
-                <ProjectContactModal
-                    projectName={project.name || ''}
-                    open={contactModalOpen}
-                    onOpenChange={setContactModalOpen}
-                />
-                {project.details && <ProjectDetails details={project.details} />}
-                {project.amenities && <ProjectAmenities amenities={project.amenities} />}
-            </div>
-            <div className="col-span-1 md:col-span-5 lg:col-span-7">
-                <div className="relative flex flex-col gap-8">
+                <div className="relative">
                     {project.images && project.images.length > 0 && (
                         <ProjectGallery
                             images={project.images}
@@ -104,8 +66,50 @@ export default function ProjectContent({ project, whatsappNumber }: ProjectConte
                                 <Rotate3d className="w-4 h-4" />
                             </a>
                         </Button>
-
                     )}
+                </div>
+
+                {project.details && <ProjectDetails details={project.details} />}
+
+            </div>
+            <div className="flex flex-col gap-8 col-span-1 md:col-span-5 lg:col-span-5">
+                <div className="flex justify-start gap-2">
+                    <Button
+                        className="w-auto"
+                        variant="default"
+                        onClick={() => {
+                            const message = `Hola, me interesa el proyecto ${project.name}`
+                            window.open(`https://wa.me/${whatsappNumber}?text=${encodeURIComponent(message)}`, '_blank')
+                        }}
+                    >
+                        <FaWhatsapp /> Hablemos ahora
+                    </Button>
+                    <Button
+                        className="w-auto"
+                        variant="secondary"
+                        onClick={() => setContactModalOpen(true)}
+                    >
+                        <Mail /> Consultar sobre proyecto
+                    </Button>
+                </div>
+
+
+                <ProjectContactModal
+                    projectName={project.name || ''}
+                    open={contactModalOpen}
+                    onOpenChange={setContactModalOpen}
+                />
+                <div className="relative flex flex-col gap-8">
+                    <PriceCard
+                        price={project.price}
+                        priceDetail={project.priceDetail}
+                        downPayment={project.downPayment}
+                        downPaymentDetail={project.downPaymentDetail}
+                        balance={project.balance}
+                        balanceDetail={project.balanceDetail}
+                        monthlyFee={project.monthlyFee}
+                    />
+
                     {project.location && (
                         <>
                             <div>
@@ -122,6 +126,7 @@ export default function ProjectContent({ project, whatsappNumber }: ProjectConte
                         </>
                     )}
                 </div>
+                {project.amenities && <ProjectAmenities amenities={project.amenities} />}
             </div>
         </div>
     )

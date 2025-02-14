@@ -108,7 +108,7 @@ export default function ProjectContactForm({ projectName, onSuccess }: ProjectCo
                 </div>
 
                 <div className="space-y-2">
-                    <Label>Plazo de compra</Label>
+                    <Label>Pienso comprar en</Label>
                     <Select
                         value={formData.timeframe}
                         onValueChange={(value) => setFormData(prev => ({ ...prev, timeframe: value }))}
@@ -138,7 +138,7 @@ export default function ProjectContactForm({ projectName, onSuccess }: ProjectCo
                             <RefreshCcw className="mr-2 w-4 h-4 animate-spin" />
                             Enviando...
                         </>
-                    ) : 'Enviar'}
+                    ) : 'Enviar contacto'}
                 </Button>
             </div>
         </form>
