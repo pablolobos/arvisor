@@ -140,7 +140,9 @@ export default async function ProjectPage({ params }: PageProps) {
                                 </div>
                                 <div className="w-full aspect-[3/2]">
                                     <Suspense fallback={<div>Loading map...</div>}>
-                                        <ProjectMapWrapper mapUrl={project.location.mapUrl} />
+                                        {project.location.mapUrl && (
+                                            <ProjectMapWrapper mapUrl={project.location.mapUrl} />
+                                        )}
                                     </Suspense>
                                 </div>
                             </>
