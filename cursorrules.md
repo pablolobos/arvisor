@@ -528,3 +528,84 @@ export const singleProjectQuery = defineQuery(`
 3. Test queries in Vision tool before implementing in components
 4. Use consistent field projection patterns across queries
 5. Document field selection constants for reusability
+
+# Sanity Image Type Handling
+
+## Problem
+When working with Sanity images in components, you might encounter type mismatches between Sanity's image structure and your component's expected props. This commonly happens because:
+
+1. Sanity stores images with a complex structure (asset references, hotspots, crops)
+2. Components typically need simple URLs
+3. TypeScript will complain about the mismatch
+
+## Solution Pattern
+
+### 1. Keep Component Interface Simple
+```typescript
+interface GalleryProps {
+    images: Array<{
+        url: string
+        alt: string
+    }>
+}
+```
+
+### 2. Transform Data at Page Level
+```typescript
+// In page component
+const galleryImages = project.images?.map(image => ({
+    url: urlForImage(image)?.url() || '',
+    alt: image.alt || ''
+})) || []
+
+// Pass transformed data to component
+<Gallery images={galleryImages} />
+```
+
+### 3. Use Proper GROQ Query
+```groq
+images[] {
+    _key,
+    _type,
+    asset->,
+    hotspot,
+    crop,
+    alt
+}
+```
+
+## Best Practices
+
+1. **Data Transformation Location**: Transform Sanity image data to URLs at the page level, not in presentational components
+2. **Type Safety**: Use TypeScript interfaces that match your actual needs, not Sanity's internal structure
+3. **Null Handling**: Always provide fallbacks for null/undefined values
+4. **URL Generation**: Use `urlForImage` utility from Sanity for proper URL generation
+5. **Component Separation**: Keep presentational components agnostic of Sanity's data structure
+
+## Common Gotchas
+1. Trying to use Sanity image objects directly in components
+2. Missing asset expansion in GROQ queries (`asset->`)
+3. Not handling null values in data transformation
+4. Putting Sanity-specific logic in presentational components
+
+## Example Implementation
+```typescript
+// Page Component
+const galleryImages = project.images?.map(image => ({
+    url: urlForImage(image)?.url() || '',
+    alt: image.alt || ''
+})) || []
+
+// Gallery Component
+interface GalleryProps {
+    images: Array<{ url: string; alt: string }>
+}
+
+function Gallery({ images }: GalleryProps) {
+    return images.map(image => (
+        <Image src={image.url} alt={image.alt} />
+    ))
+}
+```
+
+This pattern keeps components clean and reusable while handling Sanity's data structure appropriately.
