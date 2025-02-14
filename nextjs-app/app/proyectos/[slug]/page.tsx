@@ -21,9 +21,11 @@ interface PageProps {
 
 export async function generateStaticParams() {
     const projects = await client.fetch(projectSlugsQuery)
-    return projects.map((slug: string) => ({
-        slug,
-    }))
+    return projects
+        .filter((slug: string | null): slug is string => slug !== null)
+        .map((slug: string) => ({
+            slug,
+        }))
 }
 
 export async function generateMetadata({ params }: PageProps): Promise<Metadata> {
