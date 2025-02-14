@@ -12,6 +12,7 @@ import ProjectMapWrapper from './ProjectMapWrapper'
 import PriceCard from './PriceCard'
 import ProjectContactModal from './ProjectContactModal'
 import type { BlockContent } from '@/sanity.types'
+import { ProjectContactPopover } from './ProjectContactPopover'
 
 type ProcessedProject = Omit<Project, 'images'> & {
     images?: Array<{
@@ -22,9 +23,10 @@ type ProcessedProject = Omit<Project, 'images'> & {
 
 interface ProjectContentProps {
     project: ProcessedProject
+    whatsappNumber?: string
 }
 
-export default function ProjectContent({ project }: ProjectContentProps) {
+export default function ProjectContent({ project, whatsappNumber }: ProjectContentProps) {
     const [contactModalOpen, setContactModalOpen] = useState(false)
 
     return (
@@ -57,6 +59,11 @@ export default function ProjectContent({ project }: ProjectContentProps) {
                     balance={project.balance}
                     balanceDetail={project.balanceDetail}
                     monthlyFee={project.monthlyFee}
+                />
+                <ProjectContactPopover
+                    projectName={project.name || ''}
+                    phoneNumber={whatsappNumber}
+                    onOpenDialog={() => setContactModalOpen(true)}
                 />
                 <ProjectContactModal
                     projectName={project.name || ''}

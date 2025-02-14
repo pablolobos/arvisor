@@ -4,7 +4,7 @@ import { Metadata } from 'next'
 import { draftMode } from 'next/headers'
 import type { Project } from '@/sanity.types'
 import { sanityFetch } from '@/sanity/lib/live'
-import { projectQuery, projectSlugsQuery } from '@/sanity/lib/queries'
+import { projectQuery, projectSlugsQuery, homeQuery } from '@/sanity/lib/queries'
 import { client } from '@/sanity/lib/client'
 import imageUrlBuilder from '@sanity/image-url'
 import ProjectContent from '@/app/components/ProjectContent'
@@ -69,10 +69,18 @@ export default async function ProjectPage({ params }: PageProps) {
         }))
     }
 
+    const { data: home } = await sanityFetch({
+        query: homeQuery,
+        stega: false,
+    })
+
     return (
         <div className="mx-auto px-4 py-8 container">
             <Suspense fallback={<div>Loading...</div>}>
-                <ProjectContent project={processedProject} />
+                <ProjectContent
+                    project={processedProject}
+                    whatsappNumber={home.whatsappNumber}
+                />
             </Suspense>
         </div>
     )
