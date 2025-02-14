@@ -142,11 +142,13 @@ export default async function ProjectPage({ params }: PageProps) {
                                         <MapPin /> {project.location.address}
                                     </div>
                                 </div>
-                                <div className="w-full aspect-[3/2]">
-                                    <Suspense fallback={<div>Loading map...</div>}>
-                                        <ProjectMapWrapper mapUrl={project.location.mapUrl} />
-                                    </Suspense>
-                                </div>
+                                {project.location && project.location.mapUrl && (
+                                    <div className="w-full aspect-[3/2]">
+                                        <Suspense fallback={<div>Loading map...</div>}>
+                                            <ProjectMapWrapper mapUrl={project.location.mapUrl || ''} />
+                                        </Suspense>
+                                    </div>
+                                )}
                             </>
                         )}
                     </div>
