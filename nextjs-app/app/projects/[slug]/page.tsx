@@ -1,7 +1,7 @@
 import { Suspense } from 'react'
 import { notFound } from 'next/navigation'
 import { Metadata } from 'next'
-import { formatCurrency, formatUF } from '@/lib/utils'
+import { formatCurrency } from '@/lib/utils'
 import { draftMode } from 'next/headers'
 import type { Project } from '@/sanity.types'
 import { sanityFetch } from '@/sanity/lib/live'
@@ -10,7 +10,7 @@ import { client } from '@/sanity/lib/client'
 import ProjectGallery from '@/app/components/ProjectGallery'
 import ProjectAmenities from '@/app/components/ProjectAmenities'
 import ProjectDetails from '@/app/components/ProjectDetails'
-import PortableText from '@/app/components/PortableText'
+import { PortableText, type PortableTextBlock } from 'next-sanity'
 import ProjectMapWrapper from '@/app/components/ProjectMapWrapper'
 import { MapPin } from 'lucide-react'
 
@@ -120,7 +120,7 @@ export default async function ProjectPage({ params }: PageProps) {
                     {project.amenities && <ProjectAmenities amenities={project.amenities} />}
                     {project.description && (
                         <div className="max-w-none prose prose-xl">
-                            <PortableText value={project.description} />
+                            <PortableText value={project.description as PortableTextBlock[]} />
                         </div>
                     )}
 
