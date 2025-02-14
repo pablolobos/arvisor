@@ -46,7 +46,37 @@ export default defineType({
         defineField({
             name: 'price',
             title: 'Precio (UF)',
-            type: 'number',
+            type: 'string',
+        }),
+        defineField({
+            name: 'priceDetail',
+            title: 'Detalle del precio',
+            type: 'string',
+            description: 'Información adicional sobre el precio',
+        }),
+        defineField({
+            name: 'downPayment',
+            title: 'Pie',
+            type: 'string',
+            description: 'Monto del pie (opcional)',
+        }),
+        defineField({
+            name: 'downPaymentDetail',
+            title: 'Detalle del pie',
+            type: 'string',
+            description: 'Información adicional sobre el pie',
+        }),
+        defineField({
+            name: 'balance',
+            title: 'Saldo',
+            type: 'string',
+            description: 'Saldo restante (opcional)',
+        }),
+        defineField({
+            name: 'balanceDetail',
+            title: 'Detalle del saldo',
+            type: 'string',
+            description: 'Información adicional sobre el saldo',
         }),
         defineField({
             name: 'monthlyFee',

@@ -87,9 +87,11 @@ export function ProjectCard({ project }: ProjectProps) {
                         Cuota mensual {formatCurrency(project.monthlyFee)}
                     </p>
                 </div>
-                <div className="flex items-center gap-1 pt-2 text-gray-500 text-sm">
-                    <MapPin /> {project.location.address}
-                </div>
+                {project.location?.address && (
+                    <div className="flex items-center gap-1 pt-2 text-gray-500 text-sm">
+                        <MapPin /> {project.location.address}
+                    </div>
+                )}
             </div>
         </motion.div>
     )
