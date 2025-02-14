@@ -72,7 +72,7 @@ export function ProjectCard({ project }: ProjectProps) {
             <div className="flex flex-col flex-1 space-y-2 p-4">
                 <div className="flex flex-col">
                     <h3 className="font-bold text-black lg:text-2xl leading-tight">
-                        <Link href={`/projects/${project.slug}`}>
+                        <Link href={`/proyectos/${project.slug}`}>
                             <span aria-hidden="true" className="absolute inset-0" />
                             {project.name}
                         </Link>

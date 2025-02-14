@@ -82,7 +82,7 @@ export function FeaturedProject({ project }: ProjectProps) {
                         </div>
                     )}
                     <Link
-                        href={`/projects/${project.slug}`}
+                        href={`/proyectos/${project.slug}`}
                         className="inline-flex items-center gap-2 mt-4 text-brand-purple hover:text-brand-purpleDark transition-colors"
                     >
                         Ver detalles del proyecto
