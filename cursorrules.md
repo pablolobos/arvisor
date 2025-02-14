@@ -447,3 +447,84 @@ if (!block.image?.asset) return null;
 2. Adding unnecessary transformations
 3. Over-engineering the image component structure
 4. Adding complex conditional logic for different image types
+
+## GROQ Query Patterns
+
+### Field Synchronization
+When adding new fields to a schema, ensure they are added in three places:
+1. Schema definition (in `studio/src/schemaTypes/`)
+2. GROQ query field selections (in `sanity/lib/queries.ts`)
+3. TypeScript types (automatically generated via `sanity typegen`)
+
+Example workflow:
+```ts
+// 1. Schema Definition (studio/src/schemaTypes/documents/project.ts)
+defineField({
+    name: 'price',
+    title: 'Precio (UF)',
+    type: 'string',
+}),
+defineField({
+    name: 'priceDetail',
+    title: 'Detalle del precio',
+    type: 'string',
+})
+
+// 2. GROQ Query Fields (sanity/lib/queries.ts)
+const projectFields = `
+  _id,
+  name,
+  price,
+  priceDetail,
+  // ... other fields
+`
+
+// 3. Use generated types from sanity.types.ts
+import type { Project } from '@/sanity.types'
+```
+
+### Query Field Patterns
+- Define reusable field selections as constants
+```ts
+const projectFields = `
+  _id,
+  name,
+  "slug": slug.current,
+  // ... other fields
+`
+
+export const projectQuery = defineQuery(`
+  *[_type == "project" && slug.current == $slug][0] {
+    ${projectFields}
+  }
+`)
+```
+
+- Keep field selections consistent across related queries
+```ts
+// Use same projectFields in both queries
+export const allProjectsQuery = defineQuery(`
+  *[_type == "project"] {
+    ${projectFields}
+  }
+`)
+
+export const singleProjectQuery = defineQuery(`
+  *[_type == "project" && slug.current == $slug][0] {
+    ${projectFields}
+  }
+`)
+```
+
+### Common Gotchas
+1. Adding fields to schema but forgetting to add them to GROQ queries
+2. Inconsistent field selections between list and detail queries
+3. Not updating TypeScript types after schema changes
+4. Missing field projections for nested objects or references
+
+### Best Practices
+1. Keep field selections DRY using shared constants
+2. Always run `sanity typegen` after schema changes
+3. Test queries in Vision tool before implementing in components
+4. Use consistent field projection patterns across queries
+5. Document field selection constants for reusability

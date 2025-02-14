@@ -3,7 +3,7 @@ import { notFound } from 'next/navigation'
 import { Metadata } from 'next'
 import { formatCurrency, formatUF } from '@/lib/utils'
 import { draftMode } from 'next/headers'
-
+import type { Project } from '@/sanity.types'
 import { sanityFetch } from '@/sanity/lib/live'
 import { projectQuery, projectSlugsQuery } from '@/sanity/lib/queries'
 import { client } from '@/sanity/lib/client'
@@ -13,32 +13,6 @@ import ProjectDetails from '@/app/components/ProjectDetails'
 import PortableText from '@/app/components/PortableText'
 import ProjectMapWrapper from '@/app/components/ProjectMapWrapper'
 import { MapPin } from 'lucide-react'
-
-type Project = {
-    _id: string
-    name: string
-    subtitle: string
-    description: any
-    images?: Array<{ url: string; alt: string }>
-    amenities?: {
-        pool: boolean
-        laundry: boolean
-        playground: boolean
-        parking: boolean
-        terrace: boolean
-    }
-    details?: {
-        bedrooms: number
-        bathrooms: number
-        squareMeters: number
-    }
-    price: number
-    monthlyFee: number
-    location: {
-        address: string
-        mapUrl: string
-    }
-}
 
 type SanityResponse = {
     data: Project
@@ -86,6 +60,7 @@ export default async function ProjectPage({ params }: PageProps) {
     })
 
     const project = response.data as Project
+    console.log('Project data:', project)
 
     if (!project) notFound()
 
@@ -93,21 +68,52 @@ export default async function ProjectPage({ params }: PageProps) {
         <div className="mx-auto px-4 py-8 container">
             <div className="gap-12 grid grid-cols-1 md:grid-cols-12">
                 <div className="flex flex-col gap-8 col-span-1 md:col-span-7 lg:col-span-5">
-                    <div>
-                        <p className="mb-2 text-black/90 text-xl leading-tight">{project.subtitle}</p>
+                    <div className="flex flex-col gap-2">
                         <h1 className="font-heading font-regular text-3xl md:text-4xl lg:text-5xl">{project.name}</h1>
+                        <p className="mb-2 text-black/90 text-xl leading-tight">{project.subtitle}</p>
                     </div>
-                    <div>
-                        {project.price && (
+                    <div className="space-y-6">
+                        <div className="flex flex-col">
                             <p className="font-light text-2xl">
-                                Desde {formatUF(project.price)}
+                                {project.price} UF
                             </p>
+                            {project.priceDetail && (
+                                <p className="text-gray-600 text-sm">
+                                    {project.priceDetail}
+                                </p>
+                            )}
+                        </div>
+
+                        {project.downPayment && (
+                            <div className="flex flex-col">
+                                <p className="font-medium text-xl">
+                                    Pie: {project.downPayment}
+                                </p>
+                                {project.downPaymentDetail && (
+                                    <p className="text-gray-600 text-sm">
+                                        {project.downPaymentDetail}
+                                    </p>
+                                )}
+                            </div>
                         )}
-                        {project.monthlyFee && (
-                            <p className="font-regular text-2xl">
+
+                        {project.balance && (
+                            <div className="flex flex-col">
+                                <p className="font-medium text-xl">
+                                    Saldo: {project.balance}
+                                </p>
+                                {project.balanceDetail && (
+                                    <p className="text-gray-600 text-sm">
+                                        {project.balanceDetail}
+                                    </p>
+                                )}
+                            </div>
+                        )}
+
+                        {project.monthlyFee && project.monthlyFee > 0 && (
+                            <p className="font-regular text-xl">
                                 Cuota mensual {formatCurrency(project.monthlyFee)}
                             </p>
-
                         )}
                     </div>
                     {project.details && <ProjectDetails details={project.details} />}

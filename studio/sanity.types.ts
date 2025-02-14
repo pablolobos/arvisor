@@ -70,7 +70,7 @@ export type Geopoint = {
 
 export type CallToAction = {
   _type: 'callToAction'
-  heading: string
+  heading?: string
   text?: string
   buttonText?: string
   link?: Link
@@ -166,15 +166,122 @@ export type BlockContent = Array<{
   _key: string
 }>
 
+export type Home = {
+  _id: string
+  _type: 'home'
+  _createdAt: string
+  _updatedAt: string
+  _rev: string
+  title?: string
+  subtitle?: string
+  backgroundImage?: {
+    asset?: {
+      _ref: string
+      _type: 'reference'
+      _weak?: boolean
+      [internalGroqTypeReferenceTo]?: 'sanity.imageAsset'
+    }
+    hotspot?: SanityImageHotspot
+    crop?: SanityImageCrop
+    alt?: string
+    _type: 'image'
+  }
+  heroImage?: {
+    asset?: {
+      _ref: string
+      _type: 'reference'
+      _weak?: boolean
+      [internalGroqTypeReferenceTo]?: 'sanity.imageAsset'
+    }
+    hotspot?: SanityImageHotspot
+    crop?: SanityImageCrop
+    alt?: string
+    _type: 'image'
+  }
+  expertName?: string
+  expertRole?: string
+  expertImage?: {
+    asset?: {
+      _ref: string
+      _type: 'reference'
+      _weak?: boolean
+      [internalGroqTypeReferenceTo]?: 'sanity.imageAsset'
+    }
+    hotspot?: SanityImageHotspot
+    crop?: SanityImageCrop
+    _type: 'image'
+  }
+  expertInstagram?: string
+  whatsappNumber?: string
+  featuredProject?: {
+    _ref: string
+    _type: 'reference'
+    _weak?: boolean
+    [internalGroqTypeReferenceTo]?: 'project'
+  }
+}
+
+export type Project = {
+  _id: string
+  _type: 'project'
+  _createdAt: string
+  _updatedAt: string
+  _rev: string
+  name?: string
+  slug?: Slug
+  subtitle?: string
+  location?: Location
+  projectType?: 'terreno' | 'departamento' | 'casa'
+  price?: string
+  priceDetail?: string
+  downPayment?: string
+  downPaymentDetail?: string
+  balance?: string
+  balanceDetail?: string
+  monthlyFee?: number
+  tags?: Array<string>
+  discountPercentage?: number
+  images?: Array<{
+    asset?: {
+      _ref: string
+      _type: 'reference'
+      _weak?: boolean
+      [internalGroqTypeReferenceTo]?: 'sanity.imageAsset'
+    }
+    hotspot?: SanityImageHotspot
+    crop?: SanityImageCrop
+    alt?: string
+    _type: 'image'
+    _key: string
+  }>
+  description?: BlockContent
+  amenities?: {
+    pool?: boolean
+    laundry?: boolean
+    playground?: boolean
+    parking?: boolean
+    terrace?: boolean
+    urbanizado?: boolean
+    cerco?: boolean
+    electricidad?: boolean
+    aguaPotable?: boolean
+  }
+  details?: {
+    bedrooms?: number
+    bathrooms?: number
+    squareMeters?: number
+  }
+}
+
 export type Page = {
   _id: string
   _type: 'page'
   _createdAt: string
   _updatedAt: string
   _rev: string
-  name: string
-  slug: Slug
-  heading: string
+  name?: string
+  slug?: Slug
+  heading?: string
   subheading?: string
   pageBuilder?: Array<
     | ({
@@ -192,11 +299,11 @@ export type Post = {
   _createdAt: string
   _updatedAt: string
   _rev: string
-  title: string
-  slug: Slug
+  title?: string
+  slug?: Slug
   content?: BlockContent
   excerpt?: string
-  coverImage: {
+  coverImage?: {
     asset?: {
       _ref: string
       _type: 'reference'
@@ -223,9 +330,9 @@ export type Person = {
   _createdAt: string
   _updatedAt: string
   _rev: string
-  firstName: string
-  lastName: string
-  picture: {
+  firstName?: string
+  lastName?: string
+  picture?: {
     asset?: {
       _ref: string
       _type: 'reference'
@@ -239,9 +346,15 @@ export type Person = {
   }
 }
 
+export type Location = {
+  _type: 'location'
+  address?: string
+  mapUrl?: string
+}
+
 export type Slug = {
   _type: 'slug'
-  current: string
+  current?: string
   source?: string
 }
 
@@ -251,7 +364,7 @@ export type Settings = {
   _createdAt: string
   _updatedAt: string
   _rev: string
-  title: string
+  title?: string
   description?: Array<{
     children?: Array<{
       marks?: Array<string>
@@ -262,7 +375,7 @@ export type Settings = {
     style?: 'normal'
     listItem?: never
     markDefs?: Array<{
-      href: string
+      href?: string
       _type: 'link'
       _key: string
     }>
@@ -382,7 +495,7 @@ export type SanityAssistOutputField = {
 
 export type SanityAssistInstructionContext = {
   _type: 'sanity.assist.instruction.context'
-  reference: {
+  reference?: {
     _ref: string
     _type: 'reference'
     _weak?: boolean
@@ -415,7 +528,7 @@ export type AssistInstructionContext = {
 
 export type SanityAssistInstructionUserInput = {
   _type: 'sanity.assist.instruction.userInput'
-  message: string
+  message?: string
   description?: string
 }
 
@@ -487,9 +600,12 @@ export type AllSanitySchemaTypes =
   | Link
   | InfoSection
   | BlockContent
+  | Home
+  | Project
   | Page
   | Post
   | Person
+  | Location
   | Slug
   | Settings
   | SanityImageCrop
