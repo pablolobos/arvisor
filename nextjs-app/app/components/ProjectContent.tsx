@@ -111,19 +111,18 @@ export default function ProjectContent({ project, whatsappNumber }: ProjectConte
                     </div>
 
                     {project.location && (
-                        <>
-                            <div>
-                                <h2 className="mb-4 font-bold text-2xl">Ubicación</h2>
-                                <div className="flex items-center gap-1 pt-2 text-lg">
-                                    <MapPin /> {project.location.address}
-                                </div>
-                            </div>
-                            {project.location.mapUrl && (
-                                <div className="w-full aspect-[3/2]">
-                                    <ProjectMapWrapper mapUrl={project.location.mapUrl} />
-                                </div>
+                        <div className="location-section">
+                            <p>{project.location.address}</p>
+                            {project.location.googleUrl && (
+                                <a
+                                    href={project.location.googleUrl}
+                                    target="_blank"
+                                    rel="noopener noreferrer"
+                                >
+                                    Ver en Google Maps
+                                </a>
                             )}
-                        </>
+                        </div>
                     )}
                 </div>
                 {project.amenities && <ProjectAmenities amenities={project.amenities} />}

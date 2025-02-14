@@ -29,7 +29,21 @@ export default defineType({
         defineField({
             name: 'location',
             title: 'Location',
-            type: 'location',
+            type: 'object',
+            fields: [
+                {
+                    name: 'address',
+                    title: 'Address',
+                    type: 'string',
+                    validation: Rule => Rule.required()
+                },
+                {
+                    name: 'googleUrl',
+                    title: 'Google Maps URL',
+                    type: 'url',
+                    // No validation rule means this field is optional
+                }
+            ]
         }),
         defineField({
             name: 'projectType',
