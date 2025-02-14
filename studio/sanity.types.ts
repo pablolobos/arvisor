@@ -256,15 +256,17 @@ export type Project = {
   }>
   description?: BlockContent
   amenities?: {
-    pool?: boolean
-    laundry?: boolean
-    playground?: boolean
-    parking?: boolean
-    terrace?: boolean
-    urbanizado?: boolean
     cerco?: boolean
+    camino_interior?: boolean
+    urbanizado?: boolean
     electricidad?: boolean
     aguaPotable?: boolean
+    security?: boolean
+    playground?: boolean
+    parking?: boolean
+    pool?: boolean
+    laundry?: boolean
+    terrace?: boolean
   }
   details?: {
     bedrooms?: number

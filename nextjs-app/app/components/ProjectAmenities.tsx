@@ -7,6 +7,7 @@ interface Amenities {
     parking?: boolean
     terrace?: boolean
     urbanizado?: boolean
+    camino_interior?: boolean
     cerco?: boolean
     electricidad?: boolean
     aguaPotable?: boolean
@@ -19,6 +20,8 @@ const amenityLabels = {
     parking: 'Estacionamiento',
     terrace: 'Terraza',
     urbanizado: 'Urbanizado',
+    camino_interior: 'Camino interior',
+    security: 'Seguridad',
     cerco: 'Cerco',
     electricidad: 'Electricidad',
     aguaPotable: 'Agua potable'

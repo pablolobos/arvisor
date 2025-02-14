@@ -1602,14 +1602,42 @@
         "value": {
           "type": "object",
           "attributes": {
-            "pool": {
+            "cerco": {
               "type": "objectAttribute",
               "value": {
                 "type": "boolean"
               },
               "optional": true
             },
-            "laundry": {
+            "camino_interior": {
+              "type": "objectAttribute",
+              "value": {
+                "type": "boolean"
+              },
+              "optional": true
+            },
+            "urbanizado": {
+              "type": "objectAttribute",
+              "value": {
+                "type": "boolean"
+              },
+              "optional": true
+            },
+            "electricidad": {
+              "type": "objectAttribute",
+              "value": {
+                "type": "boolean"
+              },
+              "optional": true
+            },
+            "aguaPotable": {
+              "type": "objectAttribute",
+              "value": {
+                "type": "boolean"
+              },
+              "optional": true
+            },
+            "security": {
               "type": "objectAttribute",
               "value": {
                 "type": "boolean"
@@ -1630,35 +1658,21 @@
               },
               "optional": true
             },
+            "pool": {
+              "type": "objectAttribute",
+              "value": {
+                "type": "boolean"
+              },
+              "optional": true
+            },
+            "laundry": {
+              "type": "objectAttribute",
+              "value": {
+                "type": "boolean"
+              },
+              "optional": true
+            },
             "terrace": {
-              "type": "objectAttribute",
-              "value": {
-                "type": "boolean"
-              },
-              "optional": true
-            },
-            "urbanizado": {
-              "type": "objectAttribute",
-              "value": {
-                "type": "boolean"
-              },
-              "optional": true
-            },
-            "cerco": {
-              "type": "objectAttribute",
-              "value": {
-                "type": "boolean"
-              },
-              "optional": true
-            },
-            "electricidad": {
-              "type": "objectAttribute",
-              "value": {
-                "type": "boolean"
-              },
-              "optional": true
-            },
-            "aguaPotable": {
               "type": "objectAttribute",
               "value": {
                 "type": "boolean"

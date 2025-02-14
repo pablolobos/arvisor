@@ -115,7 +115,6 @@ export default async function ProjectPage({ params }: PageProps) {
                         )}
                     </div>
                     {project.details && <ProjectDetails details={project.details} />}
-                    {project.amenities && <ProjectAmenities amenities={project.amenities} />}
                     {project.description && (
                         <div className="max-w-none prose prose-xl">
                             <PortableText
@@ -123,6 +122,7 @@ export default async function ProjectPage({ params }: PageProps) {
                             />
                         </div>
                     )}
+                    {project.amenities && <ProjectAmenities amenities={project.amenities} />}
                 </div>
                 <div className="col-span-1 md:col-span-5 lg:col-span-7">
                     <div className="flex flex-col gap-8">
