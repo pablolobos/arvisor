@@ -7,10 +7,17 @@ import { MapPin, ArrowRight } from 'lucide-react'
 import { motion } from "framer-motion"
 import type { ProjectCardProps } from './ProjectCard'
 
+interface SanityImage {
+    _type: string;
+    alt?: string;
+    url: string;
+}
+
 export function FeaturedProject({ project }: ProjectCardProps) {
     if (!project || !project.images?.[0]) return null;
 
-    const imageUrl = project.images[0].url;
+    const image = project.images[0] as SanityImage;
+    const imageUrl = image.url;
 
     // Let's log the image data to see what we're getting
     console.log('Featured Project Image:', project.images[0]);

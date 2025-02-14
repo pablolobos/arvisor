@@ -2,11 +2,8 @@
 
 import ExpertCard from './ExpertCard'
 import { HomePayload } from '@/sanity/lib/queries'
-import Image from 'next/image'
 import { urlForImage } from "@/sanity/lib/utils"
-import WhatsAppButton from './WhatsAppButton'
 import { motion } from "framer-motion"
-import { useEffect } from 'react'
 
 interface HeroProps {
     home: HomePayload
@@ -65,22 +62,6 @@ export default function Hero({ home }: HeroProps) {
                     </div>
                 </div>
             </div>
-            {heroImageUrl && (
-                <motion.div
-                    initial={{ opacity: 0, x: 100 }}
-                    animate={{ opacity: 0.8, x: 0 }}
-                    transition={{ duration: 1.2, delay: 0.9 }}
-                    className="hidden md:block -right-[150px] -bottom-[100px] absolute w-4/6 max-w-[1000px] h-[120%] hero-image"
-                >
-                    <Image
-                        src={heroImageUrl}
-                        alt={home.heroImage?.alt || ""}
-                        fill
-                        className="object-contain"
-                        priority
-                    />
-                </motion.div>
-            )}
         </div>
     )
 } 
