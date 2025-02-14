@@ -10,9 +10,10 @@ import { client } from '@/sanity/lib/client'
 import ProjectGallery from '@/app/components/ProjectGallery'
 import ProjectAmenities from '@/app/components/ProjectAmenities'
 import ProjectDetails from '@/app/components/ProjectDetails'
-import PortableText from '@/app/components/PortableText'
+import { PortableText, PortableTextBlock } from '@portabletext/react'
 import ProjectMapWrapper from '@/app/components/ProjectMapWrapper'
 import { MapPin } from 'lucide-react'
+import type { BlockContent } from '@/sanity.types'
 
 type SanityResponse = {
     data: Project
@@ -117,7 +118,9 @@ export default async function ProjectPage({ params }: PageProps) {
                     {project.amenities && <ProjectAmenities amenities={project.amenities} />}
                     {project.description && (
                         <div className="max-w-none prose prose-xl">
-                            <PortableText value={project.description} />
+                            <PortableText
+                                value={project.description as unknown as BlockContent}
+                            />
                         </div>
                     )}
                 </div>

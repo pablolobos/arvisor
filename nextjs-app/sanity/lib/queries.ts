@@ -101,9 +101,9 @@ const projectFields = `
   monthlyFee,
   tags,
   discountPercentage,
-  images[] {
+  "images": images[]{
     "url": asset->url,
-    alt
+    "alt": asset->altText
   },
   description,
   amenities,

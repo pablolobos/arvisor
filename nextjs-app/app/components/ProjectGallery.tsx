@@ -4,18 +4,18 @@ import useEmblaCarousel from 'embla-carousel-react'
 import Image from 'next/image'
 import { useCallback } from 'react'
 import { ChevronLeft, ChevronRight } from 'lucide-react'
+import type { Project } from '@/sanity.types'
+import { urlForImage } from "@/sanity/lib/utils"
 
-type Image = {
-    url: string
-    alt: string
+interface ProjectGalleryProps {
+    images: Array<{ url: string; alt: string }>
 }
 
-type Props = {
-    images: Image[]
-}
-
-export default function ProjectGallery({ images }: Props) {
-    const [emblaRef, emblaApi] = useEmblaCarousel()
+export default function ProjectGallery({ images }: ProjectGalleryProps) {
+    const [emblaRef, emblaApi] = useEmblaCarousel({
+        loop: true,
+        align: 'start'
+    })
 
     const scrollPrev = useCallback(() => {
         if (emblaApi) emblaApi.scrollPrev()
@@ -24,6 +24,8 @@ export default function ProjectGallery({ images }: Props) {
     const scrollNext = useCallback(() => {
         if (emblaApi) emblaApi.scrollNext()
     }, [emblaApi])
+
+    if (!images?.length) return null
 
     return (
         <div className="relative">
@@ -34,7 +36,7 @@ export default function ProjectGallery({ images }: Props) {
                             <div className="w-full aspect-[16/9]">
                                 <Image
                                     src={image.url}
-                                    alt={image.alt}
+                                    alt={image.alt || `Project image ${i + 1}`}
                                     fill
                                     className="object-cover"
                                 />
