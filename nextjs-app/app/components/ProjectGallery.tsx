@@ -6,7 +6,10 @@ import { useCallback } from 'react'
 import { ChevronLeft, ChevronRight } from 'lucide-react'
 
 interface ProjectGalleryProps {
-    images: Array<{ url: string; alt: string }>
+    images: Array<{
+        url: string
+        alt: string
+    }>
 }
 
 export default function ProjectGallery({ images }: ProjectGalleryProps) {
@@ -24,8 +27,6 @@ export default function ProjectGallery({ images }: ProjectGalleryProps) {
     }, [emblaApi])
 
     if (!images?.length) return null
-
-    console.log('Gallery images:', images)
 
     return (
         <div className="relative">

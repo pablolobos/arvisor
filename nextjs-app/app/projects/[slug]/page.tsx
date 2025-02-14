@@ -13,6 +13,7 @@ import ProjectDetails from '@/app/components/ProjectDetails'
 import { PortableText, type PortableTextBlock } from 'next-sanity'
 import ProjectMapWrapper from '@/app/components/ProjectMapWrapper'
 import { MapPin } from 'lucide-react'
+import { urlForImage } from '@/sanity/lib/utils'
 
 type SanityResponse = {
     data: Project
@@ -23,10 +24,12 @@ interface PageProps {
 }
 
 export async function generateStaticParams() {
-    const projects = await client.fetch(projectSlugsQuery)
-    return projects.map((slug: string) => ({
-        slug,
-    }))
+    const slugs = await client.fetch(projectSlugsQuery)
+    return slugs
+        .filter((slug: string | null): slug is string => slug !== null)
+        .map((slug: string) => ({
+            slug,
+        }))
 }
 
 export async function generateMetadata({ params }: PageProps): Promise<Metadata> {
@@ -63,6 +66,12 @@ export default async function ProjectPage({ params }: PageProps) {
     console.log('Project data:', project)
 
     if (!project) notFound()
+
+    // Transform the Sanity image data into the format ProjectGallery expects
+    const galleryImages = project.images?.map(image => ({
+        url: urlForImage(image)?.url() || '',
+        alt: image.alt || ''
+    })) || []
 
     return (
         <div className="mx-auto px-4 py-8 container">
@@ -127,8 +136,8 @@ export default async function ProjectPage({ params }: PageProps) {
                 </div>
                 <div className="col-span-1 md:col-span-5 lg:col-span-7">
                     <div className="flex flex-col gap-8">
-                        {project.images && project.images.length > 0 && (
-                            <ProjectGallery images={project.images} />
+                        {galleryImages.length > 0 && (
+                            <ProjectGallery images={galleryImages} />
                         )}
                         {project.location && (
                             <>

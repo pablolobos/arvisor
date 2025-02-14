@@ -102,8 +102,11 @@ const projectFields = `
   tags,
   discountPercentage,
   images[] {
-    ...,
+    _key,
+    _type,
     asset->,
+    hotspot,
+    crop,
     alt
   },
   description,
