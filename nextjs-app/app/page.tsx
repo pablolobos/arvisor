@@ -41,7 +41,7 @@ export default async function Page() {
       <Hero home={home} />
 
       {home.featuredProject && (
-        <section className="mx-auto px-4 py-12 md:py-16 container">
+        <section className="mx-auto px-4 py-12 md:py-0 container">
           <FeaturedProject project={home.featuredProject} />
         </section>
       )}

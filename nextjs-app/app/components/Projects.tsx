@@ -10,8 +10,8 @@ export const AllProjects = ({ projects }: { projects: any[] }) => {
     }
 
     return (
-        <div className="">
-            <div className="mx-auto py-8 sm:py-24 max-w-2xl lg:max-w-7xl">
+        <div>
+            <div className="mx-auto py-8 sm:py-16 max-w-2xl lg:max-w-7xl">
                 <motion.h2
                     initial={{ opacity: 0, y: 20 }}
                     animate={{ opacity: 1, y: 0 }}
