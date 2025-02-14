@@ -39,36 +39,12 @@ export default function ProjectContent({ project, whatsappNumber }: ProjectConte
                     <p className="mb-2 text-black/80 text-2xl leading-tight">{project.subtitle}</p>
                 </div>
                 {project.description && (
-                    <div className="max-w-none prose-lg">
+                    <div className="prose-li:mt-0 prose-li:mb-0 prose-ul:pl-2 max-w-none prose-h5:font-bold prose-h5:text-2xl prose-ul:list-disc prose-lg">
                         <PortableText
                             value={project.description as unknown as BlockContent}
                         />
                     </div>
                 )}
-                <div className="relative">
-                    {project.images && project.images.length > 0 && (
-                        <ProjectGallery
-                            images={project.images}
-                        />
-                    )}
-                    {project.viewer3dUrl && (
-                        <Button
-                            asChild
-                            variant="secondary"
-                            className="top-4 right-4 z-10 absolute gap-2"
-                        >
-                            <a
-                                href={project.viewer3dUrl}
-                                target="_blank"
-                                rel="noopener noreferrer"
-                            >
-                                Ver proyecto en 3D
-                                <Rotate3d className="w-4 h-4" />
-                            </a>
-                        </Button>
-                    )}
-                </div>
-
                 {project.details && <ProjectDetails details={project.details} />}
 
             </div>
@@ -109,6 +85,30 @@ export default function ProjectContent({ project, whatsappNumber }: ProjectConte
                         balanceDetail={project.balanceDetail}
                         monthlyFee={project.monthlyFee}
                     />
+
+                    <div className="relative">
+                        {project.images && project.images.length > 0 && (
+                            <ProjectGallery
+                                images={project.images}
+                            />
+                        )}
+                        {project.viewer3dUrl && (
+                            <Button
+                                asChild
+                                variant="secondary"
+                                className="top-4 right-4 z-10 absolute gap-2"
+                            >
+                                <a
+                                    href={project.viewer3dUrl}
+                                    target="_blank"
+                                    rel="noopener noreferrer"
+                                >
+                                    Ver proyecto en 3D
+                                    <Rotate3d className="w-4 h-4" />
+                                </a>
+                            </Button>
+                        )}
+                    </div>
 
                     {project.location && (
                         <>
