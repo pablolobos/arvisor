@@ -81,6 +81,9 @@ export default async function RootLayout({
 
   return (
     <html lang="es" className={`${sofiaSans.variable} ${sofiaSansCondensed.variable} bg-white text-gray-900`}>
+      <head>
+        <meta name="facebook-domain-verification" content="cxrzu5a5bjdoat9y6g73b023p6xpxb" />
+      </head>
       <GoogleTagManager gtmId="GTM-P9TKRZ7D" />
       <body className="bg-white">
         <section className="min-h-screen">
