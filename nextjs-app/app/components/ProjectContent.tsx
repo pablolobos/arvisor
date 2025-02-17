@@ -8,13 +8,12 @@ import ProjectGallery from './ProjectGallery'
 import ProjectAmenities from './ProjectAmenities'
 import ProjectDetails from './ProjectDetails'
 import { PortableText } from '@portabletext/react'
-import ProjectMapWrapper from './ProjectMapWrapper'
-import PriceCard from './PriceCard'
-import ProjectContactModal from './ProjectContactModal'
-import type { BlockContent } from '@/sanity.types'
-import { Mail } from 'lucide-react'
 import { FaWhatsapp } from "react-icons/fa";
-
+import { Mail } from 'lucide-react'
+import ProjectContactModal from './ProjectContactModal'
+import PriceCard from './PriceCard'
+import type { BlockContent } from '@/sanity.types'
+import MapWrapper from './MapWrapper'
 
 type ProcessedProject = Omit<Project, 'images'> & {
     images?: Array<{
@@ -183,22 +182,26 @@ export default function ProjectContent({ project, whatsappNumber }: ProjectConte
                                 <MapPin className="flex-shrink-0 mt-1 w-5 h-5" />
                                 <div>
                                     <p className="text-lg">{project.location.address}</p>
-
+                                    {project.location.mapUrl && (
+                                        <a
+                                            href={project.location.mapUrl}
+                                            target="_blank"
+                                            rel="noopener noreferrer"
+                                            className="inline-flex items-center gap-1 text-primary hover:underline"
+                                        >
+                                            Ver en Google Maps
+                                            <MapPin className="w-4 h-4" />
+                                        </a>
+                                    )}
                                 </div>
                             </div>
 
                             {mapParams && (
-                                <div className="rounded-lg w-full h-[300px] overflow-hidden">
-                                    <iframe
-                                        width="100%"
-                                        height="100%"
-                                        style={{ border: 0 }}
-                                        loading="lazy"
-                                        allowFullScreen
-                                        referrerPolicy="no-referrer-when-downgrade"
-                                        src={`https://www.google.com/maps/embed/v1/view?key=${process.env.NEXT_PUBLIC_GOOGLE_MAPS_API_KEY}&center=${mapParams.lat},${mapParams.lng}&zoom=${mapParams.zoom}`}
-                                    />
-                                </div>
+                                <MapWrapper
+                                    lat={mapParams.lat}
+                                    lng={mapParams.lng}
+                                    zoom={mapParams.zoom}
+                                />
                             )}
                         </div>
                     )}

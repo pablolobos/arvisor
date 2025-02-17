@@ -65,6 +65,8 @@ const sofiaSansCondensed = Sofia_Sans_Condensed({
   display: "swap",
 });
 
+export const dynamic = 'force-dynamic'
+
 export default async function RootLayout({
   children,
 }: {
@@ -78,7 +80,7 @@ export default async function RootLayout({
   });
 
   return (
-    <html lang="es" className={` ${sofiaSans.variable} ${sofiaSansCondensed.variable} bg-white text-gray-900`}>
+    <html lang="es" className={`${sofiaSans.variable} ${sofiaSansCondensed.variable} bg-white text-gray-900`}>
       <GoogleTagManager gtmId="GTM-P9TKRZ7D" />
       <body className="bg-white">
         <section className="min-h-screen">

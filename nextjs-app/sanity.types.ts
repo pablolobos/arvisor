@@ -348,7 +348,7 @@ export type Person = {
 
 export type Location = {
   _type: "location";
-  address: string;
+  address?: string;
   mapUrl?: string;
 };
 
