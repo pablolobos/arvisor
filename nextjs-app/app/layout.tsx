@@ -99,7 +99,7 @@ export default async function RootLayout({
           <div className="right-4 bottom-4 z-50 fixed">
             <WhatsAppButton phoneNumber={home.whatsappNumber} />
           </div>
-          <main className="">{children}</main>
+          <main className="mx-auto container">{children}</main>
           <Footer />
         </section>
         <SpeedInsights />

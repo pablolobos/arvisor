@@ -44,20 +44,19 @@ export default async function Page() {
       <Hero home={home} />
 
       {home.featuredProject && (
-        <section className="mx-auto px-4 py-12 md:py-0 container">
+        <section className="py-12 md:py-0">
           <FeaturedProject project={home.featuredProject} />
         </section>
       )}
 
       {/* Projects Section */}
       <section>
-        <div className="container">
-          <div className="py-0">
-            <Suspense>
-              <AllProjects projects={projects} />
-            </Suspense>
-          </div>
+        <div className="py-0">
+          <Suspense>
+            <AllProjects projects={projects} />
+          </Suspense>
         </div>
+
       </section>
 
 
