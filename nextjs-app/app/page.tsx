@@ -56,9 +56,7 @@ export default async function Page() {
             <AllProjects projects={projects} />
           </Suspense>
         </div>
-
       </section>
-
 
 
       {/* Blog Posts Section */}
