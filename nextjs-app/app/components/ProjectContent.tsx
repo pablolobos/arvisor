@@ -28,15 +28,12 @@ interface ProjectContentProps {
 }
 
 function extractGoogleMapsParams(url: string) {
-    console.log('extractGoogleMapsParams called with URL:', url)
     try {
         const mapsUrl = new URL(url)
-        console.log('Successfully created URL object:', mapsUrl)
 
         // Try to find coordinates in the URL using the !3d and !4d format first
         const coordMatches = url.match(/!3d(-?\d+\.\d+)!4d(-?\d+\.\d+)/)
         if (coordMatches) {
-            console.log('Found coordinates in !3d format:', coordMatches[1], coordMatches[2])
             return {
                 lat: parseFloat(coordMatches[1]),
                 lng: parseFloat(coordMatches[2]),
@@ -50,7 +47,6 @@ function extractGoogleMapsParams(url: string) {
             const coordsString = mapsUrl.pathname.slice(atIndex + 1)
             const coords = coordsString.split(',')
             if (coords.length >= 2) {
-                console.log('Found coordinates in @ format:', coords[0], coords[1])
                 return {
                     lat: parseFloat(coords[0]),
                     lng: parseFloat(coords[1]),
@@ -62,7 +58,6 @@ function extractGoogleMapsParams(url: string) {
         // If still no coordinates found, try to extract from the pathname
         const placeCoords = mapsUrl.pathname.match(/@(-?\d+\.\d+),(-?\d+\.\d+)/)
         if (placeCoords) {
-            console.log('Found coordinates in pathname:', placeCoords[1], placeCoords[2])
             return {
                 lat: parseFloat(placeCoords[1]),
                 lng: parseFloat(placeCoords[2]),
@@ -81,21 +76,16 @@ function extractGoogleMapsParams(url: string) {
 export default function ProjectContent({ project, whatsappNumber }: ProjectContentProps) {
     const [contactModalOpen, setContactModalOpen] = useState(false)
 
-    console.log('ProjectContent rendering with location:', project.location)
+    const formattedWhatsAppNumber = whatsappNumber?.replace(/\D/g, ''); // Remove non-digits
 
     const mapParams = useMemo(() => {
-        console.log('mapParams useMemo running')
         if (project.location?.mapUrl) {
-            console.log('Found mapUrl:', project.location.mapUrl)
             const params = extractGoogleMapsParams(project.location.mapUrl)
-            console.log('Extracted map params:', params)
             return params
         }
-        console.log('No mapUrl found in location')
         return null
     }, [project.location?.mapUrl])
 
-    console.log('Final mapParams:', mapParams)
 
     return (
         <div className="gap-6 lg:gap-16 grid grid-cols-1 md:grid-cols-12">
@@ -120,8 +110,8 @@ export default function ProjectContent({ project, whatsappNumber }: ProjectConte
                         className="w-auto"
                         variant="default"
                         onClick={() => {
-                            const message = `Hola, me interesa el proyecto ${project.name}`
-                            window.open(`https://wa.me/${whatsappNumber}?text=${encodeURIComponent(message)}`, '_blank')
+                            const message = `Hola, me interesa el proyecto ${project.name}`;
+                            window.open(`https://wa.me/${formattedWhatsAppNumber}?text=${encodeURIComponent(message)}`, '_blank');
                         }}
                     >
                         <FaWhatsapp /> Hablemos ahora
