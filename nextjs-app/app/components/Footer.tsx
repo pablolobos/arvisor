@@ -1,5 +1,8 @@
+'use client'
+
 import Logo from "./Logo";
 import Newsletter from "./Newsletter";
+
 export default function Footer() {
   return (
     <footer className="bg-brand-purpleLightest">
@@ -8,6 +11,7 @@ export default function Footer() {
           <Newsletter />
           <Logo className="md:mx-auto lg:mx-0 ml-4 md:px-0" />
         </div>
+
       </div>
     </footer>
   );

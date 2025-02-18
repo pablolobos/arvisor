@@ -7,11 +7,28 @@ import { RefreshCcw } from "lucide-react"
 import { toast } from "sonner"
 
 export default function Newsletter() {
-    const [email, setEmail] = useState('')
+    const [formData, setFormData] = useState({
+        name: '',
+        email: ''
+    })
     const [status, setStatus] = useState<'idle' | 'loading'>('idle')
 
     const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
         e.preventDefault()
+
+        // Validate fields
+        if (!formData.name.trim() || !formData.email.trim()) {
+            toast.error('Por favor completa todos los campos')
+            return
+        }
+
+        // Basic email validation
+        const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/
+        if (!emailRegex.test(formData.email)) {
+            toast.error('Por favor ingresa un email válido')
+            return
+        }
+
         setStatus('loading')
 
         try {
@@ -20,7 +37,7 @@ export default function Newsletter() {
                 headers: {
                     'Content-Type': 'application/json',
                 },
-                body: JSON.stringify({ email }),
+                body: JSON.stringify(formData),
             })
 
             const data = await response.json()
@@ -30,7 +47,7 @@ export default function Newsletter() {
             }
 
             toast.success('¡Gracias por suscribirte!')
-            setEmail('')
+            setFormData({ name: '', email: '' })
         } catch (error) {
             console.error('Error subscribing:', error)
             toast.error(
@@ -53,19 +70,25 @@ export default function Newsletter() {
                     Suscríbete para enterarte de nuestros nuevos proyectos.
                 </p>
 
-                <form onSubmit={handleSubmit} className="flex gap-4 max-w-md">
+                <form onSubmit={handleSubmit} className="flex flex-col gap-4 max-w-md">
+                    <Input
+                        type="text"
+                        value={formData.name}
+                        onChange={(e) => setFormData(prev => ({ ...prev, name: e.target.value }))}
+                        placeholder="Tu nombre"
+                        className="flex-1 bg-white border-brand-purple placeholder:text-zinc-500"
+                    />
                     <Input
                         type="email"
-                        value={email}
-                        onChange={(e) => setEmail(e.target.value)}
+                        value={formData.email}
+                        onChange={(e) => setFormData(prev => ({ ...prev, email: e.target.value }))}
                         placeholder="Tu correo electrónico"
-                        required
                         className="flex-1 bg-white border-brand-purple placeholder:text-zinc-500"
                     />
                     <Button
                         type="submit"
                         disabled={status === 'loading'}
-                        className=""
+                        className="w-full"
                     >
                         {status === 'loading' ? (
                             <>

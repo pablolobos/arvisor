@@ -7,7 +7,8 @@ export const runtime = 'edge';
 
 export async function POST(req: NextRequest) {
     try {
-        const { email } = await req.json();
+        const data = await req.json();
+        const { email, name } = data;
 
         if (!email) {
             return Response.json(
@@ -16,15 +17,14 @@ export async function POST(req: NextRequest) {
             );
         }
 
-        // Here you would typically add the email to your newsletter service
-        // For now, we'll just send a notification email
-        const { data, error } = await resend.emails.send({
+        // Send notification email
+        const { data: emailData, error } = await resend.emails.send({
             from: 'Advisor <hola@coordinemos.pablolobos.cl>',
-            to: 'pablo@advisorrealestate.cl',
-            subject: 'Nueva suscripción al newsletter',
+            to: 'autolead@advisorrealestate.cl',
+            subject: name ? 'Nueva suscripción al newsletter' : 'Nuevo contacto de proyecto',
             html: `
-                <p>Nueva suscripción al newsletter:</p>
-                <p><strong>Email:</strong> ${email}</p>
+                ${name ? `${name}` : ''}
+                - ${email}
             `,
         });
 
