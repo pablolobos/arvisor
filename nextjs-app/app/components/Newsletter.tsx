@@ -4,9 +4,10 @@ import { useState, FormEvent } from 'react'
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import { RefreshCcw } from "lucide-react"
-import { toast } from "sonner"
+import { useRouter } from 'next/navigation'
 
 export default function Newsletter() {
+    const router = useRouter()
     const [formData, setFormData] = useState({
         name: '',
         email: ''
@@ -18,14 +19,14 @@ export default function Newsletter() {
 
         // Validate fields
         if (!formData.name.trim() || !formData.email.trim()) {
-            toast.error('Por favor completa todos los campos')
+            alert('Por favor completa todos los campos')
             return
         }
 
         // Basic email validation
         const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/
         if (!emailRegex.test(formData.email)) {
-            toast.error('Por favor ingresa un email válido')
+            alert('Por favor ingresa un email válido')
             return
         }
 
@@ -46,17 +47,11 @@ export default function Newsletter() {
                 throw new Error(data.error || 'Error al suscribirse')
             }
 
-            toast.success('¡Gracias por suscribirte!')
-            setFormData({ name: '', email: '' })
+            // Redirect to success page
+            router.push(`/success?type=newsletter&name=${encodeURIComponent(formData.name)}`)
         } catch (error) {
             console.error('Error subscribing:', error)
-            toast.error(
-                error instanceof Error
-                    ? error.message
-                    : 'No se pudo procesar tu suscripción. Por favor, intenta nuevamente.'
-            )
-        } finally {
-            setStatus('idle')
+            alert('No se pudo procesar tu suscripción. Por favor, intenta nuevamente.')
         }
     }
 

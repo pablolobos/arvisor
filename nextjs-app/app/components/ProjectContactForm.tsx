@@ -12,7 +12,7 @@ import {
     SelectValue,
 } from "@/components/ui/select"
 import { RefreshCcw } from "lucide-react"
-import { toast } from "sonner"
+import { useRouter } from 'next/navigation'
 
 interface ProjectContactFormProps {
     projectName: string
@@ -27,6 +27,7 @@ const PURCHASE_TIMEFRAMES = [
 ]
 
 export default function ProjectContactForm({ projectName, onSuccess }: ProjectContactFormProps) {
+    const router = useRouter()
     const [formData, setFormData] = useState({
         name: '',
         email: '',
@@ -57,18 +58,12 @@ export default function ProjectContactForm({ projectName, onSuccess }: ProjectCo
                 throw new Error(data.error || 'Error al enviar el mensaje')
             }
 
-            toast.success('Mensaje enviado exitosamente')
-            setFormData({ name: '', email: '', phone: '', timeframe: '' })
+            // Redirect to success page
+            router.push(`/success?type=project&name=${encodeURIComponent(formData.name)}`)
             onSuccess?.()
         } catch (error) {
             console.error('Error sending email:', error)
-            toast.error(
-                error instanceof Error
-                    ? error.message
-                    : 'No se pudo enviar el mensaje. Por favor, intenta nuevamente.'
-            )
-        } finally {
-            setStatus('idle')
+            alert('No se pudo enviar el mensaje. Por favor, intenta nuevamente.')
         }
     }
 

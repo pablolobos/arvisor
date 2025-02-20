@@ -2,8 +2,8 @@ import "./globals.css";
 
 import { SpeedInsights } from "@vercel/speed-insights/next";
 import type { Metadata } from "next";
-import { Sofia_Sans, Sofia_Sans_Condensed } from "next/font/google";
-import { draftMode } from "next/headers";
+import { Sofia_Sans, Sofia_Sans_Condensed, Inter } from "next/font/google";
+import { draftMode, headers } from "next/headers";
 import { VisualEditing, toPlainText } from "next-sanity";
 import { Toaster } from "sonner";
 
@@ -17,6 +17,7 @@ import { resolveOpenGraphImage } from "@/sanity/lib/utils";
 import { handleError } from "./client-utils";
 import WhatsAppButton from "./components/WhatsAppButton";
 import { GoogleTagManager } from '@next/third-parties/google'
+import ConditionalFooter from "@/app/components/ConditionalFooter"
 
 /**
  * Generate metadata for the page.
@@ -65,6 +66,8 @@ const sofiaSansCondensed = Sofia_Sans_Condensed({
   display: "swap",
 });
 
+const inter = Inter({ subsets: ["latin"] });
+
 export const dynamic = 'force-dynamic'
 
 export default async function RootLayout({
@@ -79,29 +82,32 @@ export default async function RootLayout({
     stega: false,
   });
 
+  // Get the current path from headers
+  const headersList = headers();
+  const pathname = headersList.get('x-pathname') || '';
+  const isSuccessPage = pathname.includes('/success');
+
   return (
-    <html lang="es" className={`${sofiaSans.variable} ${sofiaSansCondensed.variable} bg-white text-gray-900`}>
+    <html lang="es" className={`${sofiaSans.variable} ${sofiaSansCondensed.variable} ${inter.className} bg-white text-gray-900`}>
       <head>
         <meta name="facebook-domain-verification" content="cxrzu5a5bjdoat9y6g73b023p6xpxb" />
       </head>
       <GoogleTagManager gtmId="GTM-P9TKRZ7D" />
       <body className="bg-white">
-        <section className="min-h-screen">
-          <Toaster />
-          {isDraftMode && (
-            <>
-              <DraftModeToast />
-              <VisualEditing />
-            </>
-          )}
-          <SanityLive onError={handleError} />
-          <Header home={home} />
-          <div className="right-4 bottom-4 z-50 fixed">
-            <WhatsAppButton phoneNumber={home.whatsappNumber} />
-          </div>
-          <main className="mx-auto container">{children}</main>
-          <Footer />
-        </section>
+        <Header home={home} />
+        <Toaster />
+        {isDraftMode && (
+          <>
+            <DraftModeToast />
+            <VisualEditing />
+          </>
+        )}
+        <SanityLive onError={handleError} />
+        <div className="right-4 bottom-4 z-50 fixed">
+          <WhatsAppButton phoneNumber={home.whatsappNumber} />
+        </div>
+        <main className="mx-auto container">{children}</main>
+        <ConditionalFooter />
         <SpeedInsights />
       </body>
     </html>
