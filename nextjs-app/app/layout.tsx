@@ -18,6 +18,8 @@ import { handleError } from "./client-utils";
 import WhatsAppButton from "./components/WhatsAppButton";
 import { GoogleTagManager } from '@next/third-parties/google'
 import ConditionalFooter from "@/app/components/ConditionalFooter"
+import { PostHogProvider } from './providers'
+
 
 /**
  * Generate metadata for the page.
@@ -101,21 +103,23 @@ export default async function RootLayout({
       </head>
       <GoogleTagManager gtmId="GTM-P9TKRZ7D" />
       <body className="bg-white">
-        <Header home={home} />
-        <Toaster />
-        {isDraftMode && (
-          <>
-            <DraftModeToast />
-            <VisualEditing />
-          </>
-        )}
-        <SanityLive onError={handleError} />
-        <div className="right-4 bottom-4 z-50 fixed">
-          <WhatsAppButton phoneNumber={home.whatsappNumber} />
-        </div>
-        <main className="mx-auto container">{children}</main>
-        <ConditionalFooter />
-        <SpeedInsights />
+        <PostHogProvider>
+          <Header home={home} />
+          <Toaster />
+          {isDraftMode && (
+            <>
+              <DraftModeToast />
+              <VisualEditing />
+            </>
+          )}
+          <SanityLive onError={handleError} />
+          <div className="right-4 bottom-4 z-50 fixed">
+            <WhatsAppButton phoneNumber={home.whatsappNumber} />
+          </div>
+          <main className="mx-auto container">{children}</main>
+          <ConditionalFooter />
+          <SpeedInsights />
+        </PostHogProvider>
       </body>
     </html>
   );
