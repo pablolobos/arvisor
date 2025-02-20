@@ -10,6 +10,7 @@ import imageUrlBuilder from '@sanity/image-url'
 import ProjectContent from '@/app/components/ProjectContent'
 import { urlForImage } from '@/sanity/lib/utils'
 import type { ProjectQueryResult } from '@/sanity.types'
+import PostHogClient from '@/lib/posthog'
 
 const builder = imageUrlBuilder(client)
 
@@ -85,38 +86,56 @@ export default async function ProjectPage({ params }: PageProps) {
     const { isEnabled: isDraftMode } = await draftMode()
     const resolvedParams = await params
 
-    const projectResponse = await sanityFetch({
-        query: projectQuery,
-        params: resolvedParams,
-        perspective: isDraftMode ? 'previewDrafts' : 'published'
-    })
+    const posthog = PostHogClient()
 
-    const project = projectResponse.data as ProjectQueryResult
+    try {
+        const projectResponse = await sanityFetch({
+            query: projectQuery,
+            params: resolvedParams,
+            perspective: isDraftMode ? 'previewDrafts' : 'published'
+        })
 
-    if (!project) notFound()
+        const project = projectResponse.data as ProjectQueryResult
 
-    // Process images on the server
-    const processedProject = {
-        ...project,
-        images: project.images?.map(img => ({
-            url: img.asset ? urlFor(img).url() : '',
-            alt: img.alt || ''
-        }))
+        if (!project) notFound()
+
+        // Track server-side pageview
+        await posthog.capture({
+            distinctId: 'server',
+            event: 'project_view',
+            properties: {
+                project_id: project._id,
+                project_name: project.name,
+                project_type: project.projectType
+            }
+        })
+
+        // Process images on the server
+        const processedProject = {
+            ...project,
+            images: project.images?.map(img => ({
+                url: img.asset ? urlFor(img).url() : '',
+                alt: img.alt || ''
+            }))
+        }
+
+        const { data: home } = await sanityFetch({
+            query: homeQuery,
+            stega: false,
+        })
+
+        return (
+            <div className="mx-auto px-4 py-8 container">
+                <Suspense fallback={<div>Loading...</div>}>
+                    <ProjectContent
+                        project={processedProject}
+                        whatsappNumber={home.whatsappNumber}
+                    />
+                </Suspense>
+            </div>
+        )
+    } finally {
+        // Important: Ensure events are sent before the serverless function ends
+        await posthog.shutdown()
     }
-
-    const { data: home } = await sanityFetch({
-        query: homeQuery,
-        stega: false,
-    })
-
-    return (
-        <div className="mx-auto px-4 py-8 container">
-            <Suspense fallback={<div>Loading...</div>}>
-                <ProjectContent
-                    project={processedProject}
-                    whatsappNumber={home.whatsappNumber}
-                />
-            </Suspense>
-        </div>
-    )
 } 
