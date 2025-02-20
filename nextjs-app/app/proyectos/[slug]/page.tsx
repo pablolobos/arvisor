@@ -4,10 +4,12 @@ import { Metadata } from 'next'
 import { draftMode } from 'next/headers'
 import type { Project } from '@/sanity.types'
 import { sanityFetch } from '@/sanity/lib/live'
-import { projectQuery, projectSlugsQuery, homeQuery } from '@/sanity/lib/queries'
+import { projectQuery, projectSlugsQuery, homeQuery, settingsQuery } from '@/sanity/lib/queries'
 import { client } from '@/sanity/lib/client'
 import imageUrlBuilder from '@sanity/image-url'
 import ProjectContent from '@/app/components/ProjectContent'
+import { urlForImage } from '@/sanity/lib/utils'
+import type { ProjectQueryResult } from '@/sanity.types'
 
 const builder = imageUrlBuilder(client)
 
@@ -32,19 +34,41 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
     const { isEnabled: isDraftMode } = await draftMode()
     const resolvedParams = await params
 
-    const response = await sanityFetch<string>({
+    const projectResponse = await sanityFetch({
         query: projectQuery,
         params: resolvedParams,
         perspective: isDraftMode ? 'previewDrafts' : 'published'
     })
 
-    const project = response.data as Project
+    const project = projectResponse.data as ProjectQueryResult
 
     if (!project) return {}
 
+    const settingsResponse = await sanityFetch({
+        query: settingsQuery
+    })
+
+    const settings = settingsResponse.data
+
+    // Use project ogImage if available, fallback to site default
+    const ogImage = project?.ogImage?.asset ? urlForImage(project.ogImage) :
+        settings?.ogImage?.asset ? urlForImage(settings.ogImage) : null
+
     return {
-        title: project.name,
-        description: project.subtitle,
+        title: project.name || 'Proyecto',
+        description: project.subtitle || undefined,
+        openGraph: {
+            title: project.name || 'Proyecto',
+            description: project.subtitle || undefined,
+            images: ogImage ? [
+                {
+                    url: ogImage.width(1200).height(630).url(),
+                    width: 1200,
+                    height: 630,
+                    alt: project?.ogImage?.alt || settings?.ogImage?.alt || project.name || 'Proyecto',
+                }
+            ] : undefined,
+        },
     }
 }
 
@@ -52,13 +76,13 @@ export default async function ProjectPage({ params }: PageProps) {
     const { isEnabled: isDraftMode } = await draftMode()
     const resolvedParams = await params
 
-    const response = await sanityFetch<string>({
+    const projectResponse = await sanityFetch({
         query: projectQuery,
         params: resolvedParams,
         perspective: isDraftMode ? 'previewDrafts' : 'published'
     })
 
-    const project = response.data as Project
+    const project = projectResponse.data as ProjectQueryResult
 
     if (!project) notFound()
 

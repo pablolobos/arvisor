@@ -16,16 +16,57 @@ import type { BlockContent } from '@/sanity.types'
 import MapWrapper from './MapWrapper'
 import ProjectVideo from './ProjectVideo'
 
-type ProcessedProject = Omit<Project, 'images'> & {
+type ProcessedProject = {
+    _id: string;
+    name?: string | null;
+    subtitle?: string | null;
+    location?: {
+        address?: string | null;
+        mapUrl?: string | null;
+    } | null;
+    projectType?: "terreno" | "departamento" | "casa" | null;
+    price?: string | null;
+    priceDetail?: string | null;
+    downPayment?: string | null;
+    downPaymentDetail?: string | null;
+    balance?: string | null;
+    balanceDetail?: string | null;
+    monthlyFee?: number | null;
+    tags?: Array<string> | null;
+    discountPercentage?: number | null;
     images?: Array<{
         url: string;
         alt: string;
     }>;
+    description?: BlockContent | null;
+    amenities?: {
+        cerco?: boolean;
+        camino_interior?: boolean;
+        urbanizado?: boolean;
+        electricidad?: boolean;
+        aguaPotable?: boolean;
+        security?: boolean;
+        playground?: boolean;
+        parking?: boolean;
+        pool?: boolean;
+        laundry?: boolean;
+        terrace?: boolean;
+    } | null;
+    details?: {
+        bedrooms?: number;
+        bathrooms?: number;
+        squareMeters?: number;
+    } | null;
+    viewer3dUrl?: string | null;
     videos?: Array<{
-        url: string;
-        title?: string;
-        description?: string;
-    }>;
+        url: string | null;
+        title?: string | null;
+        description?: string | null;
+    }> | null;
+    ogImage?: {
+        asset?: any;
+        alt?: string | null;
+    } | null;
 }
 
 interface ProjectContentProps {
@@ -77,6 +118,16 @@ function extractGoogleMapsParams(url: string) {
         console.error('Error parsing Google Maps URL:', error)
         return null
     }
+}
+
+interface PriceCardProps {
+    price?: string | null;
+    priceDetail?: string | null;
+    downPayment?: string | null;
+    downPaymentDetail?: string | null;
+    balance?: string | null;
+    balanceDetail?: string | null;
+    monthlyFee?: number | null;
 }
 
 export default function ProjectContent({ project, whatsappNumber }: ProjectContentProps) {
@@ -139,13 +190,13 @@ export default function ProjectContent({ project, whatsappNumber }: ProjectConte
                 />
                 <div className="relative flex flex-col gap-8">
                     <PriceCard
-                        price={project.price}
-                        priceDetail={project.priceDetail}
-                        downPayment={project.downPayment}
-                        downPaymentDetail={project.downPaymentDetail}
-                        balance={project.balance}
-                        balanceDetail={project.balanceDetail}
-                        monthlyFee={project.monthlyFee}
+                        price={project.price ?? undefined}
+                        priceDetail={project.priceDetail ?? undefined}
+                        downPayment={project.downPayment ?? undefined}
+                        downPaymentDetail={project.downPaymentDetail ?? undefined}
+                        balance={project.balance ?? undefined}
+                        balanceDetail={project.balanceDetail ?? undefined}
+                        monthlyFee={project.monthlyFee ?? undefined}
                     />
 
                     <div className="relative">
@@ -177,11 +228,13 @@ export default function ProjectContent({ project, whatsappNumber }: ProjectConte
                             <h3 className="font-semibold text-xl">Videos</h3>
                             <div className="gap-4 grid">
                                 {project.videos.map((video, index) => (
-                                    <ProjectVideo
-                                        key={index}
-                                        url={video.url}
-                                        title={video.title}
-                                    />
+                                    video.url && (
+                                        <ProjectVideo
+                                            key={index}
+                                            url={video.url}
+                                            title={video.title ?? undefined}
+                                        />
+                                    )
                                 ))}
                             </div>
                         </div>

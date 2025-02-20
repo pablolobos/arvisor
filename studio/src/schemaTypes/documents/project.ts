@@ -191,6 +191,34 @@ export default defineType({
                 layout: 'grid'
             }
         }),
+        defineField({
+            name: 'ogImage',
+            title: 'Open Graph Image',
+            type: 'image',
+            description: 'Custom social sharing image. If not set, will use the site default.',
+            options: {
+                hotspot: true,
+                aiAssist: {
+                    imageDescriptionField: 'alt',
+                },
+            },
+            fields: [
+                defineField({
+                    name: 'alt',
+                    type: 'string',
+                    title: 'Alternative text',
+                    description: 'Important for SEO and accessibility.',
+                    validation: (rule) => {
+                        return rule.custom((alt, context) => {
+                            if ((context.document?.ogImage as any)?.asset?._ref && !alt) {
+                                return 'Required when image is set'
+                            }
+                            return true
+                        })
+                    },
+                }),
+            ],
+        }),
     ],
     preview: {
         select: {

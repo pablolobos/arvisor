@@ -68,6 +68,13 @@ export type Geopoint = {
   alt?: number
 }
 
+export type Video = {
+  _type: 'video'
+  url?: string
+  title?: string
+  description?: string
+}
+
 export type Location = {
   _type: 'location'
   address?: string
@@ -283,6 +290,23 @@ export type Project = {
     squareMeters?: number
   }
   viewer3dUrl?: string
+  videos?: Array<
+    {
+      _key: string
+    } & Video
+  >
+  ogImage?: {
+    asset?: {
+      _ref: string
+      _type: 'reference'
+      _weak?: boolean
+      [internalGroqTypeReferenceTo]?: 'sanity.imageAsset'
+    }
+    hotspot?: SanityImageHotspot
+    crop?: SanityImageCrop
+    alt?: string
+    _type: 'image'
+  }
 }
 
 export type Page = {
@@ -602,6 +626,7 @@ export type AllSanitySchemaTypes =
   | SanityImageDimensions
   | SanityFileAsset
   | Geopoint
+  | Video
   | Location
   | CallToAction
   | Link

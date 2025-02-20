@@ -117,6 +117,12 @@ const projectFields = `
     url,
     title,
     description
+  },
+  ogImage {
+    asset->,
+    alt,
+    hotspot,
+    crop
   }
 `
 
