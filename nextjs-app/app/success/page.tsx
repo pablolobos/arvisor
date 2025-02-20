@@ -1,17 +1,24 @@
-import { redirect } from 'next/navigation'
+import { notFound } from 'next/navigation'
 import SuccessContent from './SuccessContent'
 
-export default function SuccessPage({
+type Props = {
+    params: Promise<{}>
+    searchParams: Promise<{
+        name?: string | string[]
+        type?: string | string[]
+    }>
+}
+
+export default async function SuccessPage({
     searchParams,
-}: {
-    searchParams: { [key: string]: string | string[] | undefined }
-}) {
-    const name = searchParams.name
-    const type = searchParams.type
+}: Props) {
+    const params = await searchParams
+    const name = typeof params.name === 'string' ? params.name : undefined
+    const type = typeof params.type === 'string' ? params.type : undefined
 
     if (!name || !type) {
-        redirect('/')
+        return notFound()
     }
 
-    return <SuccessContent name={name.toString()} type={type.toString()} />
+    return <SuccessContent name={name} type={type} />
 } 
