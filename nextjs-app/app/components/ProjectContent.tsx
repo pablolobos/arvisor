@@ -15,6 +15,7 @@ import PriceCard from './PriceCard'
 import type { BlockContent } from '@/sanity.types'
 import MapWrapper from './MapWrapper'
 import ProjectVideo from './ProjectVideo'
+import { trackEvent, AnalyticEvents } from '@/lib/analytics'
 
 type ProcessedProject = {
     _id: string;
@@ -143,6 +144,15 @@ export default function ProjectContent({ project, whatsappNumber }: ProjectConte
         return null
     }, [project.location?.mapUrl])
 
+    const handleWhatsAppClick = () => {
+        trackEvent(AnalyticEvents.PROJECT_WHATSAPP_CLICK, {
+            project_name: project.name,
+            project_id: project._id,
+            project_type: project.projectType
+        })
+        const message = `Hola, me interesa el proyecto ${project.name}`;
+        window.open(`https://wa.me/${formattedWhatsAppNumber}?text=${encodeURIComponent(message)}`, '_blank');
+    }
 
     return (
         <div className="gap-6 lg:gap-16 grid grid-cols-1 md:grid-cols-12">
@@ -166,12 +176,10 @@ export default function ProjectContent({ project, whatsappNumber }: ProjectConte
                     <Button
                         className="w-auto"
                         variant="default"
-                        onClick={() => {
-                            const message = `Hola, me interesa el proyecto ${project.name}`;
-                            window.open(`https://wa.me/${formattedWhatsAppNumber}?text=${encodeURIComponent(message)}`, '_blank');
-                        }}
+                        onClick={handleWhatsAppClick}
                     >
-                        <FaWhatsapp /> Hablemos ahora
+                        <FaWhatsapp className="w-4 h-4" />
+                        WhatsApp
                     </Button>
                     <Button
                         className="w-auto"
