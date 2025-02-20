@@ -1,3 +1,5 @@
+'use client'
+
 import Image from 'next/image';
 import { trackEvent, AnalyticEvents } from '@/lib/analytics'
 import { Button } from '@/components/ui/button';

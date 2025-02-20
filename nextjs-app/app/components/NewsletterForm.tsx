@@ -1,3 +1,5 @@
+'use client'
+
 import { trackEvent, AnalyticEvents } from '@/lib/analytics'
 
 // In your form submission handler:
