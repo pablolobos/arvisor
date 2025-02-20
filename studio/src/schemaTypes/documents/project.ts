@@ -182,6 +182,15 @@ export default defineType({
             type: 'string',
             description: 'URL para el visor 3D interactivo'
         }),
+        defineField({
+            name: 'videos',
+            title: 'Videos',
+            type: 'array',
+            of: [{ type: 'video' }],
+            options: {
+                layout: 'grid'
+            }
+        }),
     ],
     preview: {
         select: {

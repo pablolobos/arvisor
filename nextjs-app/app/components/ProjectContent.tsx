@@ -14,11 +14,17 @@ import ProjectContactModal from './ProjectContactModal'
 import PriceCard from './PriceCard'
 import type { BlockContent } from '@/sanity.types'
 import MapWrapper from './MapWrapper'
+import ProjectVideo from './ProjectVideo'
 
 type ProcessedProject = Omit<Project, 'images'> & {
     images?: Array<{
         url: string;
         alt: string;
+    }>;
+    videos?: Array<{
+        url: string;
+        title?: string;
+        description?: string;
     }>;
 }
 
@@ -165,6 +171,21 @@ export default function ProjectContent({ project, whatsappNumber }: ProjectConte
                             </Button>
                         )}
                     </div>
+
+                    {project.videos && project.videos.length > 0 && (
+                        <div className="flex flex-col gap-4">
+                            <h3 className="font-semibold text-xl">Videos</h3>
+                            <div className="gap-4 grid">
+                                {project.videos.map((video, index) => (
+                                    <ProjectVideo
+                                        key={index}
+                                        url={video.url}
+                                        title={video.title}
+                                    />
+                                ))}
+                            </div>
+                        </div>
+                    )}
 
                     {project.location && (
                         <div className="flex flex-col gap-4 location-section">

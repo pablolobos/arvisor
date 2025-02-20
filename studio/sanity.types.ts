@@ -68,6 +68,12 @@ export type Geopoint = {
   alt?: number
 }
 
+export type Location = {
+  _type: 'location'
+  address?: string
+  mapUrl?: string
+}
+
 export type CallToAction = {
   _type: 'callToAction'
   heading?: string
@@ -230,7 +236,10 @@ export type Project = {
   name?: string
   slug?: Slug
   subtitle?: string
-  location?: Location
+  location?: {
+    address?: string
+    mapUrl?: string
+  }
   projectType?: 'terreno' | 'departamento' | 'casa'
   price?: string
   priceDetail?: string
@@ -288,11 +297,11 @@ export type Page = {
   subheading?: string
   pageBuilder?: Array<
     | ({
-      _key: string
-    } & CallToAction)
+        _key: string
+      } & CallToAction)
     | ({
-      _key: string
-    } & InfoSection)
+        _key: string
+      } & InfoSection)
   >
 }
 
@@ -347,12 +356,6 @@ export type Person = {
     alt?: string
     _type: 'image'
   }
-}
-
-export type Location = {
-  _type: 'location'
-  address?: string
-  mapUrl?: string
 }
 
 export type Slug = {
@@ -538,20 +541,20 @@ export type SanityAssistInstructionUserInput = {
 export type SanityAssistInstructionPrompt = Array<{
   children?: Array<
     | {
-      marks?: Array<string>
-      text?: string
-      _type: 'span'
-      _key: string
-    }
+        marks?: Array<string>
+        text?: string
+        _type: 'span'
+        _key: string
+      }
     | ({
-      _key: string
-    } & SanityAssistInstructionFieldRef)
+        _key: string
+      } & SanityAssistInstructionFieldRef)
     | ({
-      _key: string
-    } & SanityAssistInstructionContext)
+        _key: string
+      } & SanityAssistInstructionContext)
     | ({
-      _key: string
-    } & SanityAssistInstructionUserInput)
+        _key: string
+      } & SanityAssistInstructionUserInput)
   >
   style?: 'normal'
   listItem?: never
@@ -575,11 +578,11 @@ export type SanityAssistInstruction = {
   createdById?: string
   output?: Array<
     | ({
-      _key: string
-    } & SanityAssistOutputField)
+        _key: string
+      } & SanityAssistOutputField)
     | ({
-      _key: string
-    } & SanityAssistOutputType)
+        _key: string
+      } & SanityAssistOutputType)
   >
 }
 
@@ -599,6 +602,7 @@ export type AllSanitySchemaTypes =
   | SanityImageDimensions
   | SanityFileAsset
   | Geopoint
+  | Location
   | CallToAction
   | Link
   | InfoSection
@@ -608,7 +612,6 @@ export type AllSanitySchemaTypes =
   | Page
   | Post
   | Person
-  | Location
   | Slug
   | Settings
   | SanityImageCrop

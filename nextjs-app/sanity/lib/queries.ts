@@ -112,7 +112,12 @@ const projectFields = `
   description,
   amenities,
   details,
-  viewer3dUrl
+  viewer3dUrl,
+  videos[] {
+    url,
+    title,
+    description
+  }
 `
 
 export const allProjectsQuery = defineQuery(`

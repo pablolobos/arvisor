@@ -9,6 +9,7 @@ import blockContent from './objects/blockContent'
 import project from './documents/project'
 import location from './objects/location'
 import home from './singletons/home'
+import video from './objects/video'
 
 // Export an array of all the schema types.  This is used in the Sanity Studio configuration. https://www.sanity.io/docs/schema-types
 
@@ -27,4 +28,5 @@ export const schemaTypes = [
   callToAction,
   link,
   location,
+  video,
 ]
