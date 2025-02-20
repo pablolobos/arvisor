@@ -89,7 +89,7 @@ export default function ProjectContent({ project, whatsappNumber }: ProjectConte
 
     return (
         <div className="gap-6 lg:gap-16 grid grid-cols-1 md:grid-cols-12">
-            <div className="flex flex-col gap-8 col-span-1 md:col-span-7 lg:col-span-7">
+            <div className="flex flex-col gap-8 col-span-1 md:col-span-7 lg:col-span-6">
                 <div className="flex flex-col gap-2">
                     <h1 className="font-heading font-regular text-3xl md:text-4xl lg:text-5xl">{project.name}</h1>
                     <p className="mb-2 text-black/80 text-2xl leading-tight">{project.subtitle}</p>
@@ -104,7 +104,7 @@ export default function ProjectContent({ project, whatsappNumber }: ProjectConte
                 {project.details && <ProjectDetails details={project.details} />}
 
             </div>
-            <div className="flex flex-col gap-8 col-span-1 md:col-span-5 lg:col-span-5">
+            <div className="flex flex-col gap-8 col-span-1 md:col-span-5 lg:col-span-6">
                 <div className="flex justify-start gap-2">
                     <Button
                         className="w-auto"
