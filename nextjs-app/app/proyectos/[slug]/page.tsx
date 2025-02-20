@@ -41,18 +41,21 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
     })
 
     const project = projectResponse.data as ProjectQueryResult
-
     if (!project) return {}
 
-    const settingsResponse = await sanityFetch({
-        query: settingsQuery
-    })
-
+    const settingsResponse = await sanityFetch({ query: settingsQuery })
     const settings = settingsResponse.data
 
-    // Use project ogImage if available, fallback to site default
-    const ogImage = project?.ogImage?.asset ? urlForImage(project.ogImage) :
-        settings?.ogImage?.asset ? urlForImage(settings.ogImage) : null
+    // Use first project image if no ogImage is set
+    const imageSource = project?.ogImage || project?.images?.[0] || settings?.ogImage
+    const finalImageUrl = imageSource?.asset ?
+        builder
+            .image(imageSource)
+            .width(1200)
+            .height(630)
+            .fit('crop')
+            .url()
+        : null
 
     return {
         title: project.name || 'Proyecto',
@@ -60,15 +63,21 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
         openGraph: {
             title: project.name || 'Proyecto',
             description: project.subtitle || undefined,
-            images: ogImage ? [
+            images: finalImageUrl ? [
                 {
-                    url: ogImage.width(1200).height(630).url(),
+                    url: finalImageUrl,
                     width: 1200,
                     height: 630,
-                    alt: project?.ogImage?.alt || settings?.ogImage?.alt || project.name || 'Proyecto',
+                    alt: project?.ogImage?.alt || project?.images?.[0]?.alt || project.name || 'Proyecto',
                 }
             ] : undefined,
         },
+        twitter: {
+            card: 'summary_large_image',
+            title: project.name || 'Proyecto',
+            description: project.subtitle || undefined,
+            images: finalImageUrl ? [finalImageUrl] : undefined,
+        }
     }
 }
 

@@ -19,8 +19,7 @@ export function FeaturedProject({ project }: ProjectCardProps) {
     const image = project.images[0] as SanityImage;
     const imageUrl = image.url;
 
-    // Let's log the image data to see what we're getting
-    console.log('Featured Project Image:', project.images[0]);
+
 
     const renderTag = (tag: string) => {
         const tagLabels: Record<string, string> = {

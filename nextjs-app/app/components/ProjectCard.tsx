@@ -39,7 +39,6 @@ const tagLabels: Record<string, string> = {
 }
 
 export function ProjectCard({ project }: ProjectCardProps) {
-    console.log('Project data:', project)
     const imageUrl = project.images?.[0]?.asset ? getSanityImageUrl(project.images[0]) : ''
 
     const renderTag = (tag: string) => {
