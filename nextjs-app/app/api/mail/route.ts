@@ -25,7 +25,7 @@ export async function POST(req: NextRequest) {
 
         const { data, error } = await resend.emails.send({
             from: 'Advisor <hola@coordinemos.pablolobos.cl>',
-            to: 'pablo@advisorrealestate.cl',
+            to: 'pablo@advisorrealestate.cl, tomas.barlow@advisorrealestate.cl, diego@advisorrealestate.cl',
             replyTo: email,
             subject: `Consulta sobre proyecto ${projectName}`,
             html: `
