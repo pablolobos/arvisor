@@ -75,11 +75,24 @@ export default async function RootLayout({
 }: {
   children: React.ReactNode;
 }) {
-  const { isEnabled: isDraftMode } = await draftMode();
-  const { data: home } = await sanityFetch({
-    query: homeQuery,
-    stega: false,
-  });
+  let home = null;
+  let isDraftMode = false;
+
+  try {
+    const { isEnabled } = await draftMode();
+    isDraftMode = isEnabled;
+    const { data } = await sanityFetch({
+      query: homeQuery,
+      stega: false,
+    });
+    home = data;
+  } catch (error) {
+    console.error('Failed to fetch Sanity data:', error);
+    home = {
+      whatsappNumber: process.env.DEFAULT_WHATSAPP || '',
+      // Add other required fields with fallback values
+    };
+  }
 
   return (
     <html lang="es" className={`${sofiaSans.variable} ${sofiaSansCondensed.variable} ${inter.className} bg-white text-gray-900`}>
