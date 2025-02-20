@@ -161,8 +161,8 @@ export default function ProjectContent({ project, whatsappNumber }: ProjectConte
                 {project.details && <ProjectDetails details={project.details} />}
 
             </div>
-            <div className="flex flex-col gap-8 col-span-1 md:col-span-5 lg:col-span-6">
-                <div className="flex justify-start gap-2">
+            <div className="@container flex flex-col gap-8 col-span-1 md:col-span-5 lg:col-span-6">
+                <div className="flex lg:flex-row flex-col justify-start gap-2">
                     <Button
                         className="w-auto"
                         variant="default"
