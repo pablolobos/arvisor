@@ -6,16 +6,44 @@ export default defineType({
     title: 'Projects',
     type: 'document',
     icon: HomeIcon,
+    groups: [
+        {
+            name: 'general',
+            title: 'General',
+        },
+        {
+            name: 'location',
+            title: 'Location',
+        },
+        {
+            name: 'details',
+            title: 'Details',
+        },
+        {
+            name: 'price',
+            title: 'Price',
+        },
+        {
+            name: 'images',
+            title: 'Images',
+        },
+        {
+            name: 'videos',
+            title: 'Videos',
+        },
+    ],
     fields: [
         defineField({
             name: 'name',
             title: 'Project Name',
             type: 'string',
+            group: 'general',
         }),
         defineField({
             name: 'slug',
             title: 'Slug',
             type: 'slug',
+            group: 'general',
             options: {
                 source: 'name',
                 maxLength: 96,
@@ -25,11 +53,25 @@ export default defineType({
             name: 'subtitle',
             title: 'Subtitle',
             type: 'string',
+            group: 'general',
+        }),
+        defineField({
+            name: 'projectType',
+            title: 'Project Type',
+            type: 'string',
+            options: {
+                list: [
+                    { title: 'Terreno', value: 'terreno' },
+                    { title: 'Departamento', value: 'departamento' },
+                    { title: 'Casa', value: 'casa' },
+                ],
+            },
         }),
         defineField({
             name: 'location',
             title: 'Location',
             type: 'object',
+            group: 'location',
             fields: [
                 {
                     name: 'address',
@@ -45,26 +87,16 @@ export default defineType({
             ]
         }),
         defineField({
-            name: 'projectType',
-            title: 'Project Type',
-            type: 'string',
-            options: {
-                list: [
-                    { title: 'Terreno', value: 'terreno' },
-                    { title: 'Departamento', value: 'departamento' },
-                    { title: 'Casa', value: 'casa' },
-                ],
-            },
-        }),
-        defineField({
             name: 'price',
             title: 'Precio (UF)',
             type: 'string',
+            group: 'price',
         }),
         defineField({
             name: 'priceDetail',
             title: 'Detalle del precio',
             type: 'string',
+            group: 'price',
             description: 'Información adicional sobre el precio',
         }),
         defineField({
@@ -77,36 +109,42 @@ export default defineType({
             name: 'downPaymentDetail',
             title: 'Detalle del pie',
             type: 'string',
+            group: 'price',
             description: 'Información adicional sobre el pie',
         }),
         defineField({
             name: 'balance',
             title: 'Saldo',
             type: 'string',
+            group: 'price',
             description: 'Saldo restante (opcional)',
         }),
         defineField({
             name: 'balanceDetail',
             title: 'Detalle del saldo',
             type: 'string',
+            group: 'price',
             description: 'Información adicional sobre el saldo',
         }),
         defineField({
             name: 'monthlyFee',
             title: 'Cuota Mensual (CLP)',
             type: 'number',
+            group: 'price',
         }),
         defineField({
             name: 'tags',
             title: 'Etiquetas',
             type: 'array',
             of: [{ type: 'string' }],
+            group: 'details',
             options: {
                 list: [
                     { title: 'Descuento', value: 'discount' },
                     { title: 'Últimas unidades', value: 'last-units' },
                     { title: 'Proyecto en Promoción', value: 'promotion' },
                     { title: 'Bono pie', value: 'bonus' },
+                    { title: 'USA', value: 'en-usa' },
                 ],
             },
         }),
@@ -114,6 +152,7 @@ export default defineType({
             name: 'discountPercentage',
             title: 'Porcentaje de Descuento',
             type: 'number',
+            group: 'price',
             validation: (rule) => rule.min(0).max(100),
             hidden: ({ document }) => {
                 const tags = document?.tags as string[] | undefined
@@ -124,6 +163,7 @@ export default defineType({
             name: 'images',
             title: 'Images',
             type: 'array',
+            group: 'images',
             of: [
                 {
                     type: 'image',
@@ -147,11 +187,13 @@ export default defineType({
             name: 'description',
             title: 'Description',
             type: 'blockContent',
+            group: 'general',
         }),
         defineField({
             name: 'amenities',
             title: 'Amenities',
             type: 'object',
+            group: 'details',
             fields: [
                 { name: 'cerco', title: 'Cerco', type: 'boolean' },
                 { name: 'camino_interior', title: 'Camino interior', type: 'boolean' },
@@ -170,6 +212,7 @@ export default defineType({
             name: 'details',
             title: 'Property Details',
             type: 'object',
+            group: 'details',
             fields: [
                 { name: 'bedrooms', title: 'Number of Bedrooms', type: 'number' },
                 { name: 'bathrooms', title: 'Number of Bathrooms', type: 'number' },
@@ -180,12 +223,14 @@ export default defineType({
             name: 'viewer3dUrl',
             title: 'URL del Visor 3D',
             type: 'string',
+            group: 'details',
             description: 'URL para el visor 3D interactivo'
         }),
         defineField({
             name: 'videos',
             title: 'Videos',
             type: 'array',
+            group: 'videos',
             of: [{ type: 'video' }],
             options: {
                 layout: 'grid'
@@ -195,30 +240,19 @@ export default defineType({
             name: 'ogImage',
             title: 'Open Graph Image',
             type: 'image',
+            group: 'images',
             description: 'Custom social sharing image. If not set, will use the site default.',
             options: {
-                hotspot: true,
-                aiAssist: {
-                    imageDescriptionField: 'alt',
-                },
+                hotspot: true
             },
             fields: [
                 defineField({
                     name: 'alt',
                     type: 'string',
-                    title: 'Alternative text',
-                    description: 'Important for SEO and accessibility.',
-                    validation: (rule) => {
-                        return rule.custom((alt, context) => {
-                            if ((context.document?.ogImage as any)?.asset?._ref && !alt) {
-                                return 'Required when image is set'
-                            }
-                            return true
-                        })
-                    },
-                }),
-            ],
-        }),
+                    title: 'Alternative text'
+                })
+            ]
+        })
     ],
     preview: {
         select: {

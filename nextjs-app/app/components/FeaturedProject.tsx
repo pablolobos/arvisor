@@ -28,6 +28,7 @@ export function FeaturedProject({ project }: ProjectCardProps) {
             'last-units': 'Últimas unidades',
             'promotion': 'Proyecto en Promoción',
             'bonus': 'Bono pie',
+            'en-usa': 'USA',
         }
 
         if (tag === 'discount' && project.discountPercentage) {

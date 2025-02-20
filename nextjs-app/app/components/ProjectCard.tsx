@@ -35,6 +35,7 @@ const tagLabels: Record<string, string> = {
     'last-units': 'Últimas unidades',
     'promotion': 'Proyecto en Promoción',
     'bonus': 'Bono pie',
+    'en-usa': 'USA',
 }
 
 export function ProjectCard({ project }: ProjectCardProps) {
