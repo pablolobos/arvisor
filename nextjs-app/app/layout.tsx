@@ -76,16 +76,10 @@ export default async function RootLayout({
   children: React.ReactNode;
 }) {
   const { isEnabled: isDraftMode } = await draftMode();
-
   const { data: home } = await sanityFetch({
     query: homeQuery,
     stega: false,
   });
-
-  // Get the current path from headers
-  const headersList = headers();
-  const pathname = headersList.get('x-pathname') || '';
-  const isSuccessPage = pathname.includes('/success');
 
   return (
     <html lang="es" className={`${sofiaSans.variable} ${sofiaSansCondensed.variable} ${inter.className} bg-white text-gray-900`}>
