@@ -16,22 +16,24 @@ interface ProjectContactModalProps {
     onOpenChange: (open: boolean) => void
 }
 
-export default function ProjectContactModal({ projectName, open, onOpenChange }: ProjectContactModalProps) {
-    const handleSubmit = async (formData: ProjectFormData) => {
-        try {
-            // Your existing form submission logic
+interface ProjectFormData {
+    name: string
+    email: string
+    phone: string
+    message: string
+}
 
+export default function ProjectContactModal({ projectName, open, onOpenChange }: ProjectContactModalProps) {
+    const handleSubmit = () => {
+        try {
             trackEvent(AnalyticEvents.PROJECT_FORM_SUBMIT, {
                 project_name: projectName,
-                project_id: project._id,
-                project_type: project.projectType,
-                form_type: 'contact'
+                form_type: 'contact',
             })
 
-            // Success handling
             onOpenChange(false)
         } catch (error) {
-            // Error handling
+            console.error('Error tracking form submission:', error)
         }
     }
 
