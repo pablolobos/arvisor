@@ -88,6 +88,7 @@ export default async function RootLayout({
         <meta name="facebook-domain-verification" content="cxrzu5a5bjdoat9y6g73b023p6xpxb" />
         <link rel="preconnect" href="https://cdn.sanity.io" />
         <link rel="dns-prefetch" href="https://cdn.sanity.io" />
+
       </head>
       <body className="bg-white">
         <PostHogProvider>

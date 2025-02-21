@@ -105,7 +105,6 @@ export default function ProjectPage({ params }: PageProps) {
     return (
         <div className="mx-auto px-4 py-8 container">
             <ProjectPageContent params={params} />
-
         </div>
     )
 } 
