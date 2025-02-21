@@ -30,8 +30,8 @@ export function FeaturedProject({ project }: ProjectCardProps) {
             'en-usa': 'USA',
         }
 
-        if (tag === 'discount' && project.discountPercentage) {
-            return `${project.discountPercentage}% ${tagLabels[tag]}`
+        if (tag === 'discount' && project?.discountPercentage) {
+            return `${project.discountPercentage}% ${tagLabels[tag] || ''}`
         }
         return tagLabels[tag] || tag
     }
@@ -64,7 +64,7 @@ export function FeaturedProject({ project }: ProjectCardProps) {
                                     initial={{ opacity: 0, x: -20 }}
                                     animate={{ opacity: 1, x: 0 }}
                                     transition={{ duration: 0.3 }}
-                                    className="inline-flex items-center bg-brand-purpleHighlight px-3 py-1 rounded-full font-condensed font-medium text-brand-purpleLightest text-lg uppercase project-tag"
+                                    className="inline-flex items-center bg-brand-purpleHighlight px-3 py-1 rounded-full font-sans text-brand-purpleLightest text-lg uppercase tracking-wide project-tag"
                                 >
                                     {renderTag(tag)}
                                 </motion.span>

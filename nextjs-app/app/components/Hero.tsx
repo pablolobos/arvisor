@@ -16,7 +16,7 @@ export default function Hero({ home }: HeroProps) {
         <div className="relative border-gray-10 border-t overflow-hidden">
             <div className="z-10 relative container">
                 <div className="py-12 sm:py-20">
-                    <div className="content-center gap-8 grid grid-cols-1 md:grid-cols-2">
+                    <div className="content-center gap-8 lg:gap-12 grid grid-cols-1 md:grid-cols-2">
                         <motion.div
                             initial={{ opacity: 0, y: 20 }}
                             animate={{ opacity: 1, y: 0 }}

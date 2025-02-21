@@ -142,9 +142,8 @@ export default {
         }
       },
       fontFamily: {
-        sans: ["var(--font-sofia-sans)"],
-        condensed: ["var(--font-sofia-sans-condensed)"],
-        heading: ["var(--font-sofia-sans)"],
+        sans: ["var(--font-inter)"],
+        heading: ["var(--font-inter)"],
       },
       borderRadius: {
         lg: 'var(--radius)',

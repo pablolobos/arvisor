@@ -2,7 +2,7 @@ import "./globals.css";
 
 import { SpeedInsights } from "@vercel/speed-insights/next";
 import type { Metadata } from "next";
-import { Sofia_Sans, Sofia_Sans_Condensed, Inter } from "next/font/google";
+import { Inter } from "next/font/google";
 import { draftMode } from "next/headers";
 import { VisualEditing, toPlainText } from "next-sanity";
 import { Toaster } from "sonner";
@@ -23,19 +23,10 @@ import { NavigationEvents } from './components/NavigationEvents'
 import DraftModeToast from './components/DraftModeToast'
 import PostHogPageView from './PostHogPageView'
 
-const sofiaSans = Sofia_Sans({
-  variable: "--font-sofia-sans",
+const inter = Inter({
   subsets: ["latin"],
-  display: "swap",
+  variable: "--font-inter"
 });
-
-const sofiaSansCondensed = Sofia_Sans_Condensed({
-  variable: "--font-sofia-sans-condensed",
-  subsets: ["latin"],
-  display: "swap",
-});
-
-const inter = Inter({ subsets: ["latin"] });
 
 /**
  * Generate metadata for the page.
@@ -96,7 +87,7 @@ export default async function RootLayout({
   }
 
   return (
-    <html lang="es" className={`${sofiaSans.variable} ${sofiaSansCondensed.variable} ${inter.className} bg-white text-gray-900`}>
+    <html lang="es" className={`${inter.variable} bg-white text-gray-900`}>
       <head>
         <meta name="facebook-domain-verification" content="cxrzu5a5bjdoat9y6g73b023p6xpxb" />
         <link rel="preconnect" href="https://cdn.sanity.io" />
