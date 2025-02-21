@@ -16,6 +16,7 @@ import type { BlockContent } from '@/sanity.types'
 import MapWrapper from './MapWrapper'
 import ProjectVideo from './ProjectVideo'
 import { trackEvent, AnalyticEvents } from '@/lib/analytics'
+import NextImage from 'next/image'
 
 type ProcessedProject = {
     _id: string;
@@ -135,7 +136,7 @@ export default function ProjectContent({ project, whatsappNumber }: ProjectConte
     const [contactModalOpen, setContactModalOpen] = useState(false)
     const [imagesLoaded, setImagesLoaded] = useState(false)
 
-    const formattedWhatsAppNumber = whatsappNumber?.replace(/\D/g, ''); // Remove non-digits
+    const formattedWhatsAppNumber = whatsappNumber?.replace(/\D/g, '')
 
     const mapParams = useMemo(() => {
         if (project.location?.mapUrl) {
@@ -150,7 +151,7 @@ export default function ProjectContent({ project, whatsappNumber }: ProjectConte
             Promise.all(
                 project.images.map(img => {
                     return new Promise((resolve) => {
-                        const image = new Image()
+                        const image = new window.Image()
                         image.src = img.url
                         image.onload = resolve
                     })
@@ -226,6 +227,7 @@ export default function ProjectContent({ project, whatsappNumber }: ProjectConte
                         {project.images && project.images.length > 0 && (
                             <ProjectGallery
                                 images={project.images}
+                                priority={true}
                             />
                         )}
                         {project.viewer3dUrl && (

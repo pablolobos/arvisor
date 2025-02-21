@@ -3,11 +3,11 @@ import "./globals.css";
 import { SpeedInsights } from "@vercel/speed-insights/next";
 import type { Metadata } from "next";
 import { Sofia_Sans, Sofia_Sans_Condensed, Inter } from "next/font/google";
-import { draftMode, headers } from "next/headers";
+import { draftMode } from "next/headers";
 import { VisualEditing, toPlainText } from "next-sanity";
 import { Toaster } from "sonner";
+import { Suspense } from 'react'
 
-import DraftModeToast from "@/app/components/DraftModeToast";
 import Footer from "@/app/components/Footer";
 import Header from "@/app/components/Header";
 import * as demo from "@/sanity/lib/demo";
@@ -20,8 +20,22 @@ import { GoogleTagManager } from '@next/third-parties/google'
 import ConditionalFooter from "@/app/components/ConditionalFooter"
 import { PostHogProvider } from './providers'
 import { NavigationEvents } from './components/NavigationEvents'
-import { LoadingIndicator } from './components/LoadingIndicator'
+import DraftModeToast from './components/DraftModeToast'
+import PostHogPageView from './PostHogPageView'
 
+const sofiaSans = Sofia_Sans({
+  variable: "--font-sofia-sans",
+  subsets: ["latin"],
+  display: "swap",
+});
+
+const sofiaSansCondensed = Sofia_Sans_Condensed({
+  variable: "--font-sofia-sans-condensed",
+  subsets: ["latin"],
+  display: "swap",
+});
+
+const inter = Inter({ subsets: ["latin"] });
 
 /**
  * Generate metadata for the page.
@@ -58,22 +72,6 @@ export async function generateMetadata(): Promise<Metadata> {
   };
 }
 
-const sofiaSans = Sofia_Sans({
-  variable: "--font-sofia-sans",
-  subsets: ["latin"],
-  display: "swap",
-});
-
-const sofiaSansCondensed = Sofia_Sans_Condensed({
-  variable: "--font-sofia-sans-condensed",
-  subsets: ["latin"],
-  display: "swap",
-});
-
-const inter = Inter({ subsets: ["latin"] });
-
-export const dynamic = 'force-dynamic'
-
 export default async function RootLayout({
   children,
 }: {
@@ -94,7 +92,6 @@ export default async function RootLayout({
     console.error('Failed to fetch Sanity data:', error);
     home = {
       whatsappNumber: process.env.DEFAULT_WHATSAPP || '',
-      // Add other required fields with fallback values
     };
   }
 
@@ -103,27 +100,35 @@ export default async function RootLayout({
       <head>
         <meta name="facebook-domain-verification" content="cxrzu5a5bjdoat9y6g73b023p6xpxb" />
       </head>
-      <GoogleTagManager gtmId="GTM-P9TKRZ7D" />
       <body className="bg-white">
-        <LoadingIndicator />
         <PostHogProvider>
           <Header home={home} />
-          <Toaster />
+          <Suspense fallback={null}>
+            <Toaster />
+          </Suspense>
           {isDraftMode && (
-            <>
+            <Suspense fallback={null}>
               <DraftModeToast />
               <VisualEditing />
-            </>
+            </Suspense>
           )}
           <SanityLive onError={handleError} />
-          <div className="right-4 bottom-4 z-50 fixed">
-            <WhatsAppButton phoneNumber={home.whatsappNumber} />
-          </div>
+          <Suspense fallback={null}>
+            <div className="right-4 bottom-4 z-50 fixed">
+              <WhatsAppButton phoneNumber={home.whatsappNumber} />
+            </div>
+          </Suspense>
           <main className="mx-auto container">{children}</main>
           <ConditionalFooter />
-          <SpeedInsights />
-          <NavigationEvents />
+          <Suspense fallback={null}>
+            <SpeedInsights />
+            <PostHogPageView />
+            <NavigationEvents />
+          </Suspense>
         </PostHogProvider>
+        <Suspense fallback={null}>
+          <GoogleTagManager gtmId="GTM-P9TKRZ7D" />
+        </Suspense>
       </body>
     </html>
   );

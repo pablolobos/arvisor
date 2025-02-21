@@ -4,7 +4,6 @@
 import posthog from 'posthog-js'
 import { PostHogProvider as PHProvider } from 'posthog-js/react'
 import { useEffect, type ReactNode } from 'react'
-import PostHogPageView from "./PostHogPageView"
 
 interface PostHogProviderProps {
     children: ReactNode
@@ -18,16 +17,19 @@ export function PostHogProvider({ children }: PostHogProviderProps) {
         if (key && host) {
             posthog.init(key, {
                 api_host: host,
-                person_profiles: 'identified_only', // or 'always' to create profiles for anonymous users as well
-                capture_pageview: false // Disable automatic pageview capture, as we capture manually
+                loaded: (posthog) => {
+                    if (process.env.NODE_ENV === 'development') posthog.debug()
+                },
+                autocapture: false, // Disable automatic event capture
+                capture_pageview: false, // We handle this manually
+                persistence: 'localStorage',
+                bootstrap: {
+                    distinctID: 'anonymous',
+                    isIdentifiedID: false,
+                }
             })
         }
     }, [])
 
-    return (
-        <PHProvider client={posthog}>
-            <PostHogPageView />
-            {children}
-        </PHProvider>
-    )
+    return <PHProvider client={posthog}>{children}</PHProvider>
 }
