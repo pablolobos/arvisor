@@ -102,13 +102,11 @@ async function ProjectPageContent({ params }: PageProps) {
             sanityFetch({
                 query: projectQuery,
                 params: resolvedParams,
-                perspective: isDraftMode ? 'previewDrafts' : 'published',
-                next: { tags: ['project', params.slug] }
+                perspective: isDraftMode ? 'previewDrafts' : 'published'
             }),
             sanityFetch({
                 query: homeQuery,
-                stega: false,
-                next: { tags: ['home'] }
+                stega: false
             })
         ])
 
