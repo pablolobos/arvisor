@@ -86,13 +86,11 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
 }
 
 const ProjectContentComponent = dynamic(() => import('@/app/components/ProjectContent'), {
-    loading: () => <Loading />,
+    loading: undefined,
     ssr: true
 })
 
-// Separate the data fetching and content rendering
 async function ProjectPageContent({ params }: PageProps) {
-    // Opt out of caching for all data requests in the route
     noStore()
 
     const { isEnabled: isDraftMode } = await draftMode()
@@ -104,18 +102,19 @@ async function ProjectPageContent({ params }: PageProps) {
             sanityFetch({
                 query: projectQuery,
                 params: resolvedParams,
-                perspective: isDraftMode ? 'previewDrafts' : 'published'
+                perspective: isDraftMode ? 'previewDrafts' : 'published',
+                next: { tags: ['project', params.slug] }
             }),
             sanityFetch({
                 query: homeQuery,
                 stega: false,
+                next: { tags: ['home'] }
             })
         ])
 
         const project = projectResponse.data as ProjectQueryResult
         if (!project) notFound()
 
-        // Track server-side pageview
         await posthog.capture({
             distinctId: 'server',
             event: 'project_view',
@@ -134,12 +133,7 @@ async function ProjectPageContent({ params }: PageProps) {
             }))
         }
 
-        return (
-            <ProjectContentComponent
-                project={processedProject}
-                whatsappNumber={home.whatsappNumber}
-            />
-        )
+        return <ProjectContentComponent project={processedProject} whatsappNumber={home.whatsappNumber} />
     } finally {
         await posthog.shutdown()
     }
@@ -148,7 +142,7 @@ async function ProjectPageContent({ params }: PageProps) {
 export default function ProjectPage({ params }: PageProps) {
     return (
         <div className="mx-auto px-4 py-8 container">
-            <Suspense fallback={<Loading />}>
+            <Suspense>
                 <ProjectPageContent params={params} />
             </Suspense>
         </div>

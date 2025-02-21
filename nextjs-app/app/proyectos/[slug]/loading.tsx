@@ -1,6 +1,6 @@
 export default function Loading() {
     return (
-        <div className="mx-auto px-4 py-8 animate-pulse container">
+        <div className="opacity-60 mx-auto px-4 py-8 transition-opacity animate-pulse duration-200 container">
             <div className="gap-6 lg:gap-16 grid grid-cols-1 md:grid-cols-12">
                 <div className="flex flex-col gap-8 col-span-1 md:col-span-7 lg:col-span-6">
                     <div className="flex flex-col gap-2">

@@ -20,6 +20,7 @@ import { GoogleTagManager } from '@next/third-parties/google'
 import ConditionalFooter from "@/app/components/ConditionalFooter"
 import { PostHogProvider } from './providers'
 import { NavigationEvents } from './components/NavigationEvents'
+import { LoadingIndicator } from './components/LoadingIndicator'
 
 
 /**
@@ -104,6 +105,7 @@ export default async function RootLayout({
       </head>
       <GoogleTagManager gtmId="GTM-P9TKRZ7D" />
       <body className="bg-white">
+        <LoadingIndicator />
         <PostHogProvider>
           <Header home={home} />
           <Toaster />
