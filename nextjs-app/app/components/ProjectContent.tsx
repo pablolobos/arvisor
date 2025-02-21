@@ -1,22 +1,25 @@
 'use client'
 
-import { useState, useMemo, useEffect } from 'react'
+import dynamic from 'next/dynamic'
+import { useState, useMemo } from 'react'
 import { Button } from "@/components/ui/button"
 import { Rotate3d, MapPin, MessageCircle } from 'lucide-react'
 import { Project } from '@/sanity.types'
-import ProjectGallery from './ProjectGallery'
-import ProjectAmenities from './ProjectAmenities'
-import ProjectDetails from './ProjectDetails'
-import { PortableText } from '@portabletext/react'
 import { FaWhatsapp } from "react-icons/fa";
 import { Mail } from 'lucide-react'
-import ProjectContactModal from './ProjectContactModal'
-import PriceCard from './PriceCard'
+import { PortableText } from '@portabletext/react'
 import type { BlockContent } from '@/sanity.types'
-import MapWrapper from './MapWrapper'
-import ProjectVideo from './ProjectVideo'
-import { trackEvent, AnalyticEvents } from '@/lib/analytics'
 import NextImage from 'next/image'
+import { trackEvent, AnalyticEvents } from '@/lib/analytics'
+
+// Dynamically import non-critical components
+const ProjectGallery = dynamic(() => import('./ProjectGallery'))
+const ProjectAmenities = dynamic(() => import('./ProjectAmenities'))
+const ProjectDetails = dynamic(() => import('./ProjectDetails'))
+const ProjectVideo = dynamic(() => import('./ProjectVideo'))
+const MapWrapper = dynamic(() => import('./MapWrapper'), { ssr: false })
+const ProjectContactModal = dynamic(() => import('./ProjectContactModal'))
+const PriceCard = dynamic(() => import('./PriceCard'))
 
 type ProcessedProject = {
     _id: string;
@@ -134,8 +137,6 @@ interface PriceCardProps {
 
 export default function ProjectContent({ project, whatsappNumber }: ProjectContentProps) {
     const [contactModalOpen, setContactModalOpen] = useState(false)
-    const [imagesLoaded, setImagesLoaded] = useState(false)
-
     const formattedWhatsAppNumber = whatsappNumber?.replace(/\D/g, '')
 
     const mapParams = useMemo(() => {
@@ -145,20 +146,6 @@ export default function ProjectContent({ project, whatsappNumber }: ProjectConte
         }
         return null
     }, [project.location?.mapUrl])
-
-    useEffect(() => {
-        if (project.images) {
-            Promise.all(
-                project.images.map(img => {
-                    return new Promise((resolve) => {
-                        const image = new window.Image()
-                        image.src = img.url
-                        image.onload = resolve
-                    })
-                })
-            ).then(() => setImagesLoaded(true))
-        }
-    }, [project.images])
 
     const handleWhatsAppClick = () => {
         trackEvent(AnalyticEvents.PROJECT_WHATSAPP_CLICK, {
