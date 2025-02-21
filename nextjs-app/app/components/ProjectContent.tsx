@@ -4,12 +4,10 @@ import dynamic from 'next/dynamic'
 import { useState, useMemo, useEffect } from 'react'
 import { Button } from "@/components/ui/button"
 import { Rotate3d, MapPin, MessageCircle } from 'lucide-react'
-import { Project } from '@/sanity.types'
 import { FaWhatsapp } from "react-icons/fa";
 import { Mail } from 'lucide-react'
 import { PortableText } from '@portabletext/react'
 import type { BlockContent } from '@/sanity.types'
-import NextImage from 'next/image'
 import { trackEvent, AnalyticEvents } from '@/lib/analytics'
 import posthog from 'posthog-js'
 
