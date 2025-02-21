@@ -1,6 +1,6 @@
 'use client'
 
-import { useState, useMemo } from 'react'
+import { useState, useMemo, useEffect } from 'react'
 import { Button } from "@/components/ui/button"
 import { Rotate3d, MapPin, MessageCircle } from 'lucide-react'
 import { Project } from '@/sanity.types'
@@ -133,6 +133,7 @@ interface PriceCardProps {
 
 export default function ProjectContent({ project, whatsappNumber }: ProjectContentProps) {
     const [contactModalOpen, setContactModalOpen] = useState(false)
+    const [imagesLoaded, setImagesLoaded] = useState(false)
 
     const formattedWhatsAppNumber = whatsappNumber?.replace(/\D/g, ''); // Remove non-digits
 
@@ -143,6 +144,20 @@ export default function ProjectContent({ project, whatsappNumber }: ProjectConte
         }
         return null
     }, [project.location?.mapUrl])
+
+    useEffect(() => {
+        if (project.images) {
+            Promise.all(
+                project.images.map(img => {
+                    return new Promise((resolve) => {
+                        const image = new Image()
+                        image.src = img.url
+                        image.onload = resolve
+                    })
+                })
+            ).then(() => setImagesLoaded(true))
+        }
+    }, [project.images])
 
     const handleWhatsAppClick = () => {
         trackEvent(AnalyticEvents.PROJECT_WHATSAPP_CLICK, {

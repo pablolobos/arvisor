@@ -11,6 +11,7 @@ import ProjectContent from '@/app/components/ProjectContent'
 import { urlForImage } from '@/sanity/lib/utils'
 import type { ProjectQueryResult } from '@/sanity.types'
 import PostHogClient from '@/lib/posthog'
+import Loading from './loading'
 
 const builder = imageUrlBuilder(client)
 
@@ -82,21 +83,26 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
     }
 }
 
-export default async function ProjectPage({ params }: PageProps) {
+// Separate the data fetching and content rendering
+async function ProjectPageContent({ params }: PageProps) {
     const { isEnabled: isDraftMode } = await draftMode()
     const resolvedParams = await params
-
     const posthog = PostHogClient()
 
     try {
-        const projectResponse = await sanityFetch({
-            query: projectQuery,
-            params: resolvedParams,
-            perspective: isDraftMode ? 'previewDrafts' : 'published'
-        })
+        const [projectResponse, { data: home }] = await Promise.all([
+            sanityFetch({
+                query: projectQuery,
+                params: resolvedParams,
+                perspective: isDraftMode ? 'previewDrafts' : 'published'
+            }),
+            sanityFetch({
+                query: homeQuery,
+                stega: false,
+            })
+        ])
 
         const project = projectResponse.data as ProjectQueryResult
-
         if (!project) notFound()
 
         // Track server-side pageview
@@ -110,7 +116,6 @@ export default async function ProjectPage({ params }: PageProps) {
             }
         })
 
-        // Process images on the server
         const processedProject = {
             ...project,
             images: project.images?.map(img => ({
@@ -119,23 +124,23 @@ export default async function ProjectPage({ params }: PageProps) {
             }))
         }
 
-        const { data: home } = await sanityFetch({
-            query: homeQuery,
-            stega: false,
-        })
-
         return (
-            <div className="mx-auto px-4 py-8 container">
-                <Suspense fallback={<div>Loading...</div>}>
-                    <ProjectContent
-                        project={processedProject}
-                        whatsappNumber={home.whatsappNumber}
-                    />
-                </Suspense>
-            </div>
+            <ProjectContent
+                project={processedProject}
+                whatsappNumber={home.whatsappNumber}
+            />
         )
     } finally {
-        // Important: Ensure events are sent before the serverless function ends
         await posthog.shutdown()
     }
+}
+
+export default function ProjectPage({ params }: PageProps) {
+    return (
+        <div className="mx-auto px-4 py-8 container">
+            <Suspense fallback={<Loading />}>
+                <ProjectPageContent params={params} />
+            </Suspense>
+        </div>
+    )
 } 
