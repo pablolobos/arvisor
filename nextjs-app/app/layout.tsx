@@ -8,9 +8,7 @@ import { VisualEditing, toPlainText } from "next-sanity";
 import { Toaster } from "sonner";
 import { Suspense } from 'react'
 
-import Footer from "@/app/components/Footer";
 import Header from "@/app/components/Header";
-import * as demo from "@/sanity/lib/demo";
 import { sanityFetch, SanityLive } from "@/sanity/lib/live";
 import { settingsQuery, homeQuery } from "@/sanity/lib/queries";
 import { resolveOpenGraphImage } from "@/sanity/lib/utils";
@@ -38,8 +36,8 @@ export async function generateMetadata(): Promise<Metadata> {
     // Metadata should never contain stega
     stega: false,
   });
-  const title = settings?.title || demo.title;
-  const description = settings?.description || demo.description;
+  const title = settings?.title;
+  const description = settings?.description;
 
   const ogImage = resolveOpenGraphImage(settings?.ogImage);
   let metadataBase: URL | undefined = undefined;
@@ -80,7 +78,6 @@ export default async function RootLayout({
     });
     home = data;
   } catch (error) {
-    console.error('Failed to fetch Sanity data:', error);
     home = {
       whatsappNumber: process.env.DEFAULT_WHATSAPP || '',
     };
