@@ -39,8 +39,8 @@ export function FeaturedProject({ project }: ProjectCardProps) {
     return (
         <Link href={`/proyectos/${project.slug}`} className="block">
             <motion.div
-                initial={{ opacity: 0, y: 20 }}
-                animate={{ opacity: 1, y: 0 }}
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 1 }}
                 transition={{ duration: 0.5 }}
                 className="group relative gap-6 grid grid-cols-1 md:grid-cols-2 bg-white shadow-sm hover:shadow-md border border-gray-200 rounded-lg w-full lg:min-h-[500px] overflow-hidden transition-all duration-300"
             >
@@ -61,8 +61,8 @@ export function FeaturedProject({ project }: ProjectCardProps) {
                             {project.tags.map((tag: string) => (
                                 <motion.span
                                     key={tag}
-                                    initial={{ opacity: 0, x: -20 }}
-                                    animate={{ opacity: 1, x: 0 }}
+                                    initial={{ opacity: 0 }}
+                                    animate={{ opacity: 1 }}
                                     transition={{ duration: 0.3 }}
                                     className="inline-flex items-center bg-brand-purpleHighlight px-3 py-1 rounded-full font-sans text-brand-purpleLightest text-lg uppercase tracking-wide project-tag"
                                 >

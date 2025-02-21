@@ -6,16 +6,10 @@ import { unstable_noStore as noStore } from 'next/cache'
 import { sanityFetch } from '@/sanity/lib/live'
 import { projectQuery, projectSlugsQuery, homeQuery, settingsQuery } from '@/sanity/lib/queries'
 import { client } from '@/sanity/lib/client'
-import imageUrlBuilder from '@sanity/image-url'
 import dynamic from 'next/dynamic'
 import type { ProjectQueryResult } from '@/sanity.types'
 import PostHogClient from '@/lib/posthog'
-
-const builder = imageUrlBuilder(client)
-
-function urlFor(source: any) {
-    return builder.image(source)
-}
+import { urlFor, getOGImageUrl } from '@/lib/image'
 
 interface PageProps {
     params: Promise<{ slug: string }>
@@ -25,9 +19,7 @@ export async function generateStaticParams() {
     const projects = await client.fetch(projectSlugsQuery)
     return projects
         .filter((slug: string | null): slug is string => slug !== null)
-        .map((slug: string) => ({
-            slug,
-        }))
+        .map((slug: string) => ({ slug }))
 }
 
 export async function generateMetadata({ params }: PageProps): Promise<Metadata> {
@@ -46,16 +38,8 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
     const settingsResponse = await sanityFetch({ query: settingsQuery })
     const settings = settingsResponse.data
 
-    // Use first project image if no ogImage is set
     const imageSource = project?.ogImage || project?.images?.[0] || settings?.ogImage
-    const finalImageUrl = imageSource?.asset ?
-        builder
-            .image(imageSource)
-            .width(1200)
-            .height(630)
-            .fit('crop')
-            .url()
-        : null
+    const finalImageUrl = getOGImageUrl(imageSource)
 
     return {
         title: project.name || 'Proyecto',

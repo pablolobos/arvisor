@@ -18,8 +18,8 @@ export default function Hero({ home }: HeroProps) {
                 <div className="py-12 sm:py-20">
                     <div className="content-center gap-8 lg:gap-12 grid grid-cols-1 md:grid-cols-2">
                         <motion.div
-                            initial={{ opacity: 0, y: 20 }}
-                            animate={{ opacity: 1, y: 0 }}
+                            initial={{ opacity: 0 }}
+                            animate={{ opacity: 1 }}
                             transition={{ duration: 1, delay: 0.3 }}
                             className="flex flex-col items-center"
                         >
@@ -30,8 +30,8 @@ export default function Hero({ home }: HeroProps) {
                         </motion.div>
                         {home?.expertName && (
                             <motion.div
-                                initial={{ opacity: 0, y: 20 }}
-                                animate={{ opacity: 1, y: 0 }}
+                                initial={{ opacity: 0 }}
+                                animate={{ opacity: 1 }}
                                 transition={{ duration: 1, delay: 0.6 }}
                                 className="hero-expert"
                             >

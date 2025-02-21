@@ -5,7 +5,7 @@ import Image from 'next/image'
 import { formatCurrency, formatUF } from '@/lib/utils'
 import { MapPin } from 'lucide-react'
 import { motion } from "framer-motion"
-import { getSanityImageUrl } from '@/lib/image'
+import { urlFor } from '@/lib/image'
 import { ArrowRight } from 'lucide-react'
 
 export interface ProjectCardProps {
@@ -39,7 +39,7 @@ const tagLabels: Record<string, string> = {
 }
 
 export function ProjectCard({ project }: ProjectCardProps) {
-    const imageUrl = project.images?.[0]?.asset ? getSanityImageUrl(project.images[0]) : ''
+    const imageUrl = project.images?.[0]?.asset ? urlFor(project.images[0]).url() : ''
 
     const renderTag = (tag: string) => {
         if (tag === 'discount' && project.discountPercentage) {
