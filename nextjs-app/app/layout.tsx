@@ -19,6 +19,7 @@ import WhatsAppButton from "./components/WhatsAppButton";
 import { GoogleTagManager } from '@next/third-parties/google'
 import ConditionalFooter from "@/app/components/ConditionalFooter"
 import { PostHogProvider } from './providers'
+import { NavigationEvents } from './components/NavigationEvents'
 
 
 /**
@@ -119,6 +120,7 @@ export default async function RootLayout({
           <main className="mx-auto container">{children}</main>
           <ConditionalFooter />
           <SpeedInsights />
+          <NavigationEvents />
         </PostHogProvider>
       </body>
     </html>

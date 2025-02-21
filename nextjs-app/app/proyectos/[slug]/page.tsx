@@ -2,16 +2,18 @@ import { Suspense } from 'react'
 import { notFound } from 'next/navigation'
 import { Metadata } from 'next'
 import { draftMode } from 'next/headers'
+import { unstable_noStore as noStore } from 'next/cache'
 import type { Project } from '@/sanity.types'
 import { sanityFetch } from '@/sanity/lib/live'
 import { projectQuery, projectSlugsQuery, homeQuery, settingsQuery } from '@/sanity/lib/queries'
 import { client } from '@/sanity/lib/client'
 import imageUrlBuilder from '@sanity/image-url'
-import ProjectContent from '@/app/components/ProjectContent'
+import dynamic from 'next/dynamic'
 import { urlForImage } from '@/sanity/lib/utils'
 import type { ProjectQueryResult } from '@/sanity.types'
 import PostHogClient from '@/lib/posthog'
 import Loading from './loading'
+import ProjectContent from '@/app/components/ProjectContent'
 
 const builder = imageUrlBuilder(client)
 
@@ -83,8 +85,16 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
     }
 }
 
+const ProjectContentComponent = dynamic(() => import('@/app/components/ProjectContent'), {
+    loading: () => <Loading />,
+    ssr: true
+})
+
 // Separate the data fetching and content rendering
 async function ProjectPageContent({ params }: PageProps) {
+    // Opt out of caching for all data requests in the route
+    noStore()
+
     const { isEnabled: isDraftMode } = await draftMode()
     const resolvedParams = await params
     const posthog = PostHogClient()
@@ -125,7 +135,7 @@ async function ProjectPageContent({ params }: PageProps) {
         }
 
         return (
-            <ProjectContent
+            <ProjectContentComponent
                 project={processedProject}
                 whatsappNumber={home.whatsappNumber}
             />
