@@ -3,17 +3,13 @@ import { notFound } from 'next/navigation'
 import { Metadata } from 'next'
 import { draftMode } from 'next/headers'
 import { unstable_noStore as noStore } from 'next/cache'
-import type { Project } from '@/sanity.types'
 import { sanityFetch } from '@/sanity/lib/live'
 import { projectQuery, projectSlugsQuery, homeQuery, settingsQuery } from '@/sanity/lib/queries'
 import { client } from '@/sanity/lib/client'
 import imageUrlBuilder from '@sanity/image-url'
 import dynamic from 'next/dynamic'
-import { urlForImage } from '@/sanity/lib/utils'
 import type { ProjectQueryResult } from '@/sanity.types'
 import PostHogClient from '@/lib/posthog'
-import Loading from './loading'
-import ProjectContent from '@/app/components/ProjectContent'
 
 const builder = imageUrlBuilder(client)
 

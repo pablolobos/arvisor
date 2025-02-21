@@ -156,16 +156,27 @@ export const projectSlugsQuery = defineQuery(`
   *[_type == "project" && defined(slug.current)][].slug.current
 `)
 
-export const homeQuery = /* groq */ `*[_type == "home"][0]{
-  title,
-  subtitle,
-  expertName,
-  expertRole,
-  expertImage,
-  expertInstagram,
-  backgroundImage,
-  heroImage,
-  whatsappNumber
+export const homeQuery = `*[_type == "home"][0]{
+  ...,
+  featuredProject->{
+    name,
+    subtitle,
+    "slug": slug.current,
+    price,
+    priceDetail,
+    downPayment,
+    downPaymentDetail,
+    monthlyFee,
+    "images": images[]{
+      "url": asset->url,
+      "alt": asset->altText
+    },
+    "location": location->{
+      address,
+    },
+    tags,
+    discountPercentage
+  }
 }`
 
 export interface HomePayload {

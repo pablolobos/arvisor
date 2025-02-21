@@ -1,5 +1,4 @@
 import { Suspense } from "react";
-import { AllPosts } from "@/app/components/Posts";
 import { AllProjects } from "@/app/components/Projects";
 import Hero from "@/app/components/Hero";
 import { allProjectsQuery, settingsQuery, homeQuery } from "@/sanity/lib/queries";
@@ -7,49 +6,16 @@ import { sanityFetch } from "@/sanity/lib/live";
 import { FeaturedProject } from '@/app/components/FeaturedProject'
 import { notFound } from 'next/navigation'
 
-async function getHomeData() {
-  try {
-    const query = `*[_type == "home"][0]{
-      ...,
-      featuredProject->{
-        name,
-        subtitle,
-        "slug": slug.current,
-        price,
-        priceDetail,
-        downPayment,
-        downPaymentDetail,
-        monthlyFee,
-        "images": images[]{
-          "url": asset->url,
-          "alt": asset->altText
-        },
-        "location": location->{
-          address,
-        },
-        tags,
-        discountPercentage
-      }
-    }`
-
-    return sanityFetch({ query })
-  } catch (error) {
-    console.error('Failed to fetch home data:', error)
-    notFound()
-  }
-}
-
 export default async function Page() {
   try {
-    const [projectsResponse, settingsResponse, homeResponse] = await Promise.all([
+    const [projectsResponse, settingsResponse, { data: home }] = await Promise.all([
       sanityFetch({ query: allProjectsQuery }),
       sanityFetch({ query: settingsQuery }),
-      getHomeData(),
+      sanityFetch({ query: homeQuery }),
     ]);
 
     const { data: projects } = projectsResponse;
     const { data: settings } = settingsResponse;
-    const { data: home } = homeResponse;
 
     return (
       <>
