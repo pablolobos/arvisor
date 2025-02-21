@@ -2,14 +2,14 @@
 
 import { useEffect } from 'react'
 import { usePathname, useSearchParams } from 'next/navigation'
+import posthog from 'posthog-js'
 
 export function NavigationEvents() {
     const pathname = usePathname()
     const searchParams = useSearchParams()
 
     useEffect(() => {
-        // Scroll to top on route change
-        window.scrollTo(0, 0)
+        posthog.capture('$pageview')
     }, [pathname, searchParams])
 
     return null

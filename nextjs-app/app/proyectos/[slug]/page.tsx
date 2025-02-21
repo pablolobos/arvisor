@@ -1,13 +1,11 @@
 import { notFound } from 'next/navigation'
 import { Metadata } from 'next'
 import { draftMode } from 'next/headers'
-import { unstable_noStore as noStore } from 'next/cache'
 import { sanityFetch } from '@/sanity/lib/live'
 import { projectQuery, projectSlugsQuery, homeQuery, settingsQuery } from '@/sanity/lib/queries'
 import { client } from '@/sanity/lib/client'
 import dynamic from 'next/dynamic'
 import type { ProjectQueryResult } from '@/sanity.types'
-import PostHogClient from '@/lib/posthog'
 import { urlFor, getOGImageUrl } from '@/lib/image'
 
 interface PageProps {

@@ -17,7 +17,6 @@ import WhatsAppButton from "./components/WhatsAppButton";
 import { GoogleTagManager } from '@next/third-parties/google'
 import ConditionalFooter from "@/app/components/ConditionalFooter"
 import { PostHogProvider } from './providers'
-import { NavigationEvents } from './components/NavigationEvents'
 import DraftModeToast from './components/DraftModeToast'
 import PostHogPageView from './PostHogPageView'
 
@@ -113,12 +112,16 @@ export default async function RootLayout({
           <Suspense fallback={null}>
             <SpeedInsights />
             <PostHogPageView />
-            <NavigationEvents />
           </Suspense>
         </PostHogProvider>
-        <Suspense fallback={null}>
-          <GoogleTagManager gtmId="GTM-P9TKRZ7D" />
-        </Suspense>
+        <GoogleTagManager
+          gtmId="GTM-P9TKRZ7D"
+          dataLayer={{
+            pageType: 'website',
+            // Add any default dataLayer variables
+          }}
+          dataLayerName="dataLayer" // Optional: specify custom dataLayer name
+        />
       </body>
     </html>
   );
