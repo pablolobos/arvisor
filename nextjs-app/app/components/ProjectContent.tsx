@@ -1,7 +1,7 @@
 'use client'
 
 import dynamic from 'next/dynamic'
-import { useState, useMemo } from 'react'
+import { useState, useMemo, useEffect } from 'react'
 import { Button } from "@/components/ui/button"
 import { Rotate3d, MapPin, MessageCircle } from 'lucide-react'
 import { Project } from '@/sanity.types'
@@ -11,6 +11,7 @@ import { PortableText } from '@portabletext/react'
 import type { BlockContent } from '@/sanity.types'
 import NextImage from 'next/image'
 import { trackEvent, AnalyticEvents } from '@/lib/analytics'
+import posthog from 'posthog-js'
 
 // Dynamically import non-critical components
 const ProjectGallery = dynamic(() => import('./ProjectGallery'))
@@ -146,6 +147,15 @@ export default function ProjectContent({ project, whatsappNumber }: ProjectConte
         }
         return null
     }, [project.location?.mapUrl])
+
+    useEffect(() => {
+        // Track view on client-side mount
+        posthog.capture('project_view', {
+            project_id: project._id,
+            project_name: project.name,
+            project_type: project.projectType
+        })
+    }, [project])
 
     const handleWhatsAppClick = () => {
         trackEvent(AnalyticEvents.PROJECT_WHATSAPP_CLICK, {
