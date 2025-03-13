@@ -5,6 +5,8 @@ _the website this template generates_
 ![Screenshot of Sanity Studio using Presentation Tool to do Visual Editing](https://cdn.sanity.io/images/fkfgfb3d/production/62f61cb1639ab1fbc14c1f14e4ee0b877fc94e29-1319x892.webp)
 _Visual Editing using Sanity's Presentation Tool_
 
+Migration
+
 This starter is a statically generated website and blog built with [Next.js 15](https://nextjs.org/blog/next-15) (App Router) for the frontend and powered by [Sanity][sanity-homepage] for content management. It includes a standalone Sanity Studio, providing features like real-time collaboration, visual editing, and live updates through its [Presentation][presentation] mode.
 
 The Studio integrates with Sanity's Content Lake, offering hosted content APIs with a flexible query language, on-demand image transformations, advanced patching, and more. These capabilities seamlessly connect to your frontend via Sanity’s [Live Content API](https://www.sanity.io/live), enabling live, dynamic updates without requiring page reloads. Whether you are launching a blog, building a website, or exploring new technologies, this starter gives you a solid foundation to get started.
